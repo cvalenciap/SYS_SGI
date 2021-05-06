@@ -1,0 +1,288 @@
+@model SYS_SGI.Presentation.Models.View.VMFormula
+@using (Ajax.BeginForm("Guardar", "Mantenimiento", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmFormula, 'idModalManFormula')",
+    OnBegin = "LoadLoading()"
+}, new { id = "ajaxMethodtest" }))
+{
+    <div class="cuerpoModal">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="box box-primary" style="height:210px">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Lista de Variables</h3>
+                        <div class="box-tools pull-right">
+                            @Ajax.RawActionLinkToPopUp("", "Mantenimiento", "Variable",
+                            null, new AjaxOptions
+                            {
+                                UpdateTargetId = "divModalBodyVariable",
+                                OnBegin = "mostrarModal('Nueva Variable', 'divModalBodyVariable', 'idModalManVariable'); ",
+                                HttpMethod = "post"
+                            }, new { id = "lnkNew", @class = "glyphicon glyphicon-plus", style = "cursor:pointer;background:0 0;border:0;color:white;", title = "Crear Variable" })
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="contenedorggmPaginacionVariableFormula" class="content-grid-gmd">
+                            @Html.Action("PaginacionVariable", "Formula", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = 5,
+                               DirectionOrder = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.Orientacion.Descendente,
+                               OrderBy = "FechaCreacion"
+                           })
+                       })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="box box-primary" style="height:210px">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Calculadora</h3>
+                    </div>
+                    <div class="box-body" style="text-align:center">
+                        <div class="row">
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="(" id="btnAbreP" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value=")" id="btnCierraP" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="«" id="btnBack" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="CE" id="btnCE" />
+                        </div>
+                        <div class="row"><div class="form-group"></div></div>
+
+                        <div class="row">
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="7" id="btnSiete" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="8" id="btnOcho" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="9" id="btnNueve" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="/" id="btnSlash" />
+                        </div>
+
+                        <div class="row"><div class="form-group"></div></div>
+
+                        <div class="row">
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="4" id="btnCuatro" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="5" id="btnCinco" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="6" id="btnSeis" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="*" id="btnAsterico" />
+                        </div>
+
+                        <div class="row"><div class="form-group"></div></div>
+
+                        <div class="row">
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="1" id="btnUno" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="2" id="btnDos" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="3" id="btnTres" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="-" id="btnResta" />
+                        </div>
+
+                        <div class="row"><div class="form-group"></div></div>
+
+                        <div class="row">
+                            <input type="button" class="btn ButtonGrayCalculator calc" style="width:66px" value="0" id="btnCero" />
+                            <input type="button" class="btn ButtonGrayCalculator calc" value="." id="btnPunto" />
+                            <input type="button" class="btn ButtonWhiteCalculator calc" value="+" id="btnMas" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Fórmula</h3>
+                    </div>
+                    <div>
+                        @Html.TextArea("txtFormula", Model.Formula.Formula, new { id = "txtFormula", @class = "form-control", @maxlength = "255", @rows = "3", @style = "background-color:white; color:black", @validable = "required Validar", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button id="btnCerrar" type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<style type="text/css">
+    .ButtonWhiteCalculator {
+        background: white;
+        color: black;
+        border-color: #e3e3e3;
+        width: 31px;
+        height: 31px;
+        padding: 5px;
+    }
+
+        .ButtonWhiteCalculator:hover {
+            color: black;
+        }
+
+        .ButtonWhiteCalculator:active {
+            color: black;
+        }
+
+    .ButtonGrayCalculator {
+        background: #e3e3e3;
+        color: black;
+        border-color: #e3e3e3;
+        width: 31px;
+        height: 31px;
+        padding: 5px;
+    }
+
+        .ButtonGrayCalculator:hover {
+            color: black;
+        }
+
+        .ButtonGrayCalculator:active {
+            color: black;
+        }
+</style>
+
+<script type="text/javascript">
+    function clickGrilla() {
+        $(".tablaVariables td span").dblclick(function () {
+            var formulaIni = $("#txtFormula").val();
+            var ultimoElemento = ''
+            if (formulaIni == "") {
+                $("#txtFormula").val($("#txtFormula").val() + '[' + $(this).html() + ']')
+            }
+            else {
+                ultimoElemento = formulaIni.substring(formulaIni.length - 1, formulaIni.length)
+                if (ultimoElemento == '*' || ultimoElemento == '-' || ultimoElemento == '/' || ultimoElemento == '+' || ultimoElemento == '(') {
+                    $("#txtFormula").val($("#txtFormula").val() + '[' + $(this).html() + ']')
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $("#txtFormula").val($('#txtFormula' + Formulario).val())
+        refrescarggmPaginacionVariableFormula();
+    });
+
+    function refrescarggmPaginacionVariableFormula() {
+        var data = $("#ggmPaginacionVariableFormula").GMDDeserialice();
+        $("#contenedorggmPaginacionVariableFormula").load("@(Url.Action("PaginacionVariable", "Formula"))?arg=" + encodeURI(JSON.stringify(data)), function () {
+            clickGrilla();
+        });
+    }
+
+    $('#btnCerrar').on('click', function () {
+        if ($("#txtFormula").val() != "") {
+            $('#txtFormula' + Formulario).val($("#txtFormula").val());
+
+            BootstrapDialog.dialogs['idModalFormula'].close();
+        }
+    });
+
+    $('.calc').on('click', function () {
+        if ($(this).val().trim() == "CE") {
+            $("#txtFormula").val('')
+        } else if ($(this).val().trim() == "«") {
+            $("#txtFormula").val($("#txtFormula").val().slice(0, -1))
+        } else {
+            debugger;
+            //validar la consistencia de la formula
+            var valorAnterior = $("#txtFormula").val($("#txtFormula").val())
+            var valorNuevo = $("#txtFormula").val() + $(this).val()
+            var correcto = true;
+            var resultado = '';
+
+            var ValorActual = '';
+            var testValor = '';
+            var tamanioTest = 0;
+            var finVariable = 0;
+
+            var inicioVariable = 0;
+            var finVariable = 0;
+            var valorAnteriorCorchete = '';
+            var valorPosteriorCorchete = '';
+
+            var cantParentesis = 0;
+            //calculadora
+            try {
+                if (valorNuevo.split(/[')']/).length > valorNuevo.split(/['(']/).length) {
+                    correcto = false;
+                }
+                var arregloValorNuevo = valorNuevo.split(/['+-/*']/)
+
+                for (var i = 0; i < arregloValorNuevo.length; i++) {
+                    cantParentesis = 0;
+                    if (i == 0) {
+                        tamanioTest = tamanioTest + arregloValorNuevo[i].length
+                    }
+                    else {
+                        tamanioTest = tamanioTest + arregloValorNuevo[i].length + 1
+                    }
+
+                    if (arregloValorNuevo[i].indexOf('[') >= 0) {
+                        inicioVariable = arregloValorNuevo[i].indexOf('[');
+                        finVariable = arregloValorNuevo[i].indexOf(']');
+                        if (arregloValorNuevo[i].indexOf('[') > 0) {
+                            for (var a = 0; a < arregloValorNuevo[i].indexOf('[') ; a++) {
+                                valorAnteriorCorchete = arregloValorNuevo[i].charAt(a);
+                                if (valorAnteriorCorchete != '(') {
+                                    correcto = false;
+                                }
+                                else {
+                                    cantParentesis++;
+                                }
+                            }
+                        }
+                       
+                        if (finVariable >= 0) {
+                            ValorActual = arregloValorNuevo[i].substring(inicioVariable, finVariable + 1)
+                            if (ValorActual.length != arregloValorNuevo[i].length) {
+                                for (var b = (ValorActual.length + cantParentesis); b < arregloValorNuevo[i].length; b++) {
+                                    valorPosteriorCorchete = arregloValorNuevo[i].charAt(b);
+                                    if (valorPosteriorCorchete != ')') {
+                                        correcto = false;
+                                    }
+                                }
+                            }
+                            ValorActual = ValorActual.replace(ValorActual.substring(inicioVariable, finVariable + 1), 7);
+                        }
+                        else {
+                            ValorActual = '';
+                            correcto = false
+                        }
+                    }
+                    else {
+                        ValorActual = arregloValorNuevo[i];
+                    }
+                    //valida el ultimo elemento
+                    if (i + 1 < arregloValorNuevo.length) {
+                        if (ValorActual == '') {
+                            testValor = testValor + 7 + valorNuevo.substring(tamanioTest, tamanioTest + 1);
+                            correcto = false;
+                        }
+                        else {
+                            testValor = testValor + ValorActual + valorNuevo.substring(tamanioTest, tamanioTest + 1);
+                        }
+                    }
+                    else {
+                        testValor = testValor + ValorActual;
+                    }
+                }
+                //resultado = eval(testValor + '');
+            } catch (err) {
+                correcto = false;
+            }
+            // Si no se pudo calcular
+            if (correcto) {
+                $("#txtFormula").val($("#txtFormula").val() + $(this).val());
+            }
+
+        }
+    });
+
+    function refrescarggmVariable() {
+        refrescarggmPaginacionVariableFormula();
+    }
+</script>

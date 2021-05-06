@@ -1,0 +1,116 @@
+@model SYS_SGI.Presentation.Models.View.VMAlerta
+@using (Ajax.BeginForm("Guardar", "Alerta", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmAlerta, 'idModalManAlerta')",
+    OnBegin = "return getFormElelemets('formAlerta')"
+}, new { id = "formAlerta" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Alerta.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.Alerta.CodigoAlerta)
+
+    <div class="cuerpoModal">
+        @if (Model.Alerta.CodigoAlerta == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registrar una nueva alerta.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Editar una alerta.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Alerta.CodigoTipoAlerta)
+                    @Html.DropDownListFor(model => model.Alerta.CodigoTipoAlerta, new SelectList(ViewBag.listaTipoAlerta, "CodigoElemento", "Nombre"), new { id = "ddlTipoAlerta", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Alerta.Nombre)
+                    @Html.TextBoxFor(model => model.Alerta.Nombre, new { id = "txtNombre", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Alerta.Descripcion)
+                    @Html.TextBoxFor(model => model.Alerta.Descripcion, new { id = "txtDescripcion", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Alerta.CodigoAlerta != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @*<input id="toggle-one" checked type="checkbox" data-toggle="toggle" data-on="Activar" data-off="Desactivar">*@
+                        @*@Html.LabelFor(model => model.Alerta.Estado)
+                            <br />*@
+                        @Html.CheckBoxFor(model => model.Alerta.Estado, new { id = "chkEstado", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+    <div class="row">
+        <div class="form-group col-md-12 text-center">
+            <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+        </div>
+    </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#chkEstado').bootstrapToggle({
+            on: 'Activar',
+            off: 'Desactivar'
+        });
+    })
+
+    $("#btnGrabarModal").click(function (e) {
+        $('#formAlerta').submit();
+    });
+</script>

@@ -1,0 +1,27 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.VariableLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[SYS_SGI.Presentation.Utilities.Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.VariableLogic>("ggmVariable", Model) { callBackMethod = "refrescarggmVariable", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Area", _filterKey: "Area", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Area">@item.Area</span></text>, _htmlAttributes: new { @width = "6%" });
+    grid.columnCollection.addColumn(_headerText: "Responsable", _filterKey: "Responsable", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Responsable">@item.Responsable</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Nombre", _filterKey: "Nombre", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Unidad Medida", _filterKey: "UnidadMedida", _isFilterable: true, _isSortable: false, _format: item => item.UnidadMedida, _htmlAttributes: new { @width = "7%" });
+    grid.columnCollection.addColumn(_headerText: "Periodicidad", _filterKey: "Periodicidad", _isFilterable: true, _isSortable: false, _format: item => item.TipoPeriodicidad, _htmlAttributes: new { @width = "7%" });
+    grid.columnCollection.addColumn(_headerText: "Estado", _filterKey: "Estado", _isFilterable: true, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo);
+    grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+        <div class="acciones_grilla">
+            @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "Variable", new { codigo = item.CodigoVariable }, new AjaxOptions
+            {
+                UpdateTargetId = "divModalBodyVariable",
+                OnBegin = "mostrarModal('Editar', 'divModalBodyVariable', 'idModalManVariable'); ",
+                HttpMethod = "post"
+            }, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+        </div>
+    </text>, _htmlAttributes: new { @width = "7%" });
+}
+@grid.GetHtml()

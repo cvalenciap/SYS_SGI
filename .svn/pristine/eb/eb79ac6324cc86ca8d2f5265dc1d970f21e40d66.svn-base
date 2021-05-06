@@ -1,0 +1,336 @@
+﻿/*Cabecera*/
+.main-header {
+    z-index: 1010;
+}
+
+.sidebar-toggle-corpac, .sidebar-toggle-corpac:hover {
+    color: black; /**cambiar color de letra a titulo*/
+    float: left;
+    background-color: transparent;
+    background-image: none;
+    /*padding: 13px 10px;*/
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navbar-custom-menu-corpac {
+    background-color: black; /*cambiar color de fondo a div de usuario*/
+}
+
+.skin-blue-light .main-header .navbar {
+    background-color: #f9fafc;
+}
+
+    .skin-blue-light .main-header .navbar .sidebar-toggle {
+        color: #337ab7;
+    }
+
+@media (max-width: 767px) {
+    .sidebar-toggle-corpac {
+        color: gray !important;
+    }
+
+    .skin-blue-light .main-header .navbar {
+        background-color: #337ab7 !important;
+    }
+
+        .skin-blue-light .main-header .navbar .sidebar-toggle {
+            color: #fff !important;
+            background-color: green;
+        }
+}
+
+.form-control-feedback {
+    padding-top: 14px;
+    text-align: -webkit-auto;
+    color: #d43131;
+    margin-right: -13px;
+}
+
+#breadcrumb-glyphicon {
+    margin-right: 3px;
+}
+
+/*Informacion Usuario*/
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: auto;
+}
+
+/*Loadign*/
+body.loading:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url(/Contenido/imagenes/Compartidas/loading.gif) no-repeat center;
+    background-size: 150px 150px;
+    background-color: rgba(2, 0, 0, 0.66);
+    top: 0;
+    left: 0;
+    z-index: 900;
+}
+
+/*Index*/
+.box {
+    border: 1px solid #337ab7;
+    border-radius: 0;
+}
+
+    .box.box-primary {
+        border-top-color: #337ab7;
+    }
+
+/*Modal*/
+.modal-header {
+    padding: 7px;
+    font-family: arial;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding-bottom: 0;
+    font-family: arial;
+}
+
+.modal-footer {
+    padding: 5px;
+    font-family: arial;
+}
+
+.bootstrap-dialog .modal-header {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+
+.bootstrap-dialog.type-primary .modal-header { 
+    background-color: gray; /*cambiar color cabecera a modal*/
+}
+
+.modal-audit-corpac {
+    background-color: #d6d7d9;
+    color: black;
+    font-size: 8px;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #e4eff4;
+}
+
+.box-no-border .col-sm-12 {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 992px) {
+    .modal-gmd {
+        width: 1200px;
+    }
+}
+
+/*Formulario*/
+input[type="text"]::-webkit-input-placeholder {
+    color: #d2d6de;
+}
+
+input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+    color: #d2d6de;
+}
+
+input[type="text"]:-ms-input-placeholder { /* IE 10+ */
+    color: #d2d6de;
+}
+
+input[type="text"]:-moz-placeholder { /* Firefox 18- */
+    color: #d2d6de;
+}
+
+.content-header > h1 {
+    font-size: 16px;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.box-header {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    background-color: gray; /*cambiar color cabecera de busqueda y de resultado en index*/
+    color: #fff;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+    .box-header > .box-tools {
+        top: 2px;
+    }
+
+    .box-header > .fa, .box-header > .glyphicon, .box-header > .ion, .box-header .box-title {
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+
+.btn {
+    /*text-transform: uppercase;*/
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: arial;
+}
+
+.btn-primary {
+    background-color: gray;/*cambiar el color a boton principal*/
+    border-color: #2e6da4;
+}
+
+.btn-primary {
+    background-color: #00acd6;
+}
+
+    .btn-primary:hover {
+        background-color: #00c0ef;
+    }
+
+.form-group {
+    margin-bottom: 2px;
+}
+
+    .form-group label {
+        margin-bottom: 0;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+label {
+    font-weight: normal;
+}
+
+.form-control, select.form-control {
+    border: 0;
+    border-bottom: 1px solid #d2d6de;
+    height: 20px;
+    padding: 0 8px 0 0;
+    color: #000;
+    font-size: 12px;
+}
+
+    select.form-control:focus {
+        border: 0;
+        border-bottom: 1px solid #337ab7;
+    }
+
+.bootstrap-dialog .bootstrap-dialog-title {
+    font-size: 12px;
+}
+
+.form-requied {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 45px;
+    height: 34px;
+    line-height: 60px;
+    text-align: center;
+    pointer-events: none;
+    color: #d73925;
+}
+
+/*DataPicker*/
+.input-group-addon {
+    padding: 0 4px;
+}
+
+.input-group .input-group-addon {
+    border-radius: 0;
+    border-color: #d2d6de;
+    background-color: #fff;
+}
+
+select.input-group .input-group-addon {
+    border-color: #337ab7;
+}
+
+.input-group-addon:last-child, .input-group-addon:first-child {
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+}
+
+/*Extender focus a botones en input*/
+.form-control:focus + .input-group-addon {
+    border-color: #3c8dbc;
+    box-shadow: none;
+}
+/*JsTree*/
+.vakata-context, .vakata-context ul {
+    z-index: 1100 !important;
+}
+
+.ico-modal {
+    background: url('../img/spriteGMD.png') -8px -4px no-repeat;
+    width: 33px;
+    height: 12px;
+    display: block;
+    border: none;
+    color: transparent;
+}
+
+/*Select 2*/
+.select2-container-multi .select2-choices .select2-search-choice {
+    background-color: #e4eff4;
+    margin: 0;
+    font-size: 12px;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    margin: 0;
+}
+
+.select2-container-multi .select2-choices {
+    min-height: 0;
+}
+
+select option {
+    background-color: #e4eff4;
+}
+
+.close {
+    opacity: 1;
+    color: #fff;
+}
+
+    .close:focus, .close:hover {
+        color: #fff;
+    }
+
+.Separador5px {
+    clear: both;
+    background-color: transparent;
+    height: 5px;
+    width: 100%;
+}
+
+/*************** cargar archivos******************/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: blue;
+    cursor: inherit;
+    display: block;
+}

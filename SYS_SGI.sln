@@ -1,0 +1,77 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Layers", "1.Layers", "{538E3DE4-E6CC-49D1-8174-07E028A12820}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.4 Infrastructure", "1.4 Infrastructure", "{A2ED332F-356E-472E-B7B5-D38D2FF6C7D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.4.1 Data", "1.4.1 Data", "{632FF7BD-6A3A-45A2-92E3-C0214E7D443D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1 Presentation", "1.1 Presentation", "{9067AFCB-29B8-4247-AB19-69D354A09D72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2 Application", "1.2 Application", "{24507F8B-DE0B-4047-A45F-B8A2FE9B15E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3 Domain", "1.3 Domain", "{8D09D2D9-0763-420E-BA2C-B783029F3254}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYS_SGI.Infrastructure.Data.Implementation", "SYS_SGI.Infrastructure.Data.Implementation\SYS_SGI.Infrastructure.Data.Implementation.csproj", "{41BC345E-5C6A-425C-A521-60F7DC96E77A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYS_SGI.Domain.Implementation", "SYS_SGI.Domain.Implementation\SYS_SGI.Domain.Implementation.csproj", "{D1CE8D89-6513-473E-A992-5CFC626884C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYS_SGI.Application.Implementation", "SYS_SGI.Application.Implementation\SYS_SGI.Application.Implementation.csproj", "{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYS_SGI.Presentation", "SYS_SGI.Presentation\SYS_SGI.Presentation.csproj", "{6721B223-7A9F-4DB7-9C34-204B3B4B2C70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Services", "2. Services", "{2E2F8492-5665-4170-8B26-09ECC34ED3F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1 WindowsServices", "2.1 WindowsServices", "{B1ACD2FC-7F46-4717-9995-FC83C0238807}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYS_SGI.WindowsServices.Server", "SYS_SGI.WindowsServices.Server\SYS_SGI.WindowsServices.Server.csproj", "{52E91C85-6CB5-496F-A5BE-348675E57C39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41BC345E-5C6A-425C-A521-60F7DC96E77A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41BC345E-5C6A-425C-A521-60F7DC96E77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41BC345E-5C6A-425C-A521-60F7DC96E77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41BC345E-5C6A-425C-A521-60F7DC96E77A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1CE8D89-6513-473E-A992-5CFC626884C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1CE8D89-6513-473E-A992-5CFC626884C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1CE8D89-6513-473E-A992-5CFC626884C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1CE8D89-6513-473E-A992-5CFC626884C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6721B223-7A9F-4DB7-9C34-204B3B4B2C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6721B223-7A9F-4DB7-9C34-204B3B4B2C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6721B223-7A9F-4DB7-9C34-204B3B4B2C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6721B223-7A9F-4DB7-9C34-204B3B4B2C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E91C85-6CB5-496F-A5BE-348675E57C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E91C85-6CB5-496F-A5BE-348675E57C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E91C85-6CB5-496F-A5BE-348675E57C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E91C85-6CB5-496F-A5BE-348675E57C39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A2ED332F-356E-472E-B7B5-D38D2FF6C7D8} = {538E3DE4-E6CC-49D1-8174-07E028A12820}
+		{632FF7BD-6A3A-45A2-92E3-C0214E7D443D} = {A2ED332F-356E-472E-B7B5-D38D2FF6C7D8}
+		{9067AFCB-29B8-4247-AB19-69D354A09D72} = {538E3DE4-E6CC-49D1-8174-07E028A12820}
+		{24507F8B-DE0B-4047-A45F-B8A2FE9B15E2} = {538E3DE4-E6CC-49D1-8174-07E028A12820}
+		{8D09D2D9-0763-420E-BA2C-B783029F3254} = {538E3DE4-E6CC-49D1-8174-07E028A12820}
+		{41BC345E-5C6A-425C-A521-60F7DC96E77A} = {632FF7BD-6A3A-45A2-92E3-C0214E7D443D}
+		{D1CE8D89-6513-473E-A992-5CFC626884C8} = {8D09D2D9-0763-420E-BA2C-B783029F3254}
+		{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F} = {24507F8B-DE0B-4047-A45F-B8A2FE9B15E2}
+		{6721B223-7A9F-4DB7-9C34-204B3B4B2C70} = {9067AFCB-29B8-4247-AB19-69D354A09D72}
+		{B1ACD2FC-7F46-4717-9995-FC83C0238807} = {2E2F8492-5665-4170-8B26-09ECC34ED3F7}
+		{52E91C85-6CB5-496F-A5BE-348675E57C39} = {B1ACD2FC-7F46-4717-9995-FC83C0238807}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

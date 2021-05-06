@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Audity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Estado" type="xs:boolean" />
+      <xs:element minOccurs="0" name="FechaCreacion" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FechaModificacion" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TerminalCreacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TerminalModificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UsuarioCreacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UsuarioModificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="terminalCreacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="terminalModificacion" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Audity" nillable="true" type="tns:Audity" />
+  <xs:complexType name="InfoMovs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ACCION" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="I_TOTAL_RECORDS" type="xs:int" />
+      <xs:element minOccurs="0" name="TotalRegistros" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InfoMovs" nillable="true" type="tns:InfoMovs" />
+  <xs:complexType name="AppResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AppResponse" nillable="true" type="tns:AppResponse" />
+</xs:schema>

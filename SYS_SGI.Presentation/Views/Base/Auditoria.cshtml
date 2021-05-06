@@ -1,0 +1,31 @@
+﻿@model SYS_SGI.Presentation.Models.View.VMBase
+<div class="modal-footer modal-audit-corpac">
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.item.UsuarioCreacion)
+        @if (!string.IsNullOrEmpty(Model.item.UsuarioCreacion))
+            {
+            @Html.DisplayTextFor(model => model.item.UsuarioCreacion)
+        }
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.item.FechaCreacion)
+        @if (!string.IsNullOrEmpty(Model.item.FechaCreacion.ToString()))
+            {
+            @Convert.ToDateTime(Model.item.FechaCreacion).ToString("dd/MM/yyyy HH:mm")
+        }
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.item.UsuarioModificacion)
+        @if (!string.IsNullOrEmpty(Model.item.UsuarioModificacion))
+            {
+            @Html.DisplayTextFor(model => model.item.UsuarioModificacion)
+        }
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(model => model.item.FechaModificacion)
+        @if (!string.IsNullOrEmpty(Model.item.FechaModificacion.ToString()))
+            {
+            @Convert.ToDateTime(Model.item.FechaModificacion).ToString("dd/MM/yyyy HH:mm")
+        }
+    </div>
+</div>

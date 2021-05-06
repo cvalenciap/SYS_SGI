@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Acceso" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" />
+      <xsd:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" />
+      <xsd:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAcceso_ListarPermisos_x_Usuario_Sistema_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarPermisos_x_Usuario_Sistema" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_ListarPermisos_x_Usuario_Sistema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarPermisos_x_Usuario_SistemaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_ListarUsuarios_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarUsuarios_Login" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_ListarUsuarios_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarUsuarios_LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Usuario_x_Sistema_InputMessage">
+    <wsdl:part name="parameters" element="tns:Usuario_x_Sistema" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Usuario_x_Sistema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Usuario_x_SistemaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Sistema_x_Token_InputMessage">
+    <wsdl:part name="parameters" element="tns:Sistema_x_Token" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Sistema_x_Token_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Sistema_x_TokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_ObtenerEmpresa_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerEmpresa" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_ObtenerEmpresa_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerEmpresaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_CambiarContrasena_InputMessage">
+    <wsdl:part name="parameters" element="tns:CambiarContrasena" />
+  </wsdl:message>
+  <wsdl:message name="IAcceso_CambiarContrasena_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CambiarContrasenaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAcceso">
+    <wsdl:operation name="ListarPermisos_x_Usuario_Sistema">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/ListarPermisos_x_Usuario_Sistema" message="tns:IAcceso_ListarPermisos_x_Usuario_Sistema_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/ListarPermisos_x_Usuario_SistemaResponse" message="tns:IAcceso_ListarPermisos_x_Usuario_Sistema_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarUsuarios_Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/ListarUsuarios_Login" message="tns:IAcceso_ListarUsuarios_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/ListarUsuarios_LoginResponse" message="tns:IAcceso_ListarUsuarios_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Usuario_x_Sistema">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/Usuario_x_Sistema" message="tns:IAcceso_Usuario_x_Sistema_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/Usuario_x_SistemaResponse" message="tns:IAcceso_Usuario_x_Sistema_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Sistema_x_Token">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/Sistema_x_Token" message="tns:IAcceso_Sistema_x_Token_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/Sistema_x_TokenResponse" message="tns:IAcceso_Sistema_x_Token_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerEmpresa">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/ObtenerEmpresa" message="tns:IAcceso_ObtenerEmpresa_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/ObtenerEmpresaResponse" message="tns:IAcceso_ObtenerEmpresa_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/Login" message="tns:IAcceso_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/LoginResponse" message="tns:IAcceso_Login_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CambiarContrasena">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAcceso/CambiarContrasena" message="tns:IAcceso_CambiarContrasena_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAcceso/CambiarContrasenaResponse" message="tns:IAcceso_CambiarContrasena_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IAcceso" type="tns:IAcceso">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ListarPermisos_x_Usuario_Sistema">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/ListarPermisos_x_Usuario_Sistema" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListarUsuarios_Login">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/ListarUsuarios_Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Usuario_x_Sistema">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/Usuario_x_Sistema" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sistema_x_Token">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/Sistema_x_Token" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerEmpresa">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/ObtenerEmpresa" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CambiarContrasena">
+      <soap:operation soapAction="http://tempuri.org/IAcceso/CambiarContrasena" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Acceso">
+    <wsdl:port name="BasicHttpBinding_IAcceso" binding="tns:BasicHttpBinding_IAcceso">
+      <soap:address location="http://10.100.120.144:8079/Acceso.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,162 @@
+.Contenedor_TreeView {
+    max-height: 354px;
+    width: 100%;
+    overflow: auto;
+    margin: 10px 10px 20px 0;
+    display: none;
+    border: 1px solid #C9C9C9;
+    padding: 5px 0px 5px 0px;
+    -webkit-box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+    -moz-box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+    box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+}
+
+.Contenedor_TreeView2 {
+     max-height: 354px;
+    width: 100%;
+    overflow: auto;
+    margin: 10px 10px 20px 0;
+    border: 1px solid #C9C9C9;
+    padding: 5px 0px 5px 0px;
+    -webkit-box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+    -moz-box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+    box-shadow: 0px 0px 16px 0px rgba(46, 55, 50, 0.19);
+}
+
+.Contraido {
+    color: blue;
+}
+
+    .Contraido ul {
+        display: none;
+    }
+
+.Expandido {
+    color: ActiveCaption;
+}
+
+    .Expandido ul {
+        display: block;
+    }
+
+.Seleccionado {
+    font-weight: bold;
+    color: red;
+}
+
+.btn_grid_pad {
+    padding-bottom: 35px;
+}
+
+.Contenedor_TreeView ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+    .Contenedor_TreeView ul#ulTreeView > li:last-child {
+        background: none;
+    }
+
+.Contenedor_TreeView li {
+    list-style: none;
+    margin-left: 18px;
+    font-size: 12px;
+    background: url("../img/d.png") -90px 0 repeat-y;
+}
+
+    .Contenedor_TreeView li ul {
+        margin-left: 18px;
+    }
+
+        .Contenedor_TreeView li ul:last-child li {
+            background: none;
+        }
+
+    .Contenedor_TreeView li label {
+        display: inline-block;
+        position: relative;
+        font-weight: normal;
+        color: #222;
+        margin: 0px;
+        cursor: pointer;
+    }
+
+        .Contenedor_TreeView li label.active {
+            font-weight: bold;
+        }
+
+        .Contenedor_TreeView li label:before {
+        }
+
+    .Contenedor_TreeView li .i-mostrar {
+        background: url("../img/d.png") no-repeat -54px 0;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+        .Contenedor_TreeView li .i-mostrar.active {
+            background: url("../img/d.png") no-repeat -72px 0;
+        }
+
+    .Contenedor_TreeView li.no-lista .i-mostrar {
+        display: none;
+    }
+
+    .Contenedor_TreeView li.Expandido > ul {
+        display: block;
+    }
+
+    .Contenedor_TreeView li.Expandido .i-check {
+        background: url("../img/d.png") no-repeat -38px -37px;
+    }
+
+    .Contenedor_TreeView li.Contraido > ul {
+        display: none;
+    }
+
+    .Contenedor_TreeView li.Contraido .i-check {
+        background: url("../img/d.png") no-repeat -2px -20px;
+    }
+
+    .Contenedor_TreeView li.Contraido .i-mostrar {
+        background: url("../img/d.png") no-repeat -72px 0;
+    }
+
+.Contenedor_TreeView .i {
+    display: inline-block;
+}
+
+    .Contenedor_TreeView .i.i-check {
+        background: url("../img/d.png") no-repeat -2px -20px;
+        width: 14px;
+        height: 16px;
+        margin: 0 4px 0 1px;
+    }
+
+    .Contenedor_TreeView .i.i-folder {
+        background: url("../img/d.png") no-repeat -57px -19px;
+        width: 14px;
+        height: 16px;
+    }
+
+.SystemSGA label span {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.SystemSGA label .i.i-folder {
+    background: url("../img/tree_custom.png") no-repeat 0px 0px;
+}
+
+.MostrarModulo label .i.i-folder {
+    background: url("../img/tree_custom.png") no-repeat -16px 0px;
+}
+
+.MostrarOpcionM label .i.i-folder {
+    background: url("../img/tree_custom.png") no-repeat -32px 0px;
+}
+
+.MostrarAccionSGA label .i.i-folder {
+    background: url("../img/tree_custom.png") no-repeat -48px 0px;
+}

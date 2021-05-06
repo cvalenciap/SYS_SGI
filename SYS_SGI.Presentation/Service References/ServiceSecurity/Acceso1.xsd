@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" />
+  <xs:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" />
+  <xs:element name="ListarPermisos_x_Usuario_Sistema">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="codigoSistema" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarPermisos_x_Usuario_SistemaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="ListarPermisos_x_Usuario_SistemaResult" nillable="true" type="q1:ArrayOfOpcionLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarUsuarios_Login">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="codigoUsuario" type="xs:int" />
+        <xs:element minOccurs="0" name="codigoSistema" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListarUsuarios_LoginResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="ListarUsuarios_LoginResult" nillable="true" type="q2:UsuariosLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Usuario_x_Sistema">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="usuario" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="codigo_sistema" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Usuario_x_SistemaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="Usuario_x_SistemaResult" nillable="true" type="q3:ArrayOfOpcionLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Sistema_x_Token">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="codigo_usuario" type="xs:int" />
+        <xs:element minOccurs="0" name="codigoSistema" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Sistema_x_TokenResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="Sistema_x_TokenResult" nillable="true" type="q4:SistemaLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtenerEmpresa">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CodigoEmpresa" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtenerEmpresaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="ObtenerEmpresaResult" nillable="true" type="q5:EmpresaLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Login">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="user" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="contrasena" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="codigoSistema" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LoginResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" minOccurs="0" name="LoginResult" nillable="true" type="q6:UsuariosLogic" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CambiarContrasena">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="codigoUsuario" type="xs:int" />
+        <xs:element minOccurs="0" name="contrasenaNueva" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CambiarContrasenaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" minOccurs="0" name="CambiarContrasenaResult" nillable="true" type="q7:AppResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

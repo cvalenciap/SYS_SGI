@@ -1,0 +1,158 @@
+@model SYS_SGI.Presentation.Models.View.VMAlineamientoConfiguracion
+@using (Ajax.BeginForm("Guardar", "AlineamientoConfiguracion", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmAlineamientoConfiguracion, 'idModalManAlineamientoConfiguracion')",
+    OnBegin = "return getFormElelemets('formAlineamientoConfiguracion')"
+}, new { id = "formAlineamientoConfiguracion" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoAlineamientoConfiguracion, new { id = "txtCodigoAlineamientoConfiguracion" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento1, new { id = "txtCodigoTipoAlineamiento1" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento2, new { id = "txtCodigoTipoAlineamiento2" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento3, new { id = "txtCodigoTipoAlineamiento3" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento4, new { id = "txtCodigoTipoAlineamiento4" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento5, new { id = "txtCodigoTipoAlineamiento5" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento6, new { id = "txtCodigoTipoAlineamiento6" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento7, new { id = "txtCodigoTipoAlineamiento7" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento8, new { id = "txtCodigoTipoAlineamiento8" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento9, new { id = "txtCodigoTipoAlineamiento9" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.CodigoTipoAlineamiento10, new { id = "txtCodigoTipoAlineamiento10" })
+    @Html.HiddenFor(model => model.AlineamientoConfiguracion.Indicador, new { id = "txtIndicador" })
+
+    <div class="cuerpoModal">
+        @if (Model.AlineamientoConfiguracion.CodigoAlineamientoConfiguracion == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Crear un nuevo lineamiento.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita un lineamiento.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AlineamientoConfiguracion.CodigoTipoGuiaEmpresarial, new { @for = "ddlTipoGuiaEmpresarial" })
+                    @Html.DropDownListFor(model => model.AlineamientoConfiguracion.CodigoTipoGuiaEmpresarial, new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuiaEmpresarial", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div id="contenedorggmObjetivos" class="content-grid-gmd" style="height:100%;max-height:280px;">
+                        @Html.Action("PaginacionAlineamientos", "AlineamientoConfiguracion", new
+                        {
+                            arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                            {
+                                CurrentPageIndex = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                                RowsPerPage = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.Muchos,
+                                DirectionOrder = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.Orientacion.Ascendente,
+                                OrderBy = "Orden"
+                            }),
+                            CodigoAlineamientoConfiguracion = 0
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.AlineamientoConfiguracion.CodigoAlineamientoConfiguracion != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AlineamientoConfiguracion.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.AlineamientoConfiguracion.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+                <button id="btnGrabarModal" type="button" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $("#btnGrabarModal").click(function (e) {
+        var indicador = "indicador"
+        $('#txtCodigoTipoAlineamiento1').val(0)
+        $('#txtCodigoTipoAlineamiento2').val(0)
+        $('#txtCodigoTipoAlineamiento3').val(0)
+        $('#txtCodigoTipoAlineamiento4').val(0)
+        $('#txtCodigoTipoAlineamiento5').val(0)
+        $('#txtCodigoTipoAlineamiento6').val(0)
+        $('#txtCodigoTipoAlineamiento7').val(0)
+        $('#txtCodigoTipoAlineamiento8').val(0)
+        $('#txtCodigoTipoAlineamiento9').val(0)
+        $('#txtCodigoTipoAlineamiento10').val(0)
+
+        $('.txt-orden').each(function () {
+            if ($(this).val() != '' && $(this).val() != '0') {
+                if ($(this).is(':checked')) {
+                    $('#txtIndicador').val(true);
+                } else {
+                    $('#txtIndicador').val(false);
+                }
+
+                $('#txtCodigoTipoAlineamiento' + $(this).val()).val($(this).data('codigoparametro'));
+            }
+        });
+
+        $('#formAlineamientoConfiguracion').submit();
+    });
+
+    $(document).ready(function () {
+        refrescarggmObjetivos();       
+    });
+
+    function refrescarggmObjetivos() {
+        var data = $("#ggmObjetivos").GMDDeserialice();
+        var codigo = $('#txtCodigoAlineamientoConfiguracion').val();
+        $("#contenedorggmObjetivos").load("@(Url.Action("PaginacionAlineamientos", "AlineamientoConfiguracion"))?arg=" + encodeURI(JSON.stringify(data)) + "&CodigoAlineamientoConfiguracion=" + codigo, function () {
+        });
+    }
+</script>

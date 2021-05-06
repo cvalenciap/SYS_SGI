@@ -1,0 +1,97 @@
+@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration;
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">@opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Ajax.BeginForm("Guardar", "CambiarContrasena", FormMethod.Post, new AjaxOptions
+{
+}, new { id = "formCambiarContrasena" }))
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.Label("Usuario", new { @for = "txtUsuario" })
+                                <input id="txtUsuario" value="@ViewBag.Usuario" class="form-control" style="text-align:center" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.Label("Contraseña Nueva", new { @for = "txtContrasenaNueva1" })
+                                <input id="txtContrasenaNueva1" type="password" class="form-control required" style="text-align:center" maxlength="20" />
+                                <i class="fa fa-asterisk form-control-feedback"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.Label("Repetir Contraseña", new { @for = "txtContrasenaNueva2" })
+                                <input id="txtContrasenaNueva2" type="password" class="form-control required" style="text-align:center" maxlength="20" />
+                                <i class="fa fa-asterisk form-control-feedback"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" style="padding-top:15px">
+                                <button id="btnGrabar" type="button" class="btn btn-accion btn-md">Cambiar Contraseña</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        colorFondo();
+    });
+
+    $('#btnGrabar').click(function () {
+        var txtContrasenaNueva1 = $('#txtContrasenaNueva1').val()
+        var txtContrasenaNueva2 = $('#txtContrasenaNueva2').val()
+        var validar = getFormElelemets('formCambiarContrasena');
+
+        if (validar && txtContrasenaNueva1 != txtContrasenaNueva2) {
+            mensajeRespuesta("La nueva contraseña debe coincidir al repetir", 'incorrecto');
+        }
+        else if (validar && (txtContrasenaNueva1.length < 8 || txtContrasenaNueva2.length < 8)) {
+            mensajeRespuesta("La nueva contraseña debe tener minimo 8 caracteres", 'incorrecto');
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("Guardar", "CambiarContrasena")',
+                dataType: 'json',
+                type: 'post',
+                data: { contrasenaNew: txtContrasenaNueva2 },
+                success: function (appResponse) {
+                    if (appResponse.Code == 'S')
+                        mensajeRespuesta("La contraseña se cambio correctamente", 'correcto');
+                    else
+                        mensajeRespuesta(appResponse.Description, 'incorrecto');
+                }
+            });
+        }
+    });
+
+</script>

@@ -1,0 +1,359 @@
+@model SYS_SGI.Presentation.Models.View.VMAlineamientoEstrategico
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using (Ajax.BeginForm("Guardar", "AlineamientoEstrategico", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmAlineamientoEstrategico, 'idModalManAlineamientoEstrategico')",
+    OnBegin = "LoadLoading()"
+}, new { id = "formAlineamientoEstrategico"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.AlineamientoEstrategico.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.AlineamientoEstrategico.CodigoAlineamientoEstrategico)
+
+    <div class="cuerpoModal">
+        @if (Model.AlineamientoEstrategico.CodigoAlineamientoEstrategico == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                NUEVO LINEAMIENTO PARA <label id="lblTipoGuia"></label>
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                EDITAR LINEAMIENTO DE <label id="lblTipoGuia"></label>
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        @*<div class="row">
+            <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Anexo", new { @for = "ddlTipoGuiaEmpresarial" })
+                        @Html.DropDownListFor(model => model.AlineamientoEstrategico.CodigoTipoGuiaEmpresarial, new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuiaEmpresarial", @class = "form-control required" })
+                        <span class="fa fa-asterisk form-control-feedback"></span>
+                    </div>
+            </div>
+        </div>*@
+        
+            <div class="row" id="divCombos" >
+
+            </div>
+            @*<div class="box-tools pull-right col-md-4">
+                <input id="btnAgregar" type="button" class="btn btn-accion btn-xs" style="cursor:pointer; padding-top:25px" value="Agregar" onclick="Agregar();  />
+            </div>*@
+
+        <div class="row">
+            <div class="col-sm-12"  style="padding-left: 30px; margin-top: 20px;">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Listado</h3>
+                        
+                    </div>
+                    <div class="box-body">
+                        <div id="contenedorggmPaginacionMantenimiento" class="content-grid-gmd">
+                            @Html.Action("PaginacionMantenimiento", "AlineamientoEstrategico", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.Muchos,
+                               DirectionOrder = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.Orientacion.Ascendente,
+                               OrderBy = "Codigo"
+                           })
+                       })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal" style='margin-bottom: 6px;'>Cancelar</button>
+                <button type="submit" class="btn btn-accion btn-md" style='margin-bottom: 6px;'>Grabar</button>
+            </div>
+        </div>
+        <div class="row">
+            <span></span>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function combo(index, cabecera, codigoParametro, indicador) {
+        if (indicador){
+            $("#divCombos").append(
+                                "<div class='form-group col-md-12'>" +
+                                   "<div class='form-group col-md-11 '>" +
+                                       "<label for='ddlIndicador'>" + cabecera + "</label>" +
+                                       "<select class='form-control required' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlIndicador' name='AlineamientoEstrategico.CodigoIndicador'></select>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                       //"<button type='button' onclick='Alinear(" + '"' + 'ddlIndicador' + '"' + ")' title='ALINEAR " + cabecera + "' class='glyphicon glyphicon-chevron-right' style='border-radius:2px;top:50%;bottom:3px;right:0;position: absolute;cursor:pointer;background:#2e6da4;border:0;color:white;padding:0'></button>" +
+                                   "</div>" +
+                                   "<div class='form-group col-md-1 box-tools pull-right'>" +
+                                        "<input id='btnAgregar' type='button' class='btn btn-accion btn-xs' style='cursor:pointer; margin-top: 15px;' value='Agregar' onclick='Agregar();' />" +
+                                   "</div>" +
+                               "</div>"//+
+                               //"<div class='col-md-6'>" +
+                               //    "<div class='form-group'>" +
+                               //        "<label for='txtIndicador'>" + cabecera + " - ALINEADO</label>" +
+                               //        "<textarea class='form-control' id='txtIndicador" + index + "' readonly='readonly' rows='2'></textarea>"+
+                               //    "</div>" +
+                               //"</div>"
+                               );
+
+            $.ajax({
+                url: '@Url.Action("CargarCombos", "AlineamientoEstrategico")',
+                dataType: 'json',
+                data: { CodigoParametro: codigoParametro, Indicador: indicador },
+                success: function (lista) {
+                    var idCombo = $("#ddlIndicador")
+
+                    idCombo.empty();
+                    idCombo.append("<option value=0>Seleccione</option>");
+
+                    $.each(lista, function (index, item) {
+                        idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                    });
+                }
+            });
+        } else {
+            $("#divCombos").append(
+                                "<div class='col-md-6'>" +
+                                   "<div class='form-group col-md-10'>" +
+                                       "<label for='ddlAlineamiento" + index + "'>" + cabecera.split(':')[1] + "</label>" +
+                                       "<select class='form-control' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlAlineamiento" + index + "' name='AlineamientoEstrategico.CodigoAlineamiento" + index + "'></select>" +
+                                    "</div>" +
+                                    "<div class='form-group col-md-2'>"+
+                                       "<button type='button' onclick='Alinear(" + '"' + 'Alineamiento' + index + '","' + cabecera.split(':')[1] + '"' + ")' title='AGREGAR" + cabecera.split(':')[1] + "' class='	glyphicon glyphicon-chevron-right' style='border-radius:2px;top:50%;bottom:3px;right:0;position: absolute;cursor:pointer;background:white;border:0;color:black;padding:0;padding-top:25px'></button>" +
+                                   "</div>" +
+                               "</div>" +
+                               "<div class='col-md-6'>" +
+                                   "<div class='form-group col-md-10'>" +
+                                       "<label for='txtAlineamiento" + index + "'>" + cabecera.split(':')[1] + " - ALINEADO</label>" +
+                                       "<textarea class='form-control required' id='txtAlineamiento" + index + "' readonly='readonly' rows='2'></textarea>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                    "</div>" +
+                                    "<div class='form-group col-md-2'>" +
+                                       "<button type='button' onclick='Limpiar(" + '"' + 'Alineamiento' + index + '"' + ")' title='LIMPIAR " + cabecera.split(':')[1] + "' class='glyphicon glyphicon-trash' style='border-radius:2px;top:50%;bottom:3px;right:0;position: absolute;cursor:pointer;background:white;border:0;color:black;padding:0;padding-top:25px;padding-right: 30px;'></button>" +
+                                       "<input id='txtHAlineamiento" + index + "' type='hidden'>" +
+                                   "</div>" +
+                               "</div>"
+                               );
+
+            $.ajax({
+                url: '@Url.Action("CargarCombos", "AlineamientoEstrategico")',
+                dataType: 'json',
+                data: { CodigoParametro: codigoParametro, Indicador: indicador },
+                success: function (lista) {
+                    var idCombo = $("#ddlAlineamiento" + index)
+
+                    idCombo.empty();
+                    idCombo.append("<option value=0>Seleccione</option>");
+
+                    $.each(lista, function (index, item) {
+                        idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                    });
+                }
+            });
+        }
+    }
+
+    function crearCombos(CodigoTipoGuiaEmpresarial) {
+        $.ajax({
+            url: '@Url.Action("ObtenerCabecera", "AlineamientoEstrategico")',
+            dataType: 'json',
+            data: { CodigoTipoGuiaEmpresarial: CodigoTipoGuiaEmpresarial },
+            success: function (Cabecera) {
+                $("#divCombos").empty();
+                    if (Cabecera.CodigoTipoAlineamiento1 > 0) {
+                        combo(1, Cabecera.TipoAlineamiento1, Cabecera.CodigoTipoAlineamiento1,false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento2 > 0) {
+                        combo(2, Cabecera.TipoAlineamiento2, Cabecera.CodigoTipoAlineamiento2, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento3 > 0) {
+                        combo(3, Cabecera.TipoAlineamiento3, Cabecera.CodigoTipoAlineamiento3, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento4 > 0) {
+                        combo(4, Cabecera.TipoAlineamiento4, Cabecera.CodigoTipoAlineamiento4, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento5 > 0) {
+                        combo(5, Cabecera.TipoAlineamiento5, Cabecera.CodigoTipoAlineamiento5, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento6 > 0) {
+                        combo(6, Cabecera.TipoAlineamiento6, Cabecera.CodigoTipoAlineamiento6, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento7 > 0) {
+                        combo(7, Cabecera.TipoAlineamiento7, Cabecera.CodigoTipoAlineamiento7, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento8 > 0) {
+                        combo(8, Cabecera.TipoAlineamiento8, Cabecera.CodigoTipoAlineamiento8, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento9 > 0) {
+                        combo(9, Cabecera.TipoAlineamiento9, Cabecera.CodigoTipoAlineamiento9, false);
+                    }
+
+                    if (Cabecera.CodigoTipoAlineamiento10 > 0) {
+                        combo(10, Cabecera.TipoAlineamiento10, Cabecera.CodigoTipoAlineamiento10, false);
+                    }
+
+                    if (Cabecera.Indicador) {
+                        combo(0, 'INDICADOR', 0, true)
+                    }
+            }
+        });
+    }
+
+    @*$('#ddlTipoGuiaEmpresarial').change(function () {
+        var codigo = $('#ddlTipoGuiaEmpresarial').val();
+
+        if (codigo > 0) {
+            crearCombos(codigo);
+        } else {
+            $("#divCombos").html('');
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            datatype: "json",
+            url: '@Url.Action("BorrarSession", "AlineamientoEstrategico")',
+            success: function (response) {
+                refrescarggmPaginacionMantenimiento();
+            }
+        });
+    });*@
+
+    $(document).ready(function () {
+        //$('#ddlTipoGuiaEmpresarial').val(@Enums.GuiaEmpresarial.MatrizEstrategica);
+
+        $('#lblTipoGuia').text($('#ddlTipoGuia').find("option:selected").text());
+
+        var codigo = $('#ddlTipoGuia').val();
+
+        if (codigo > 0) {
+            crearCombos(codigo);
+        }
+        
+    });
+
+    function Alinear(nombre, cabecera) {
+        var valor_anterior_texto = $('#txt' + nombre);
+        var valor_anterior_codigo = $('#txtH' + nombre);
+        var valor_combo = $('#ddl' + nombre);
+        if (valor_combo.val() != '0') {
+            var valor_nuevo_texto = (valor_anterior_texto.val() == '' ? valor_combo.find("option:selected").text() : valor_anterior_texto.val() + '; ' + valor_combo.find("option:selected").text());
+            var valor_nuevo_codigo = (valor_anterior_codigo.val() == '' ? valor_combo.val() : valor_anterior_codigo.val() + ',' + valor_combo.val());
+            $('#txt' + nombre).val(valor_nuevo_texto);
+            $('#txtH' + nombre).val(valor_nuevo_codigo);
+        } else {
+            mensajeRespuesta('Debe seleccionar ' + cabecera , 'incorrecto','');
+        }        
+    }
+
+    function Limpiar(nombre) {        
+        $('#txt' + nombre).val("");
+        $('#txtH' + nombre).val("");
+    }
+
+    function Agregar() {
+        var respuesta = getFormElelemets('formAlineamientoEstrategico');
+        var seleccion = [];
+        if (respuesta) {
+            seleccion.push({
+                CodigoTipoGuiaEmpresarial: $('#ddlTipoGuia').val(),
+                Alineamiento1: $('#txtAlineamiento1').val(),
+                Alineamiento2: $('#txtAlineamiento2').val(),
+                Alineamiento3: $('#txtAlineamiento3').val(),
+                Alineamiento4: $('#txtAlineamiento4').val(),
+                Alineamiento5: $('#txtAlineamiento5').val(),
+                Alineamiento6: $('#txtAlineamiento6').val(),
+                Alineamiento7: $('#txtAlineamiento7').val(),
+                Alineamiento8: $('#txtAlineamiento8').val(),
+                Alineamiento9: $('#txtAlineamiento9').val(),
+                Alineamiento10: $('#txtAlineamiento10').val(),
+                Indicador: $('#ddlIndicador').find("option:selected").text(),
+                CodigoAlineamiento1: $('#txtHAlineamiento1').val(),
+                CodigoAlineamiento2: $('#txtHAlineamiento2').val(),
+                CodigoAlineamiento3: $('#txtHAlineamiento3').val(),
+                CodigoAlineamiento4: $('#txtHAlineamiento4').val(),
+                CodigoAlineamiento5: $('#txtHAlineamiento5').val(),
+                CodigoAlineamiento6: $('#txtHAlineamiento6').val(),
+                CodigoAlineamiento7: $('#txtHAlineamiento7').val(),
+                CodigoAlineamiento8: $('#txtHAlineamiento8').val(),
+                CodigoAlineamiento9: $('#txtHAlineamiento9').val(),
+                CodigoAlineamiento10: $('#txtHAlineamiento10').val(),
+                CodigoIndicador: $('#ddlIndicador').val(),
+                Estado: true
+            });
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                datatype: "json",
+                url: '@Url.Action("Agregar", "AlineamientoEstrategico")',
+                data: { data: JSON.stringify(seleccion) },
+                success: function (response) {
+                    refrescarggmPaginacionMantenimiento();
+                }
+            });
+
+        }
+    }
+
+    function refrescarggmPaginacionMantenimiento() {
+        var codigo = $('#ddlTipoGuia').val();
+        var data = $("#ggmPaginacionMantenimiento").GMDDeserialice();
+        $("#contenedorggmPaginacionMantenimiento").load("@(Url.Action("PaginacionMantenimiento", "AlineamientoEstrategico"))?arg=" + encodeURI(JSON.stringify(data)), function () {
+        });
+    }
+
+    $("#btnGrabarModal").click(function (e) {
+        $('#formAlineamientoEstrategico').submit();
+    });
+
+    function validateForm(e) {
+        var respuesta = getFormElelemets('formAlineamientoEstrategico');
+        if (!respuesta) {
+            return false;
+        }
+    }
+
+</script>

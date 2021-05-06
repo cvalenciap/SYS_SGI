@@ -1,0 +1,356 @@
+@model SYS_SGI.Presentation.Models.View.VMIndicador
+@using (Ajax.BeginForm("Guardar", "Indicador", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmIndicador, 'idModalManIndicador')",
+    OnBegin = "return getFormElelemets('formIndicador')"
+}, new { id = "formIndicador" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Indicador.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.Indicador.CodigoIndicador)
+
+    <div class="cuerpoModal">
+        @if (Model.Indicador.CodigoIndicador == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Crea un nuevo indicador.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita un indicador.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.Nombre, new { @for = "txtNombre" })
+                    @Html.TextBoxFor(model => model.Indicador.Nombre, new { id = "txtNombre", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.Fundamento, new { @for = "txtFundamento" })
+                    @Html.TextBoxFor(model => model.Indicador.Fundamento, new { id = "txtFundamento", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoAmbitoDesempeno, new { @for = "ddlAmbitoDesempeño" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoAmbitoDesempeno, new SelectList(ViewBag.listaAmbitoDesempeno, "CodigoElemento", "Nombre"), new { id = "ddlAmbitoDesempeño", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.Ponderacion, new { @for = "txtPonderacion" })
+                    @Html.TextBoxFor(model => model.Indicador.Ponderacion, new { id = "txtPonderacion", placeholder = "", @class = "form-control required", @maxlength = "18" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoTipoIndicador, new { @for = "ddlTipoIndicador" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoTipoIndicador, new SelectList(ViewBag.listaTipoIndicador, "CodigoElemento", "Nombre"), new { id = "ddlTipoIndicador", @class = "form-control required" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.ValorReferencia, new { @for = "txtValorReferencia" })
+                    @Html.TextBoxFor(model => model.Indicador.ValorReferencia, new { id = "txtValorReferencia", placeholder = "", @class = "form-control", @maxlength = "250" })
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.Formula, new { @for = "txtFormulaMantenimiento" })
+                    <div class="input-group calculator form-group">
+                        @Html.TextBoxFor(model => model.Indicador.Formula, new { id = "txtFormulaMantenimiento", placeholder = "", @class = "form-control required", @readonly = "true" })
+                        <div class="input-group-addon" onclick="Formula('Mantenimiento')"><i class="fa fa-calculator"></i></div>
+                    </div>
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoUnidadMedida, new { @for = "ddlUnidadMedida" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoUnidadMedida, new SelectList(ViewBag.listaUnidadMedida, "CodigoElemento", "Nombre"), new { id = "ddlUnidadMedida", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.FuenteAuditable, new { @for = "txtFuenteAuditable" })
+                    @Html.TextBoxFor(model => model.Indicador.FuenteAuditable, new { id = "txtFuenteAuditable", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoResponsable, new { @for = "ddlResponsable" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoResponsable, new SelectList(ViewBag.listaResponsable, "CodigoResponsable", "Responsable"), new { id = "ddlResponsable", @class = "form-control required", @type = "text" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoPeriodicidad, new { @for = "ddlTipoPeriodicidad" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoPeriodicidad, new SelectList(ViewBag.listaTipoPeriodicidad, "CodigoElemento", "Nombre"), new { id = "ddlTipoPeriodicidad", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoFuenteInformacion, new { @for = "ddlFuenteInformacion" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoFuenteInformacion, new SelectList(ViewBag.listaFuenteInformacion, "CodigoElemento", "Nombre"), new { id = "ddlFuenteInformacion", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoArea, new { @for = "ddlArea" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoArea, new SelectList(ViewBag.listaArea, "CodigoElemento", "Nombre"), new { id = "ddlArea", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.CodigoSentidoIndicador, new { @for = "ddlSentidoIndicador" })
+                    @Html.DropDownListFor(model => model.Indicador.CodigoSentidoIndicador, new SelectList(ViewBag.listaSentidoIndicador, "CodigoElemento", "Nombre"), new { id = "ddlSentidoIndicador", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.FechaInicio, new { @for = "txtFechaInicio" })
+                    <div class="input-group date form-group">
+                        @Html.TextBoxFor(model => model.Indicador.FechaInicioDesc, new { id = "txtFechaInicio", placeholder = "", @class = "form-control required" })
+                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Indicador.FechaFin, new { @for = "txtFechaFin" })
+                    <div class="input-group date form-group">
+                        @Html.TextBoxFor(model => model.Indicador.FechaFinDesc, new { id = "txtFechaFin", placeholder = "", @class = "form-control required" })
+                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                    </div>
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Indicador.CodigoIndicador != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Indicador.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.Indicador.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" id="btnCancelar" >Cancelar</button>
+                @*<button type="button" class="btn btn-normal btn-md" id="btnCancelar" data-dismiss="modal">Cancelar</button>*@
+                <button type="submit" class="btn btn-accion btn-md" id="btnGrabarModal">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function Inicializar() {
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            minViewMode: 0,
+            todayBtn: true,
+            language: "es"
+        });
+    }
+
+    $(document).ready(function () {
+        Inicializar();
+    });
+
+    function Formula(formulario) {
+        Formulario = formulario;
+        mostrarModal('Fórmula', 'divModalBodyFormula', 'idModalFormula');
+        $("#divModalBodyFormula").load(hostWeb + "/Formula/Mantenimiento/");
+    }
+
+    $('#btnCancelar').click(function (e) {
+        mensajeRespuesta('La formula es Incorrecta', 'Incorrecto','');
+
+    });
+
+    $("#btnGrabarModal").click(function (e) {
+        debugger;
+        var valorNuevo = $('#txtFormulaMantenimiento').val()
+        var correcto = true;
+        var resultado = '';
+
+        var ValorActual = '';
+        var testValor = '';
+        var tamanioTest = 0;
+        var finVariable = 0;
+
+        var inicioVariable = 0;
+        var finVariable = 0;
+
+        try {
+            if (valorNuevo.split(/[')']/).length > valorNuevo.split(/['(']/).length) {
+                correcto = false;
+            }
+            var arregloValorNuevo = valorNuevo.split(/['+-/*']/)
+
+            for (var i = 0; i < arregloValorNuevo.length; i++) {
+                cantParentesis = 0;
+                if (i == 0) {
+                    tamanioTest = tamanioTest + arregloValorNuevo[i].length
+                }
+                else {
+                    tamanioTest = tamanioTest + arregloValorNuevo[i].length + 1
+                }
+
+                if (arregloValorNuevo[i].indexOf('[') >= 0) {
+                    inicioVariable = arregloValorNuevo[i].indexOf('[');
+                    finVariable = arregloValorNuevo[i].indexOf(']');
+                    if (arregloValorNuevo[i].indexOf('[') > 0) {
+                        for (var a = 0; a < arregloValorNuevo[i].indexOf('[') ; a++) {
+                            valorAnteriorCorchete = arregloValorNuevo[i].charAt(a);
+                            if (valorAnteriorCorchete != '(') {
+                                correcto = false;
+                            }
+                            else {
+                                cantParentesis++;
+                            }
+                        }
+                    }
+
+                    if (finVariable >= 0) {
+                        ValorActual = arregloValorNuevo[i].substring(inicioVariable, finVariable + 1)
+                        if (ValorActual.length != arregloValorNuevo[i].length) {
+                            for (var b = (ValorActual.length + cantParentesis) ; b < arregloValorNuevo[i].length; b++) {
+                                valorPosteriorCorchete = arregloValorNuevo[i].charAt(b);
+                                if (valorPosteriorCorchete != ')') {
+                                    correcto = false;
+                                }
+                            }
+                        }
+                        ValorActual = ValorActual.replace(ValorActual.substring(inicioVariable - cantParentesis, finVariable + 1), 7);
+                    }
+                    else {
+                        ValorActual = '';
+                        correcto = false
+                    }
+                }
+                else {
+                    ValorActual = arregloValorNuevo[i];
+                }
+                //valida el ultimo elemento
+                if (i + 1 < arregloValorNuevo.length) {
+                    if (ValorActual == '') {
+                        testValor = testValor + 7 + valorNuevo.substring(tamanioTest, tamanioTest + 1);
+                        correcto = false;
+                    }
+                    else {
+                        testValor = testValor + ValorActual + valorNuevo.substring(tamanioTest, tamanioTest + 1);
+                    }
+                }
+                else {
+                    testValor = testValor + ValorActual;
+                }
+            }
+            resultado = eval(testValor + '');
+            if (!resultado) {
+                correcto = false;
+            }
+        } catch (err) {
+            correcto = false;
+        }
+        // Si no se pudo calcular
+        if (correcto) {
+            //$('#formIndicador').submit();
+        }
+        else {
+            $.confirm({
+                content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                        '<hr class="hr1-0">' +
+                        '<div class="jconfirm-title-c paddingHeader">' +
+                            '<span class="jconfirm-title paddingTitle">Mensaje Respuesta.</span>' +
+                        '</div>' +
+                        '<div class="jconfirm-content margin-Message">' + 'La formula ingresada es incorrecta' + '</div>' +
+                        '<hr class="hr-Alert">',
+                escapeKey: 'Aceptar',
+                buttons: {
+                    Aceptar: {
+                        text: "Aceptar",
+                        btnClass: 'btn-normal',
+                        action: function () {
+                        }
+                    }
+                }
+            });
+            return false;
+        }
+    });
+</script>

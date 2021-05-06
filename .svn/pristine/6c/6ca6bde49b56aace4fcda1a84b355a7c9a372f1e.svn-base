@@ -1,0 +1,16 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+
+<div class="content">
+    <div class="content-header">
+        <h2 class="main-title">Ocurrió un error mientras se procesaba la operación</h2>
+    </div>
+    <div class="content-body">
+        <div class="left">
+            <button class="btn btn-primary" type="button" onclick="GoToDefaultPage();"><i class="glyphicon glyphicon-home"></i>Inicio</button>
+        </div>
+    </div>
+</div>

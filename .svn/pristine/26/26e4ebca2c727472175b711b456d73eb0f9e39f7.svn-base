@@ -1,0 +1,4 @@
+﻿@using SYS_SGI.Presentation.Utilities
+@{
+    Layout = null;
+}

@@ -1,0 +1,106 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.MOV;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<IndicadorDetalleLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<IndicadorDetalleLogic>("ggmPaginacionMantenimiento", Model) { callBackMethod = "refrescarggmPaginacionMantenimiento", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Item">@item.Item</span></text>, _htmlAttributes: new { @width = "5%" });
+    var cont = 0;
+    if (Model.Data.Count() > 0)
+    {
+        foreach (var item1 in Model.Data)
+        {
+            if (cont == 0)
+            {
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento1 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento1.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento1.Split('-')[1]">@item.Alineamiento1.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento2 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento2.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento2.Split('-')[1]">@item.Alineamiento2.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento3 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento3.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento3.Split('-')[1]">@item.Alineamiento3.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento4 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento4.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento4.Split('-')[1]">@item.Alineamiento4.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento5 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento5.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento5.Split('-')[1]">@item.Alineamiento5.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento6 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento6.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento6.Split('-')[1]">@item.Alineamiento6.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento7 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento7.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento7.Split('-')[1]">@item.Alineamiento7.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento8 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento8.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento8.Split('-')[1]">@item.Alineamiento8.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento9 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento9.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento9.Split('-')[1]">@item.Alineamiento9.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento10 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento10.Split('-')[0], _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Alineamiento10.Split('-')[1]">@item.Alineamiento10.Split('-')[0]</span></text>, _htmlAttributes: new { @width = "5%" });
+                }
+
+                if (item1.alineamientoConfiguracion.Indicador)
+                {
+                    grid.columnCollection.addColumn(_headerText: "INDICADOR", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Indicador">@item.Indicador</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+            }
+            else
+            {
+                break;
+            }
+
+            cont++;
+        }
+
+        grid.columnCollection.addColumn(_headerText: "Periodo", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.TipoValor">@item.TipoValor</span></text>, _htmlAttributes: new { @width = "8%" });
+        grid.columnCollection.addColumn(_headerText: "Año", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Anio">@item.Anio</span></text>, _htmlAttributes: new { @width = "5%" });
+        grid.columnCollection.addColumn(_headerText: "Fecha", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.FechaDesc">@item.FechaDesc</span></text>, _htmlAttributes: new { @width = "8%" });
+        grid.columnCollection.addColumn(_headerText: "Valor", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Valor">@item.Valor</span></text>, _htmlAttributes: new { @width = "5%" });
+        grid.columnCollection.addColumn(_headerText: "Eliminar", _isFilterable: false, _isSortable: false, _format: @<text>
+            <div class="acciones_grilla">
+                @Ajax.RawActionLink("", "Quitar", "IndicadorEjecucion",
+            new
+            {
+                item = item.Item
+            }, new AjaxOptions
+            {
+                OnComplete = "refrescarggmPaginacionMantenimiento();",
+                HttpMethod = "POST"
+            }, new { id = "lnkEliminar", @class = "glyphicon glyphicon-trash" })
+            </div>
+        </text>, _htmlAttributes: new { @width = "5%" });
+    }
+}
+@grid.GetHtml()
+<script>
+    $(function () {
+        $('#ggmPaginacionMantenimiento tfoot').find('input').remove()
+        $("#ggmPaginacionMantenimiento tfoot span:first-child").remove()
+    })
+</script>

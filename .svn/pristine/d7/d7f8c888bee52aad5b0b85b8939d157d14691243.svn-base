@@ -1,0 +1,260 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.MOV;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<IndicadorDetalleLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<IndicadorDetalleLogic>("ggmPlanOperativoEjecucion", Model) { callBackMethod = "refrescarggmPlanOperativoEjecucion", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    //grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "5%" });
+    //grid.columnCollection.addColumn(_headerText: "Código", _isFilterable: false, _isSortable: false, _format: item => item.CodigoIndicadorDetalle, _htmlAttributes: new { @width = "5%", @style = "text-align: center" });
+    //grid.columnCollection.addColumn(_headerText: "N°", _isFilterable: false, _isSortable: false, _format: item => item.NumFila, _htmlAttributes: new { @width = "5%", @style = "text-align: center" });
+    var cont = 0;
+    if (Model.Data.Count() > 0)
+    {
+        foreach (var item1 in Model.Data)
+        {
+            if (cont == 0)
+            {
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento1 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento1.Split(':')[0], _filterKey: "TipoAlineamiento1", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento1">@item.Alineamiento1.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento2 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento2.Split(':')[0], _filterKey: "TipoAlineamiento2", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento2">@item.Alineamiento2.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento3 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento3.Split(':')[0], _filterKey: "TipoAlineamiento3", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento3">@item.Alineamiento3.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento4 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento4.Split(':')[0], _filterKey: "TipoAlineamiento4", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento4">@item.Alineamiento4.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento5 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento5.Split(':')[0], _filterKey: "TipoAlineamiento5", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento5">@item.Alineamiento5.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento6 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento6.Split(':')[0], _filterKey: "TipoAlineamiento6", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento6">@item.Alineamiento6.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento7 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento7.Split(':')[0], _filterKey: "TipoAlineamiento7", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento7">@item.Alineamiento7.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento8 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento8.Split(':')[0], _filterKey: "TipoAlineamiento8", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento8">@item.Alineamiento8.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento9 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento9.Split(':')[0], _filterKey: "TipoAlineamiento9", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento9">@item.Alineamiento9.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento10 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento10.Split(':')[0], _filterKey: "TipoAlineamiento10", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento10">@item.Alineamiento10.Split(':')[0]</span></text>, _htmlAttributes: new { @width = "4%", @style = "text-align: center" });
+                }
+
+                if (item1.alineamientoConfiguracion.Indicador)
+                {
+                    grid.columnCollection.addColumn(_headerText: "INDICADOR", _filterKey: "Indicador", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Indicador">@item.Indicador</span></text>, _htmlAttributes: new { @width = "25%" });
+                }
+            }
+            else
+            {
+                break;
+            }
+
+            cont++;
+        }
+        grid.columnCollection.addColumn(_headerText: "Formula", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Formula">@item.Formula</span></text>, _htmlAttributes: new { @width = "15%" });
+        //grid.columnCollection.addColumn(_headerText: "Periodo", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.TipoValor">@item.TipoValor</span></text>, _htmlAttributes: new { @width = "8%" });
+        grid.columnCollection.addColumn(_headerText: "Año", _filterKey: "Anio", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Anio">@item.Anio</span></text>, _htmlAttributes: new { @width = "5%", @style = "text-align: center" });
+        grid.columnCollection.addColumn(_headerText: "Periodo", _filterKey: "Periodo", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.TipoValor">@item.TipoValor</span></text>, _htmlAttributes: new { @width = "8%", @type = "number", @min = "0", @step = "0.01" });
+        grid.columnCollection.addColumn(_headerText: "Valor", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Comentario">
+                <input class='form-control required valor'
+                       data-codigoindicadordetalle="@item.CodigoIndicadorDetalle"
+                       data-codigoIndicador="@item.CodigoIndicador"
+                       data-codigoTipoValor="@item.CodigoTipoValor"
+                       data-codigoTipoRegistro="@item.CodigoTipoRegistro"
+                       data-anio="@item.Anio"
+                       data-codigoAlineamientoEstrategico="@item.CodigoAlineamientoEstrategico"
+                       style="text-align: center" id='txtValorPaginacion' name='IndicadorDetalle.Valor' placeholder='' type='text' value="@item.Valor">
+            </span></text>, _htmlAttributes: new { @width = "8%" });
+
+        //grid.columnCollection.addColumn(_headerText: "Valor Al", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.ComentarioAl">@item.ValorAl</span></text>, _htmlAttributes: new { @width = "8%", @type = "number", @min = "0", @step = "0.01", @style = "text-align: center" });
+        grid.columnCollection.addColumn(_headerText: "Valor Al", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.ComentarioAl">
+            <input class='form-control required valorAl'
+                   data-codigoindicadordetalle="@item.CodigoIndicadorDetalle"
+                   data-codigoIndicador="@item.CodigoIndicador"
+                   data-codigoTipoValor="@item.CodigoTipoValor"
+                   data-codigoTipoRegistro="@item.CodigoTipoRegistro"
+                   data-anio="@item.Anio"
+                   data-codigoAlineamientoEstrategico="@item.CodigoAlineamientoEstrategico"
+                   style="text-align: center" id='txtValorAlPaginacion' name='IndicadorDetalle.ValorAl' placeholder='' type='text' value="@item.ValorAl">
+        </span></text>, _htmlAttributes: new { @width = "8%" });
+
+        //grid.columnCollection.addColumn(_headerText: "Estado", _isFilterable: false, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%", @style = "text-align: center" });
+        grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+            <div class="acciones_grilla">
+                @if (item.CodigoIndicadorDetalle > 0)
+                {
+                    @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "PlanOperativoEjecucion", new { codigoAlineamientoEstrategico = item.CodigoAlineamientoEstrategico, fechaPeriodo = item.FechaPeriodoDesc }, new AjaxOptions
+                   {
+                       UpdateTargetId = "divModalBodyPlanOperativoEjecucion",
+                       OnBegin = "mostrarModal('Editar', 'divModalBodyPlanOperativoEjecucion','idModalManPlanOperativoEjecucion');",
+                       HttpMethod = "post"
+                   }, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+                }
+                @if (item.Estado && item.CodigoIndicadorDetalle > 0)
+                {
+                    <a href="#" onclick="btnEliminar('@item.CodigoIndicadorDetalle');" style="cursor:pointer;@(permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo)">
+                        <span title="Eliminar" class="glyphicon glyphicon-trash"></span>
+                    </a>
+                }
+                else if (item.CodigoIndicadorDetalle > 0)
+                {
+                    <a href="#" onclick="btnActivar('@item.CodigoIndicadorDetalle');" style="cursor:pointer;@(permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo)">
+                        <span title="Activar" class="glyphicon glyphicon-ok blue"></span>
+                    </a>
+                }
+                @*@if (item.CodigoIndicadorDetalle > 0)
+                {
+                    @Html.ActionLink(" ", "DescargarReporte", "PlanOperativoEjecucion",
+                    new { codigoAlineamientoEstrategico = item.CodigoAlineamientoEstrategico, codigoTipoGuiaEmpresarial = item.CodigoTipoGuiaEmpresarial, indicador = item.Indicador },
+                    new { id = "lnkDescargar", @class = "glyphicon glyphicon-download-alt" })
+                }*@
+            </div>
+        </text>, _htmlAttributes: new { @width = "5%", @style = "text-align: center" });
+    }
+}
+@grid.GetHtml()
+<script type="text/javascript">
+    var CodigoIndicadorDetalle_E = 0;
+    var CodigoIndicadorDetalle_A = 0;
+    var CodigoIndicadorDetalle_M = 0;
+    var valor = 0;
+    var codigoIndicador = 0;
+    var codigoTipoValor = 0;
+    var codigoTipoRegistro = 0
+    var anio = 0
+    var codigoAlineamientoEstrategico = 0
+
+    function eventoEliminar() {
+        $.ajax({
+            url: '@Url.Action("Desactivar", "PlanOperativoEjecucion")',
+            type: 'POST',
+            dataType: 'json',
+            data: { CodigoIndicadorDetalle: CodigoIndicadorDetalle_E },
+            success: function (appResponse) {
+                if (appResponse.Code = 'S') {
+                    mensajeRespuesta(appResponse.Description, 'correcto','');
+                    refrescarggmPlanOperativoEjecucion();
+                } else {
+                    mensajeRespuesta(appResponse.Description, 'incorrecto','');
+                }
+            }
+        });
+    }
+
+    function eventoActivar() {
+        $.ajax({
+            url: '@Url.Action("Activar", "PlanOperativoEjecucion")',
+            dataType: 'json',
+            type: 'POST',
+            data: { CodigoIndicadorDetalle: CodigoIndicadorDetalle_A },
+            success: function (appResponse) {
+                if (appResponse.Code = 'S') {
+                    mensajeRespuesta(appResponse.Description, 'correcto','');
+                    refrescarggmPlanOperativoEjecucion();
+                } else {
+                    mensajeRespuesta(appResponse.Description, 'incorrecto','');
+                }
+            }
+        });
+    }
+
+    function btnEliminar(CodigoIndicadorDetalle) {
+        CodigoIndicadorDetalle_E = CodigoIndicadorDetalle
+        mensajeRespuesta('¿Desea eliminar el registro de código ' + CodigoIndicadorDetalle + ' ?', 'eliminar', '', true);
+    }
+
+    function btnActivar(CodigoIndicadorDetalle) {
+        CodigoIndicadorDetalle_A = CodigoIndicadorDetalle
+        mensajeRespuesta('¿Desea activar el registro de código ' + CodigoIndicadorDetalle + ' ?', 'activar', '', true);
+    }
+
+    function Modificar(tipo) {
+        var comentario = $('#txtComentario').val();
+        $.ajax({
+            url: '@Url.Action("ActualizarValor", "PlanOperativoEjecucion")',
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                codigoIndicadorDetalle: CodigoIndicadorDetalle_M,
+                valor: valor,
+                codigoIndicador: codigoIndicador,
+                codigoTipoValor: codigoTipoValor,
+                codigoTipoRegistro: codigoTipoRegistro,
+                anio: anio,
+                codigoAlineamientoEstrategico: codigoAlineamientoEstrategico,
+                comentario: comentario,
+                tipoValor: tipo
+            },
+            success: function (appResponse) {
+                if (appResponse.Code = 'S') {
+                    //mensajeRespuesta(appResponse.Description, 'correcto');
+                    refrescarggmPlanOperativoEjecucion();
+                } else {
+                    mensajeRespuesta(appResponse.Description, 'incorrecto','');
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('.grid-gmd').on('change', '.valor', function () {
+            valor = $(this).val();
+            CodigoIndicadorDetalle_M = $(this).data('codigoindicadordetalle')
+            codigoAlineamientoEstrategico = $(this).data('codigoalineamientoestrategico')
+            codigoIndicador = $(this).data('codigoindicador')
+            codigoTipoValor = $(this).data('codigotipovalor')
+            codigoTipoRegistro = $(this).data('codigotiporegistro')
+            anio = $(this).data('anio')
+
+            $(this).css("background-color", "gray");
+            $(this).css("color", "white");
+
+            mensajeRespuesta('Ingrese un motivo. (opcional)', 'grabar', '', 'Modificar(1)', 'refrescarggmPlanOperativoEjecucion()', 1);
+        });
+    });
+
+    $(document).ready(function () {
+        $('.grid-gmd').on('change', '.valorAl', function () {
+            valor = $(this).val();
+            CodigoIndicadorDetalle_M = $(this).data('codigoindicadordetalle')
+            codigoAlineamientoEstrategico = $(this).data('codigoalineamientoestrategico')
+            codigoIndicador = $(this).data('codigoindicador')
+            codigoTipoValor = $(this).data('codigotipovalor')
+            codigoTipoRegistro = $(this).data('codigotiporegistro')
+            anio = $(this).data('anio')
+
+            $(this).css("background-color", "gray");
+            $(this).css("color", "white");
+
+            mensajeRespuesta('Ingrese un motivo. (opcional)', 'grabar', '', 'Modificar(2)', 'refrescarggmPlanOperativoEjecucion()', 1);
+        });
+    });
+</script>

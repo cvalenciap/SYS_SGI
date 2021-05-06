@@ -1,0 +1,310 @@
+@model SYS_SGI.Presentation.Models.View.VMIndicadorDetalle
+@{Dictionary<string, decimal> elementoVariable = new Dictionary<string, decimal>();}
+@using (Ajax.BeginForm("Guardar", "PlanOperativoEjecucion", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmPlanOperativoEjecucion, 'idModalManPlanOperativoEjecucion')",
+    OnBegin = "LoadLoading()"
+}, new { id = "formPlanOperativoEjecucion" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IndicadorDetalle.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoIndicadorDetalle, new { id = "txtCodigoIndicadorDetalle" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoAlineamientoEstrategico, new { id = "txtCodigoAlineamientoEstrategico" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoIndicador, new { id = "txtCodigoIndicador" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoTipoPlan, new { id = "txtCodigoTipoPlan" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.FechaPeriodo, new { id = "txtFechaPeriodo" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoTipoValor, new { id = "txtCodigoTipoValor" })
+    
+    
+    
+    <div class="cuerpoModal">
+        @if (Model.IndicadorDetalle.CodigoIndicadorDetalle == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registrar ejecutado.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Editar ejecutado.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Alineamientos")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento1, new { @for = "txtAlineamiento1" })*@
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento1, new { id = "txtAlineamiento1", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            @if (Model.IndicadorDetalle.Alineamiento2 != null && Model.IndicadorDetalle.Alineamiento2.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento2, new { @for = "txtAlineamiento2" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento2, new { id = "txtAlineamiento2", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento3 != null && Model.IndicadorDetalle.Alineamiento3.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento3, new { @for = "txtAlineamiento3" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento3, new { id = "txtAlineamiento3", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+            @if (Model.IndicadorDetalle.Alineamiento4 != null && Model.IndicadorDetalle.Alineamiento4.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento4, new { @for = "txtAlineamiento4" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento4, new { id = "txtAlineamiento4", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento5 != null && Model.IndicadorDetalle.Alineamiento5.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento5, new { @for = "txtAlineamiento5" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento5, new { id = "txtAlineamiento5", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento6 != null && Model.IndicadorDetalle.Alineamiento6.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento6, new { @for = "txtAlineamiento6" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento6, new { id = "txtAlineamiento6", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento7 != null && Model.IndicadorDetalle.Alineamiento7.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento7, new { @for = "txtAlineamiento7" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento7, new { id = "txtAlineamiento7", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento8 != null && Model.IndicadorDetalle.Alineamiento8.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento8, new { @for = "txtAlineamiento8" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento8, new { id = "txtAlineamiento8", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento9 != null && Model.IndicadorDetalle.Alineamiento9.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento9, new { @for = "txtAlineamiento9" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento9, new { id = "txtAlineamiento9", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Alineamiento10 != null && Model.IndicadorDetalle.Alineamiento10.Trim() != "-")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento10, new { @for = "txtAlineamiento10" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Alineamiento10, new { id = "txtAlineamiento10", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IndicadorDetalle.Indicador.Trim() != "")
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.IndicadorDetalle.Alineamiento10, new { @for = "txtAlineamiento10" })*@
+                        @Html.TextBoxFor(model => model.IndicadorDetalle.Indicador, new { id = "txtIndicador", placeholder = "", @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IndicadorDetalle.Formula, new { @for = "txtFormula" })
+                    @Html.TextAreaFor(model => model.IndicadorDetalle.Formula, new { id = "txtFormula", placeholder = "", @rows = "3", @class = "form-control required",  @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.Label(Model.IndicadorDetalle.TipoValor)
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.Anio, new { id = "txtAnio", placeholder = "", @class = "form-control required", @style = "text-align:center", @readonly = "readonly" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+
+                @foreach (var item in Model.IndicadorDetalle.listaVariableFormula)
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.Label(item.NombreVariable)
+                            @Html.TextBoxFor(model => item.ValorVariable, new { id = @item.NombreVariable.Replace(" ", "").Replace(" % ", ""), placeholder = "", @class = "form-control", @style = "text-align:center", type = "number", name = @item.NombreVariable.Replace(" ", "").Replace(" % ", ""), onkeyup = "calcular($(this).val(),$(this))" })
+                             @*<input   type="number" name="@item.NombreVariable.Replace(" ", "").Replace("%", "")" , class="form-control" onkeyup="calcular($(this).val())" id="@item.NombreVariable.Replace(" ", "").Replace("%", "")" value="0.00" min="0" step="any" />*@
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.Label("Valor")
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.Valor, new { id = "txtValor", placeholder = "", @class = "form-control required", @style = "text-align:center", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.Label("ValorAl")
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.ValorAl, new { id = "txtValorAl", placeholder = "", @class = "form-control required", @style = "text-align:center", @readonly = "readonly" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.Label("Comentario")
+                    @Html.TextAreaFor(model => model.IndicadorDetalle.Comentario, new { id = "txtComentario", placeholder = "", @rows = "3", @class = "form-control required", })
+                </div>
+            </div>
+        </div>
+
+        @if (Model.IndicadorDetalle.CodigoIndicadorDetalle != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IndicadorDetalle.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.IndicadorDetalle.Estado, new { id = "chkEstado"  })
+                        <label for="chkEstado" id="lblEstado"> Activo</label>
+                        <label for="chkEstado" id="lblEstado"> / </label>
+                        <label for="chkEstado" id="lblEstado"> Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var codigoDetalle = $('#txtCodigoIndicadorDetalle').val()
+        InicializarFechas();
+    });
+
+    function calcular(valor, variable) {
+        var formula = $('#txtFormula').val();
+        var variables = formula.match(/\[(.*?)\]/g)
+        var i;
+        for (i = 0; i < variables.length; i++) {
+            formula = formula.replace(variables[i], $('#' + variables[i].replace(/\[/, '').replace(/\]/, '').replace(/ /g, '').replace("%", "")).val());
+        }
+
+        var valor = eval(formula)
+        if (valor != Infinity && valor > 0)
+            $('#txtValor').val(Math.round(valor * 100) / 100);
+        else
+            $('#txtValor').val(0.00);
+
+    }
+
+    function InicializarFechas() {
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            minViewMode: 0,
+            todayBtn: true,
+            language: "es"
+        });
+    }
+
+    function refrescarggmPaginacionMantenimiento() {
+        var data = $("#ggmPaginacionMantenimiento").GMDDeserialice();
+        $("#contenedorggmPaginacionMantenimiento").load("@(Url.Action("PaginacionMantenimiento", "PlanOperativoEjecucion"))?arg=" + encodeURI(JSON.stringify(data)), function () {
+        });
+    }
+
+    function trabajaDictionary(nombrevariable,valorVariable)
+    {
+    }
+
+    //$('#chkEstado').onChange(function e {
+    //    if(this.val() == true)
+    //    {
+    //        $('#lblEstado').css( background-color ="", color)
+    //    }
+    //});
+
+        $("#btnGrabarModal").click(function (e) {
+            $('#formPlanOperativoEjecucion').submit();
+        });
+</script>

@@ -1,0 +1,56 @@
+﻿@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration
+@{
+    /*sessionState*/
+    var conf = WebConfigurationManager.OpenWebConfiguration(System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
+    var section = (SessionStateSection)conf.GetSection("system.web/sessionState");
+    var minutes = section.Timeout.Minutes;
+    var hours = section.Timeout.Hours;
+    var seconds = section.Timeout.Seconds;
+
+    /*Servidor*/
+    var connectString = System.Configuration.ConfigurationManager.ConnectionStrings["SYS_SGIDataBaseContext"].ToString();
+    var builder = new System.Data.SqlClient.SqlConnectionStringBuilder(connectString);
+}
+
+<li class="dropdown user user-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        @{
+            var imgSrc = "Contenido/estilos/AdminLTE/dist/img/user.svg";
+            if (Login.Obtener.Usuario.Foto() != null)
+            {
+                imgSrc = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Login.Obtener.Usuario.Foto()));
+            }
+        }
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <span class="hidden-xs">@Login.Obtener.Usuario.Login()</span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="user-header">
+            <p>@Login.Obtener.Usuario.NombreCompleto().ToUpper()<br/>
+            <small>@Login.Obtener.Usuario.Login().ToUpper()</small>
+            <small>@Login.Obtener.Perfil.Nombre()</small>
+            <small>Tiempo Sesion: <span id="hour"></span>:<span id="minute"></span>:<span id="second"></span></small>
+        </p>
+    </li>
+    <li class="user-footer">
+        <div class="pull-right">
+            <a href="#" id="lnkCerrarSesion">Cerrar sesión</a>
+        </div>
+    </li>
+</ul>
+</li>
+
+<script>
+    $(document).ready(function () {
+        setTimeOut(@hours, @minutes, @seconds);
+
+        $("#lnkCerrarSesion").click(function ()
+        {
+            $.post('@Url.Action("LogOutClient", "LogOut")', {}, function (data)
+            {
+                window.location.href = '@Url.Action("Index", "Logeo")';
+            });
+        });
+    });
+</script>

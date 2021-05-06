@@ -1,0 +1,36 @@
+﻿@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.PAR;
+
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<ParametroDetalleLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == ViewBag.nombreParametro).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<ParametroDetalleLogic>("ggmParametroDetalle", Model) { callBackMethod = "refrescarggmParametroDetalle", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Código", _format: @<text><span title="@item.CodigoParametroDetalle">@item.CodigoParametroDetalle</span></text>, _htmlAttributes: new { @width = "5%" });
+    if (ViewBag.nombreParametro == "ParametroNegocio")
+    {
+        grid.columnCollection.addColumn(_headerText: "Código", _filterKey: "Valor", _format: @<text><span title="@item.Valor">@item.Valor</span></text>, _htmlAttributes: new { @width = "6%" });
+    }
+    else
+    if (ViewBag.nombreParametro != "ParametroNegocio")
+    {
+        grid.columnCollection.addColumn(_headerText: "Item", _filterKey: "CodigoElemento", _format: item => item.CodigoElemento, _htmlAttributes: new { @width = "6%" });
+        grid.columnCollection.addColumn(_headerText: "Valor", _filterKey: "Valor", _format: @<text><span title="@item.Valor">@item.Valor</span></text>, _htmlAttributes: new { @width = "6%" });
+    }
+    grid.columnCollection.addColumn(_headerText: "Nombre", _filterKey: "Nombre", _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Nombre Corto", _filterKey: "NombreCorto", _format: @<text><span title="@item.NombreCorto">@item.NombreCorto</span></text>, _htmlAttributes: new { @width = "20%" });
+    grid.columnCollection.addColumn(_headerText: "Estado", _filterKey: "Estado", _isFilterable: true, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+        <div class="acciones_grilla">
+            @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "ParametroDetalle", new { codigoParametro = item.CodigoParametro, CodigoElemento = item.CodigoElemento, nombreParametro = ViewBag.nombreParametro }, new AjaxOptions
+       {
+           UpdateTargetId = "divModalBodyParametroDetalle",
+           OnBegin = "mostrarModal('Editar', 'divModalBodyParametroDetalle','idModalManParametroDetalle', undefined, 'SIZE_WIDE');",
+           HttpMethod = "post"
+       }, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+        </div>
+    </text>, _htmlAttributes: new { @width = "100px" });
+}
+@grid.GetHtml()

@@ -1,0 +1,32 @@
+﻿@{
+    string accion = ViewBag.Accion;
+    string controlador = ViewBag.Controlador;
+    string modalClose = ViewBag.ModalClose;
+    string parametros = ViewBag.Parametros;
+    string callBackMethod = ViewBag.CallBackMethod;
+}
+@using (Ajax.BeginForm(accion, controlador,
+       new
+       {
+           parametros = parametros
+       },
+         new AjaxOptions
+         {
+             HttpMethod = "Post",
+             OnSuccess = "evaluarResultado(data," + callBackMethod + ",'idModalConfirmacion');",
+             OnBegin = "LoadLoading(this)",
+             OnFailure = "FailureJSonRequest"
+         }))
+{
+<div class="row">
+    <div class="col-md-12">
+                @ViewBag.Mensaje
+    </div>
+</div>
+<div class="row">
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-md" type="submit" value="">Si</button>
+        <button type="button" class="btn btn-danger btn-md" data-dismiss="modal" id="btnCancelar">No</button>
+    </div>
+</div>
+}

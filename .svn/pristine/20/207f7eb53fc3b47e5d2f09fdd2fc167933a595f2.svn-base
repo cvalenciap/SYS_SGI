@@ -1,0 +1,281 @@
+﻿.grid-gmd-Loadinng {
+    position: absolute;
+    background: url("/Contenido/imagenes/Compartidas/loading.gif") no-repeat center;
+    background-color: rgba(88,88,88,0.4);
+    background-size: 100px 100px;
+}
+
+.content-grid-gmd {
+    overflow-x: auto;
+}
+
+.grid-gmd {
+    border-spacing: 0px;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    width: 100% !important;
+}
+
+    .grid-gmd tbody {
+    }
+
+        .grid-gmd tbody tr td {
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            outline-width: 0px;
+            margin: 5px 5px 5px 5px;
+            font: 11px arial,verdana !important;
+            padding: 5px 10px 5px 10px;
+            color: #555;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            overflow: hidden !important;
+            max-width: 1px !important;
+        }
+
+            .grid-gmd tbody tr td > table tbody tr td {
+                border-right: none !important;
+                border-bottom: none !important;
+            }
+
+.GrillaSistema table thead tr:nth-child(1) > th {
+    background: #F5F5F5 !important;
+    border-right: 1px solid #ddd !important;
+    padding: 0px 0px 2px 0px;
+}
+
+.GrillaSistema table thead tr:nth-child(2) th {
+    background: #F5F5F5 !important;
+    filter: none !important;
+    text-align: center;
+}
+
+.grid-gmd thead tr th {
+    border: 1px solid #ddd !important;
+    background: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+    /*padding: 5px 0px 5px 0px !important;
+    margin-left: 5px;*/
+}
+
+.grid-gmd thead tr.rgHeader-jQuery-Filter th {
+    border: 1px solid #ddd !important;
+    text-align: center;
+    background: #f4f4f4;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.grid-gmd th {
+}
+
+.grid-gmd thead a {
+    font: bold 11px arial,verdana !important;
+    cursor: pointer;
+    color: black;
+}
+
+.grid-gmd tbody tr {
+}
+
+    .grid-gmd tbody tr:nth-child(even) {
+    }
+
+        .grid-gmd tbody tr:nth-child(even) td > table tbody tr td {
+            background: none !important;
+        }
+
+.grid-gmd tbody > tr:hover {
+    background-color: #e4eff4 !important;
+}
+
+.grid-gmd tbody tr:nth-child(even):hover {
+    background-color: #e4eff4 !important;
+}
+
+.grid-gmd .rgSortAsc {
+    background: url("../img/flecha_2.png") no-repeat !important;
+    border: 0px !important;
+    margin: 0px 0px 0px 2px;
+    padding: 0px;
+    cursor: pointer;
+    height: 13px;
+    width: 16px;
+    vertical-align: middle;
+    background-color: none !important;
+    filter: none !important;
+}
+
+.grid-gmd .rgSortDesc {
+    background: url("../img/flecha.png") no-repeat !important;
+    border: 0px !important;
+    margin: 0px 0px 0px 2px;
+    padding: 0px;
+    cursor: pointer;
+    height: 13px;
+    width: 16px;
+    vertical-align: middle;
+    background-color: none !important;
+}
+
+.grid-gmd thead input[type="text"] {
+    width: 100%;
+    height: 100%;
+    height: 22px;
+    font-weight: normal;
+    font-size: 12px;
+    outline: 0;
+    padding: 0px 0px 0px 4px;
+    border: 1px solid #ddd;
+}
+
+.grid-gmd tfoot input[type="text"] {
+    border: 1px solid #BDBCBD;
+    width: 22px;
+    margin: 0px 7px 0px 0px;
+    text-align: center;
+    float: left;
+    height: 22px;
+    color: #001F2C;
+    padding: 3px 0px !important;
+    font-size: 11px;
+}
+
+.grid-gmd tfoot span {
+    text-align: center;
+    height: 20px;
+    line-height: 22px;
+    font-size: 10px;
+    float: left;
+    margin: 0px 7px 0px 0px;
+}
+
+.grid-gmd tfoot #FirstPage {
+    background: url("../img/btn_15.png") no-repeat 0% 0% !important;
+    display: block;
+    width: 22px;
+    height: 22px;
+    text-decoration: none;
+    text-align: left;
+    float: left;
+    margin: 0px 4px 0px 0px;
+    border: none;
+    cursor: pointer;
+    filter: none !important;
+    border-radius: 0px !important;
+}
+
+    .grid-gmd tfoot #FirstPage:hover {
+        background: url("../img/btn_15.png") no-repeat 0px -22px;
+    }
+
+.grid-gmd tfoot #PreviusPage {
+    background: url("../img/btn_14.png") no-repeat 0% 0%;
+    display: block;
+    width: 22px;
+    height: 22px;
+    text-decoration: none;
+    text-align: left;
+    float: left;
+    margin: 0px 4px 0px 0px;
+    border: none;
+    cursor: pointer;
+    filter: none !important;
+    border-radius: 0px !important;
+}
+
+    .grid-gmd tfoot #PreviusPage:hover {
+        background: url("../img/btn_14.png") no-repeat 0px -22px;
+    }
+
+/*Export*/
+.grid-gmd tfoot .btn-export-pdf, .grid-gmd tfoot .btn-export-excel {
+    background: #e6e5e5;
+    margin-right: 4px;
+    border: 1px solid #c7c7c7;
+}
+
+    .grid-gmd tfoot .btn-export-pdf:hover, .grid-gmd tfoot .btn-export-excel:hover {
+        background: #b9b9b9;
+    }
+
+
+.grid-gmd tfoot #NextPage {
+    background: url("../img/btn_16.png") no-repeat 0% 0%;
+    display: block;
+    width: 22px;
+    height: 22px;
+    text-decoration: none;
+    text-align: left;
+    float: left;
+    margin: 0px 4px 0px 0px;
+    border: none;
+    cursor: pointer;
+    filter: none !important;
+    border-radius: 0px !important;
+}
+
+    .grid-gmd tfoot #NextPage:hover {
+        background: url("../img/btn_16.png") no-repeat 0px -22px;
+    }
+
+.grid-gmd tfoot #LastPage {
+    background: url("../img/btn_17.png") no-repeat 0% 0%;
+    display: block;
+    width: 22px;
+    height: 22px;
+    text-decoration: none;
+    text-align: left;
+    float: left;
+    margin: 0px 4px 0px 0px;
+    border: none;
+    cursor: pointer;
+    filter: none !important;
+    border-radius: 0px !important;
+}
+
+    .grid-gmd tfoot #LastPage:hover {
+        background: url("../img/btn_17.png") no-repeat 0px -22px;
+    }
+
+.grid-gmd tfoot tr td {
+    background: #F3F3F3;
+    border-right: 1px solid #ddd;
+    filter: none !important;
+    /*padding: 7px 6px 7px 6px;*/
+    padding: 4px 4px 4px 4px;
+}
+
+.grid-gmd .glyphicon {
+    color: #555;
+}
+
+.grid-gmd .glyphiconA {
+    color: #0000ff;
+}
+
+.btn_acciones_grid {
+    padding: 8px 0px 0px 0px;
+}
+
+.acciones_grilla {
+    text-align: center;
+}
+
+    .acciones_grilla a {
+        margin: 0% 6% 0% 6%;
+    }
+
+.selected_row {
+    background-color: #f4f4f4 !important;
+}
+
+    .selected_row td {
+        background-color: #f4f4f4 !important;
+        color: #337ab7 !important;
+    }
+
+.selected_marca_fila {
+    background-color: #FCF5D9 !important;
+}

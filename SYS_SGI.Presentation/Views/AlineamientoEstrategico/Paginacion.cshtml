@@ -1,0 +1,149 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.MOV;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<AlineamientoEstrategicoLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<AlineamientoEstrategicoLogic>("ggmAlineamientoEstrategico", Model) { callBackMethod = "refrescarggmAlineamientoEstrategico", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    //grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "15%" });
+    grid.columnCollection.addColumn(_headerText: "Código", _isFilterable: false, _isSortable: false, _format: item => item.CodigoAlineamientoEstrategico, _htmlAttributes: new { @width = "5%" });
+    var cont = 0;
+    if (Model.Data.Count() > 0)
+    {
+        foreach (var item1 in Model.Data)
+        {
+            if (cont == 0)
+            {
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento1 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento1.Split(':')[1], _filterKey: "TipoAlineamiento1", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento1">@item.Alineamiento1</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento2 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento2.Split(':')[1], _filterKey: "TipoAlineamiento2", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento2">@item.Alineamiento2</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento3 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento3.Split(':')[1], _filterKey: "TipoAlineamiento3", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento3">@item.Alineamiento3</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento4 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento4.Split(':')[1], _filterKey: "TipoAlineamiento4", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento4">@item.Alineamiento4</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento5 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento5.Split(':')[1], _filterKey: "TipoAlineamiento5", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento5">@item.Alineamiento5</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento6 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento6.Split(':')[1], _filterKey: "TipoAlineamiento6", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento6">@item.Alineamiento6</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento7 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento7.Split(':')[1], _filterKey: "TipoAlineamiento7", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento7">@item.Alineamiento7</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento8 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento8.Split(':')[1], _filterKey: "TipoAlineamiento8", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento8">@item.Alineamiento8</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento9 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento9.Split(':')[1], _filterKey: "TipoAlineamiento9", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento9">@item.Alineamiento9</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.CodigoTipoAlineamiento10 > 0)
+                {
+                    grid.columnCollection.addColumn(_headerText: item1.alineamientoConfiguracion.TipoAlineamiento10.Split(':')[1], _filterKey: "TipoAlineamiento10", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Alineamiento10">@item.Alineamiento10</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+
+                if (item1.alineamientoConfiguracion.Indicador)
+                {
+                    grid.columnCollection.addColumn(_headerText: "INDICADOR", _filterKey: "Indicador", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Indicador">@item.Indicador</span></text>, _htmlAttributes: new { @width = "15%" });
+                }
+            }
+            else
+            {
+                break;
+            }
+
+            cont++;
+        }
+        grid.columnCollection.addColumn(_headerText: "Estado", _filterKey: "Estado", _isFilterable: true, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%" });
+        grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>                        
+        <div class="acciones_grilla">
+            @if (item.Estado)
+            {
+                <a href="#" onclick="btnEliminar('@item.CodigoAlineamientoEstrategico');" style="cursor:pointer;@(permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo)">
+                    <span title="Eliminar" class="glyphicon glyphicon-trash"></span>
+                </a>
+            }
+            else
+            {
+                <a href="#" onclick="btnActivar('@item.CodigoAlineamientoEstrategico');" style="cursor:pointer;@(permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo)">
+                    <span title="Activar" class="glyphicon glyphicon-ok blue"></span>
+                </a>
+            }
+        </div>                                
+        </text>, _htmlAttributes: new { @width = "5%" });
+    }
+}
+@grid.GetHtml()
+<script type="text/javascript">
+    var CodigoAlineamientoEstrategico_E = 0;
+    var CodigoAlineamientoEstrategico_A = 0;
+    function eventoEliminar() {
+        $.ajax({
+            url: '@Url.Action("Desactivar", "AlineamientoEstrategico")',
+            type:'POST',
+            dataType: 'json',
+            data: { CodigoAlineamientoEstrategico: CodigoAlineamientoEstrategico_E },
+            success: function (appResponse) {
+                if (appResponse.Code = 'S'){
+                    mensajeRespuesta(appResponse.Description, 'correcto','');
+                    refrescarggmAlineamientoEstrategico();
+                } else {
+                    mensajeRespuesta(appResponse.Description, 'incorrecto','');
+                }
+            }
+        });
+    }
+
+    function eventoActivar() {
+        $.ajax({
+            url: '@Url.Action("Activar", "AlineamientoEstrategico")',
+            dataType: 'json',
+            type: 'POST',
+            data: { CodigoAlineamientoEstrategico: CodigoAlineamientoEstrategico_A },
+            success: function (appResponse) {
+                if (appResponse.Code = 'S') {
+                    mensajeRespuesta(appResponse.Description, 'correcto','');
+                    refrescarggmAlineamientoEstrategico();
+                } else {
+                    mensajeRespuesta(appResponse.Description, 'incorrecto','');
+                }
+            }
+        });
+    }
+
+    function btnEliminar(CodigoAlineamientoEstrategico) {
+        CodigoAlineamientoEstrategico_E = CodigoAlineamientoEstrategico
+        mensajeRespuesta('¿Desea eliminar el registro de código ' + CodigoAlineamientoEstrategico + ' ?', 'eliminar', '', true);
+    }
+
+    function btnActivar(CodigoAlineamientoEstrategico) {
+        CodigoAlineamientoEstrategico_A = CodigoAlineamientoEstrategico
+        mensajeRespuesta('¿Desea activar el registro de código ' + CodigoAlineamientoEstrategico + ' ?', 'activar', '', true);
+    }
+
+
+</script>

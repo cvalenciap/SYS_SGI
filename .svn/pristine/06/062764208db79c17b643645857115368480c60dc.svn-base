@@ -1,0 +1,25 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.AlertaLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[SYS_SGI.Presentation.Utilities.Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.AlertaLogic>("ggmAlerta", Model) { callBackMethod = "refrescarggmAlerta", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Tipo Alerta", _filterKey: "TipoAlerta", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.TipoAlerta">@item.TipoAlerta</span></text>, _htmlAttributes: new { @width = "15%" });
+    grid.columnCollection.addColumn(_headerText: "Nombre", _filterKey: "Nombre", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Descripcion", _filterKey: "Descripcion", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Descripcion">@item.Descripcion</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Estado", _isFilterable: false, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+    <div class="acciones_grilla">
+        @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "Alerta", new { codigo = item.CodigoAlerta }, new AjaxOptions
+        {
+            UpdateTargetId = "divModalBodyAlerta",
+            OnBegin = "mostrarModal('Editar', 'divModalBodyAlerta', 'idModalManAlerta'); ",
+            HttpMethod = "post"
+        }, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+    </div>
+    </text>, _htmlAttributes: new { @width = "5%" });
+}
+@grid.GetHtml()

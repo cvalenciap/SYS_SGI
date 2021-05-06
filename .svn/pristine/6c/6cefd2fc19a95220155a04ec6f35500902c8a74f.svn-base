@@ -1,0 +1,636 @@
+﻿@model SYS_SGI.Presentation.Models.View.VMDashboard
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Presentation.Utilities;
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">@opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Parametros de búsqueda</h3>
+            </div>
+            <div class="box-body">
+                <div class="box-tools">
+                    <div class="form-group col-md-2">
+                        <label>Anexo:</label>
+                        @Html.DropDownList("CodigoTipoGuiaEmpresarial", new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuia", @class = "form-control" })
+                    </div>
+                    <div id="DivTipoPlan" class="form-group col-md-2">
+                        @Html.Label("Tipo Plan")
+                        @Html.DropDownList("CodigoTipoPlan", new SelectList(ViewBag.listaTipoPLan, "CodigoElemento", "Nombre"), new { id = "ddlTipoPlan", @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-2">
+                        @Html.Label("Indicador")
+                        @Html.DropDownListFor(model => model.Dashboard.Indicador, new SelectList(ViewBag.listaIndicador, "CodigoIndicador", "Nombre"), new { id = "ddlIndicador", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        @Html.Label("Tipo Periodicidad")
+                        @Html.DropDownListFor(model => model.Dashboard.TipoPeriodicidad, new SelectList(ViewBag.listaTipoPeriodicidad, "Valor", "Nombre"), new { id = "ddlTipoPeriodicidad", @class = "form-control" })
+                    </div>
+
+                    <div id="DivAnio" class="form-group col-md-1">
+                        @Html.Label("Anio")
+                        @Html.TextBoxFor(model => model.Dashboard.Anio, new { id = "txtAnio", placeholder = "", @class = "form-control", @required = "required", @maxlength = "4" })
+                    </div>
+
+                    <div id="DivFiltro" class="form-group col-md-1">
+                        @Html.Label("Periodo")
+                        @Html.DropDownListFor(model => model.Dashboard.FiltroPeriodicidad, new SelectList(ViewBag.listaFiltroPeriodicidad, "CodigoElemento", "Nombre"), new { id = "ddlFiltroPeriodicidad", @class = "form-control" })
+                    </div>
+
+                    <div id="DivFecha" class="form-group col-md-2">
+                        @Html.Label("Día")
+                        <div class="input-group date form-group">
+                            @Html.TextBoxFor(model => model.Dashboard.Fecha, new { id = "txtFecha", placeholder = "", @class = "form-control" })
+                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-offset-2 form-group text-right dvBotones">
+                        <button id="btnConsultar" type="button" class="btn btn-accion" onclick="llenarGrafico('',0)">Consultar</button>
+                        <button id="btnImprimir" type="button" class="btn btn-normal">Imprimir</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+            </div>
+            <div class="box-body">
+                <div id="DivDashboards" class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div id="DivChart1" class="col-md-6">
+                            </div>
+                            <div id="DivChart2" class="col-md-6">
+                            </div>
+                            <div id="DivChart3" class="col-md-6">
+                            </div>
+                            <div id="DivChart4" class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Reset() {
+        var btnConsultar = $('#btnConsultar')
+        var FiltroPeriodicidad = $('#ddlFiltroPeriodicidad')
+        var DivDashboards = $('#DivDashboards')
+        var DivAnio = $('#DivAnio')
+        var DivFiltro = $('#DivFiltro')
+        var DivFecha = $('#DivFecha')
+        var txtAnio = $('#txtAnio')
+        var txtFecha = $('#txtFecha')
+
+        DivDashboards.html('');
+
+        FiltroPeriodicidad.empty();
+        FiltroPeriodicidad.append("<option value=0>TODOS</option>");
+
+        txtFecha.val('');
+        txtAnio.val('');
+
+        DivAnio.removeClass("hidden");
+        DivFiltro.removeClass("hidden");
+        DivFecha.removeClass("hidden");
+        btnConsultar.removeClass("hidden");
+
+        DivAnio.addClass("hidden");
+        DivFiltro.addClass("hidden");
+        DivFecha.addClass("hidden");
+        btnConsultar.addClass("hidden");
+    }
+
+    function llenarGrafico(tipoAccion, numero) {
+        var TipoPeriodicidad = $('#ddlTipoPeriodicidad')
+        var TipoGuia = $('#ddlTipoGuia')
+        var Indicador = $('#ddlIndicador')
+        var FiltroPeriodicidad = $('#ddlFiltroPeriodicidad')
+        var DivDashboards = $('#DivDashboards')
+        var txtAnio = $('#txtAnio')
+        var txtFecha = $('#txtFecha')
+        var TipoPlan = $('#ddlTipoPlan')
+
+        var valorTipoPeriodicidad = TipoPeriodicidad.val() == "01/01/" ? 99 : TipoPeriodicidad.val()
+
+        if (Indicador.val() > 0) {
+            $.ajax({
+                url: '@Url.Action("Consultar", "Dashboard")',
+                dataType: 'json',
+                data: { CodigoTipoGuia: TipoGuia.val(), codigoIndicador: Indicador.val(), subTipoPeriodicidad: FiltroPeriodicidad.val(), tipoPeriodicidad: valorTipoPeriodicidad, anio: txtAnio.val(), fecha: txtFecha.val(), tipoPlan: TipoPlan.val() },
+                success: function (modelo) {
+                    if (tipoAccion == "") {
+                        DivDashboards.html('');
+                    }
+
+                    if (modelo.cantidad > 0) {
+                        if (tipoAccion == "") {
+                            DivDashboards.append(
+                                '<div class="col-md-12">' +
+                                    '<div id="DivContenedorDashboards" class="row"></div>' +
+                                '</div>');
+                        }
+
+                        var datos = []
+                        var tipoGrafico = ""
+                        var leyenda = false
+                        var leyendaTexto = ""
+
+                        var DivContenedorDashboards = $('#DivContenedorDashboards')
+
+                        if (modelo.dataDashboard1.length > 0 && (numero == 1 || numero == 0)) {
+
+                            if (tipoAccion != "" && tipoAccion != "actualizar") {
+                                tipoGrafico = tipoAccion
+                            } else {
+                                tipoGrafico = "column"
+                            }
+
+                            if (tipoAccion == "") {
+                                var div = generarGrafico('1', 'Porcentaje Ejecución', tipoGrafico, true);
+                                DivContenedorDashboards.append(div);
+                            }
+
+                            if (tipoGrafico == "column")
+                                leyenda = false
+                            else
+                                leyenda = true;
+
+                            if (tipoGrafico == "pie")
+                                leyendaTexto = "{label}";
+                            else
+                                leyendaTexto = "";
+
+                            datos = []
+                            datos.push(
+                                        [tipoGrafico, "Valor Ejecución: ", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard1, 14, leyendaTexto]
+                                      );
+
+                            construirGrafico(tipoGrafico, "1", "theme2", false, true, "Indicador", Indicador.find("option:selected").text(), datos)
+                        }
+
+                        if (modelo.dataDashboard2.length > 0 && (numero == 2 || numero == 0)) {
+
+                            if (tipoAccion != "" && tipoAccion != "actualizar") {
+                                tipoGrafico = tipoAccion
+                            } else {
+                                tipoGrafico = "pie"
+                            }
+
+                            if (tipoAccion == "") {
+                                var div = generarGrafico('2', 'Porcentaje Formulación', tipoGrafico, true);
+                                DivContenedorDashboards.append(div);
+                            }
+
+                            if (tipoGrafico == "column")
+                                leyenda = false
+                            else
+                                leyenda = true;
+
+                            if (tipoGrafico == "pie")
+                                leyendaTexto = "{label}";
+                            else
+                                leyendaTexto = "";
+
+                            datos = []
+                            datos.push(
+                                        [tipoGrafico, "Valor Formulación", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard2, 14, leyendaTexto]
+                                      );
+
+                            construirGrafico(tipoGrafico, "2", "theme1", false, true, "Indicador", Indicador.find("option:selected").text(), datos)
+                        }
+
+                        if (modelo.dataDashboard1.length > 0 && modelo.dataDashboard2.length > 0 && (numero == 3 || numero == 0)) {
+
+                            if (tipoAccion != "" && tipoAccion != "actualizar") {
+                                tipoGrafico = tipoAccion
+                            } else {
+                                tipoGrafico = "spline"
+                            }
+
+                            if (tipoAccion == "") {
+                                var div = generarGrafico('3', 'FORMULACIÓN VS EJECUCIÓN', tipoGrafico, true);
+                                DivContenedorDashboards.append(div);
+                            }
+
+                            if (tipoGrafico == "column")
+                                leyenda = false
+                            else
+                                leyenda = true;
+
+                            if (tipoGrafico == "pie")
+                                leyendaTexto = "{label}";
+                            else
+                                leyendaTexto = "";
+
+                            datos = []
+                            datos.push(
+                                        [tipoGrafico, "Valor Ejecución:", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard1, 14, leyendaTexto],
+                                        [tipoGrafico, "Valor Formulación:", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard2, 14, leyendaTexto]
+                                      );
+
+                            construirGrafico(tipoGrafico, "3", "theme1", false, true, "Indicador", Indicador.find("option:selected").text(), datos)
+                        }
+
+                        if (modelo.dataDashboard1.length > 0 && modelo.dataDashboard2.length > 0 && modelo.dataDashboard3.length > 0 && (numero == 4 || numero == 0)) {
+
+                            if (tipoAccion == "") {
+                                var div = generarGrafico('4', 'Porcentaje Valor vs Formulación y Evaluación', tipoGrafico, false);
+                                DivContenedorDashboards.append(div);
+                            }
+
+                            if (tipoGrafico == "column")
+                                leyenda = false
+                            else
+                                leyenda = true;
+
+                            datos = []
+                            datos.push(
+                                        ["column", "Valor Ejecución", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard1, 14, ""],
+                                        ["line", "Valor Formulación", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard2, 14, ""],
+                                        ["area", "Valor Base", leyenda, "{y}", "#,##0.00%", modelo.dataDashboard3, 14, ""]
+                                      );
+
+                            construirGrafico(tipoGrafico, "4", "light3", false, true, "INDICADOR", Indicador.find("option:selected").text(), datos)
+                        }
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Error al cargar información")
+                }
+            });
+        } else {
+            mensajeRespuesta('Debe seleccionar un indicador', 'incorrecto','');
+        }
+    }
+
+    function eventosGrafico(tipoAccion, numero) {
+        llenarGrafico(tipoAccion, numero)
+    }
+
+    function generarGrafico(numero, titulo, tipoGrafico, botones) {
+        var area = "btn-normal", column = "btn-normal", spline = "btn-normal", pie = "btn-normal"
+
+        var divBotones = '';
+
+        if (botones) {
+            if (tipoGrafico == "area") {
+                area = "btn-accion"
+            } if (tipoGrafico == "column") {
+                column = "btn-accion"
+            } if (tipoGrafico == "spline") {
+                spline = "btn-accion"
+            } if (tipoGrafico == "pie") {
+                pie = "btn-accion"
+            }
+
+            divBotones = '<div class="col-sm-6">' +
+                            '<div class="panel-heading-btn" style="text-align:right">' +
+                                '<button id="chart' + numero + '-actualizar" class="btn btn-sm btn-icon btn-circle btn-normal" title="Actualizar"><i class="fa fa-repeat"></i></button>' +
+                                '<button id="chart' + numero + '-area" class="btn btn-sm btn-icon btn-circle ' + area + '" title="Gráfico de Area"><i class="fa fa-area-chart"></i></button>' +
+                                '<button id="chart' + numero + '-column" class="btn btn-sm btn-icon btn-circle ' + column + '" title="Gráfico de Columna"><i class="fa fa-bar-chart"></i></button>' +
+                                '<button id="chart' + numero + '-spline" class="btn btn-sm btn-icon btn-circle ' + spline + '" title="Gráfico de Linea"><i class="fa fa-line-chart"></i></button>' +
+                                '<button id="chart' + numero + '-pie" class="btn btn-sm btn-icon btn-circle ' + pie + '" title="Gráfico de Torta"><i class="fa fa-pie-chart"></i></button>' +
+                                '<button id="export' + numero + '" class="btn btn-sm btn-icon btn-circle btn-normal" title="Imagen Jpg"><i class="fa fa-file-image-o"></i></button>' +
+                                '<button id="print' + numero + '" class="btn btn-sm btn-icon btn-circle btn-normal" title="Imprimir"><i class="fa fa-print"></i></button>' +
+                            '</div>' +
+                        '</div>';
+        } else {
+            divBotones = '<div class="col-sm-6">' +
+                            '<div class="panel-heading-btn" style="text-align:right">' +
+                                '<button id="export' + numero + '" class="btn btn-sm btn-icon btn-circle btn-normal" title="Imagen Jpg"><i class="fa fa-file-image-o"></i></button>' +
+                                '<button id="print' + numero + '" class="btn btn-sm btn-icon btn-circle btn-normal" title="Imprimir"><i class="fa fa-print"></i></button>' +
+                                //'<button id="expand' + numero + '" class="btn btn-sm btn-icon btn-circle btn-normal" title="Expandir"><i class="fa fa-expand"></i></button>' +
+                            '</div>' +
+                        '</div>';
+        }
+
+        var grafico =
+        '<div id="DivChart' + numero + '" class="col-md-6">' +
+            '<div class="panel panel-default">' +
+                '<div class="panel-heading" style="height:50px;">' +
+                    '<div class="row">' +
+                        '<div class="col-sm-6" style="margin-top: 5px">' +
+                            '<h3 class="panel-title">' + titulo + '</h3>' +
+                        '</div>' +
+                        divBotones +
+                    '</div>' +
+                '</div>' +
+                '<div class="panel-body">' +
+                    '<div id="chartContainer' + numero + '" style="height: 300px; width: 100%;"></div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+
+        return grafico;
+    }
+
+    function eventos(numero, tipo) {
+        $('#chart' + numero + '-actualizar').off('click');
+        $('#chart' + numero + '-actualizar').on('click', function () { eventosGrafico('actualizar', numero) });
+
+        $('#chart' + numero + '-area').off('click');
+        $('#chart' + numero + '-area').on('click', function () { eventosGrafico('area', numero) });
+
+        $('#chart' + numero + '-column').off('click');
+        $('#chart' + numero + '-column').on('click', function () { eventosGrafico('column', numero) });
+
+        $('#chart' + numero + '-spline').off('click');
+        $('#chart' + numero + '-spline').on('click', function () { eventosGrafico('spline', numero) });
+
+        $('#chart' + numero + '-pie').off('click');
+        $('#chart' + numero + '-pie').on('click', function () { eventosGrafico('pie', numero) });
+
+        if (tipo != "") {
+            $('#chart' + numero + '-actualizar').attr('class', 'btn btn-sm btn-icon btn-circle btn-normal')
+            $('#chart' + numero + '-area').attr('class', 'btn btn-sm btn-icon btn-circle btn-normal')
+            $('#chart' + numero + '-column').attr('class', 'btn btn-sm btn-icon btn-circle btn-normal')
+            $('#chart' + numero + '-spline').attr('class', 'btn btn-sm btn-icon btn-circle btn-normal')
+            $('#chart' + numero + '-pie').attr('class', 'btn btn-sm btn-icon btn-circle btn-normal')
+        }
+    }
+
+    function construirGrafico(tipoGrafico, numero, tema, exportar, animacion, titulo, subtitulo, datos) {
+        debugger
+        eventos(numero, tipoGrafico);
+
+        var data_v = []
+
+        function toggleDataSeries(e) {
+            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            } else {
+                e.dataSeries.visible = true;
+            }
+            e.chart.render();
+        }
+
+        data_v = armarDataGrafico(datos);
+
+        var chart = new CanvasJS.Chart("chartContainer" + numero, {
+            theme: tema,
+            culture: "es",
+            exportEnabled: exportar,
+            animationEnabled: animacion,
+            animationDuration: 2000,
+            title: {
+                text: titulo,
+                fontFamily: "Optima",
+                fontWeight: "Bold",
+                fontSize: 24
+            },
+            subtitles: [{
+                text: subtitulo,
+                fontFamily: "Optima",
+                fontSize: 16
+            }],
+            axisY: {
+                title: "% Valor",
+                labelFormatter: function (e) {
+                    return CanvasJS.formatNumber(e.value, "#,##0%");
+                },
+                includeZero: false
+            },
+            toolTip: {
+                shared: true,
+                animationEnabled: true
+            },
+            legend: {
+                cursor: "pointer",
+                itemclick: toggleDataSeries
+            },
+            data: data_v
+        });
+
+        chart.render();
+        chart.destroy();
+
+        $('#print' + numero).off('click');
+        $('#print' + numero).on('click', function () { chart.print() });
+
+        $('#export' + numero).off('click');
+        $('#export' + numero).on('click', function () { chart.exportChart() });
+
+        $('#expand' + numero).off('click');
+        $('#expand' + numero).on('click', function () {
+            var newCanvas = document.createElement('canvas');
+            var context = newCanvas.getContext('2d');
+
+            //set dimensions
+            newCanvas.width = chart.width;
+            newCanvas.height = chart.height;
+
+            $("#DivChartAmpliado").html(newCanvas);
+            $('#DivChartAmpliadoModal').modal('show');
+
+        });
+
+        $('#chart' + numero + '-' + tipoGrafico).attr('class', 'btn btn-sm btn-icon btn-circle btn-accion')
+    }
+
+    function armarDataGrafico(datos) {
+        var datosGrafico = []
+
+        datos.forEach(function (item) {
+            var data = {
+                type: item[0],
+                name: item[1],
+                showInLegend: item[2],
+                indexLabel: item[3],
+                yValueFormatString: item[4],
+                dataPoints: item[5],
+                indexLabelFontSize: item[6],
+                legendText: item[7]
+            }
+
+            datosGrafico.push(data);
+        });
+
+        return datosGrafico
+    }
+
+    function obtenerFiltro(tipo){
+        var FiltroPeriodicidad = $('#ddlFiltroPeriodicidad')
+
+        $.ajax({
+            url: '@Url.Action("ObtenerFiltroPeriodicidad", "Dashboard")',
+            dataType: 'json',
+            data: { tipo: tipo },
+            success: function (listaFiltroPeriodicidad) {
+                FiltroPeriodicidad.empty();
+                FiltroPeriodicidad.append("<option value=0>TODOS</option>");
+
+                $.each(listaFiltroPeriodicidad, function (index, item) {
+                    FiltroPeriodicidad.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Error al cargar información")
+            }
+        });
+    }
+
+    function filtrar() {
+        var btnConsultar = $('#btnConsultar')
+        var TipoPeriodicidad = $('#ddlTipoPeriodicidad')
+        var FiltroPeriodicidad = $('#ddlFiltroPeriodicidad')
+        var DivAnio = $('#DivAnio')
+        var DivFiltro = $('#DivFiltro')
+        var DivFecha = $('#DivFecha')
+        var txtAnio = $('#txtAnio')
+        var txtFecha = $('#txtFecha')
+
+        if (TipoPeriodicidad.val() == "0") {
+            Reset();
+        } else if (TipoPeriodicidad.val() == "") {
+            DivAnio.removeClass("hidden");
+            DivFiltro.removeClass("hidden");
+            DivFecha.removeClass("hidden");
+            btnConsultar.removeClass("hidden");
+
+            DivAnio.addClass("hidden");
+            DivFiltro.addClass("hidden");
+
+            FiltroPeriodicidad.html('');
+            FiltroPeriodicidad.append($('<option></option>').val(0).html("TODOS"));
+            txtAnio.val('');
+
+            InicializarFechas();
+        } else if (TipoPeriodicidad.val() == "01/01/") {
+            DivAnio.removeClass("hidden");
+            DivFiltro.removeClass("hidden");
+            DivFecha.removeClass("hidden");
+            btnConsultar.removeClass("hidden");
+
+            DivFiltro.addClass("hidden");
+            DivFecha.addClass("hidden");
+
+            FiltroPeriodicidad.html('');
+            FiltroPeriodicidad.append($('<option></option>').val(0).html("TODOS"));
+            txtFecha.val('');
+        }
+        else {
+            DivAnio.removeClass("hidden");
+            DivFiltro.removeClass("hidden");
+            DivFecha.removeClass("hidden");
+            btnConsultar.removeClass("hidden");
+            DivFecha.addClass("hidden");
+            obtenerFiltro(TipoPeriodicidad.val());
+            txtFecha.val('');
+        }
+    }
+
+    function InicializarFechas() {
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            minViewMode: 0,
+            todayBtn: true,
+            language: "es"
+        });
+    }
+
+    $('#ddlTipoPeriodicidad').change(function () {
+        filtrar();
+    });
+
+    $(document).ready(function () {
+        colorFondo();
+        $('#ddlTipoGuia').val(@Enums.GuiaEmpresarial.MatrizEstrategica);
+
+        cargarIndicadores($('#ddlTipoGuia').val());
+
+        var TipoPeriodicidad = $('#ddlTipoPeriodicidad')
+        var FiltroPeriodicidad = $('#ddlFiltroPeriodicidad')
+
+        $("#ddlTipoPeriodicidad").val(13);
+        var d = new Date();
+        $("#txtAnio").val(d.getFullYear());
+        filtrar();
+
+        //var acc = document.getElementsByClassName("accordion");
+        //accordionEvent(acc, true)
+    });
+
+    $('#ddlTipoGuia').change(function () {
+        cargarIndicadores($('#ddlTipoGuia').val());
+    });
+
+    function cargarIndicadores(CodigoGuiaEmpresarial){
+        $.ajax({
+            url: '@Url.Action("CargarIndicadores", "Dashboard")',
+            dataType: 'json',
+            data: { CodigoGuiaEmpresarial: CodigoGuiaEmpresarial },
+            success: function (listaIndicadores) {
+                var idCombo = $("#ddlIndicador")
+
+                idCombo.empty();
+                idCombo.append("<option value=0>Seleccione</option>");
+
+                $.each(listaIndicadores, function (index, item) {
+                    idCombo.append("<option value='" + item.CodigoIndicador + "'>" + item.Nombre + "</option>");
+                });
+            }
+        });
+    }
+
+    $("#btnImprimir").click(function () {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + document.title + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + document.title + '</h1>');
+        mywindow.document.write(document.getElementById('DivContenedorDashboards').innerHTML);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    });
+
+    function ampliar() {
+        var sourceCanvas = $('.canvasjs-chart-canvas')
+
+        var destinationCanvas = document.createElement('canvas');
+        destinationCanvas.width = sourceCanvas.width;
+        destinationCanvas.height = sourceCanvas.height;
+
+        var destCtx = destinationCanvas.getContext('2d');
+
+        destCtx.drawImage(sourceCanvas, 0, 0);
+
+        $('#DivChartAmpliadoModal').modal('show');
+    };
+
+</script>

@@ -1,0 +1,132 @@
+﻿@model SYS_SGI.Presentation.Models.View.VMParametroDetalle
+
+@using (Ajax.BeginForm("Guardar", "ParametroDetalle", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data,refrescarggmParametroDetalle,'idModalManParametroDetalle')",
+    OnBegin = "return getFormElelemets('formParametroDetalle')"
+}, new { id = "formParametroDetalle" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.parametroDetalle.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.parametroDetalle.CodigoParametroDetalle)
+    @Html.HiddenFor(model => model.parametroDetalle.CodigoParametro)
+    @Html.HiddenFor(model => model.parametroDetalle.CodigoElemento)
+
+    <div class="cuerpoModal">
+        @if (Model.parametroDetalle.CodigoParametroDetalle == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registra un nuevo detalle.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita un detalle.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametroDetalle.Nombre, new { @for = "txtNombre" }) 
+                    @Html.TextBoxFor(model => model.parametroDetalle.Nombre, new { id = "txtNombre", placeholder = "", @class = "form-control required", @maxlength = "200" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametroDetalle.NombreCorto, new { @for = "txtNombreCorto" })
+                    @Html.TextBoxFor(model => model.parametroDetalle.NombreCorto, new { id = "txtNombreCorto", placeholder = "", @class = "form-control required", @maxlength = "150" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametroDetalle.Descripcion)
+                    @Html.TextAreaFor(model => model.parametroDetalle.Descripcion, new { id = "txtDescripcion", placeholder = "", @class = "form-control", cols = "4", @maxlength = "4000" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @if (ViewBag.nombreParametro == "ParametroNegocio")
+                    {
+                        @Html.Label("Código", new { @for = "txtValor" })
+                        @Html.TextBoxFor(model => model.parametroDetalle.Valor, new { id = "txtValor", placeholder = "", @class = "form-control required", @maxlength = "20" })
+                        <span class="fa fa-asterisk form-control-feedback"></span>
+                    }
+                    else
+                    {
+                        @Html.LabelFor(model => model.parametroDetalle.Valor)
+                        @Html.TextBoxFor(model => model.parametroDetalle.Valor, new { id = "txtValor", placeholder = "", @class = "form-control", @maxlength = "20" })
+                    }
+                </div>
+            </div>            
+        </div>
+
+        @if (Model.parametroDetalle.CodigoParametroDetalle != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.parametroDetalle.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.parametroDetalle.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#txtCodigoElemento").mask('999999999');
+    })
+
+    $("#btnGrabarModal").click(function (e) {
+        $('#formParametroDetalle').submit();
+    });
+</script>

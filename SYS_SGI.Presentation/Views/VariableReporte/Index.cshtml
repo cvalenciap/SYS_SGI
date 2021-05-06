@@ -1,0 +1,89 @@
+@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration;
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">@opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="accordion" id="dvBusqueda">BÚSQUEDA</button>
+<div class="panel-accordion" id="pnBusqueda">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="box-tools">
+                        <div class="form-group col-md-4">
+                            <label>Área:</label>
+                            @Html.DropDownList("CodigoArea", new SelectList(ViewBag.listaArea, "CodigoElemento", "Nombre"), new { id = "ddlArea", @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Tipo Variable:</label>
+                            @Html.DropDownList("CodigoTipoVariable", new SelectList(ViewBag.listaTipoVariable, "CodigoElemento", "Nombre"), new { id = "ddlTipoVariable", @class = "form-control" })
+                        </div>
+                        <div class="col-md-offset-2 form-group text-right dvBotones">
+                            <input id="btnBuscar" type="button" class="btn btn-accion" value="Consultar" onclick="Buscar();" />
+                            <input id="btnExportar" type="button" class="btn btn-normal" value="Exportar" onclick="Exportar();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="accordion" id="dvResultado">RESULTADO</button>
+<div class="panel-accordion" id="pnResultado">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div id="contenedorggmVariableReporte" class="content-grid-gmd">
+                        @Html.Action("Paginacion", "VariableReporte", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = Convert.ToInt32(WebConfigurationManager.AppSettings["RowsPerPage"]),
+                               SortColumn = WebConfigurationManager.AppSettings["SortColumn"].ToString(),
+                               OrderBy = "CodigoVariable"
+                           })
+                       })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function refrescarggmVariableReporte() {
+        $("#ggmVariableReporte").AddFilter('CodigoArea', $('#ddlArea').val());
+        $("#ggmVariableReporte").AddFilter('CodigoTipoVariable', $('#ddlTipoVariable').val());
+        var data = $("#ggmVariableReporte").GMDDeserialice();
+        $("#contenedorggmVariableReporte").load(hostWeb + "/VariableReporte/Paginacion/", { arg: JSON.stringify(data) });
+    }
+
+    $(document).ready(function () {
+        colorFondo();
+
+        var acc = document.getElementsByClassName("accordion");
+        accordionEvent(acc, true)
+    });
+
+    function Buscar() {
+        refrescarggmVariableReporte();
+    }
+</script>

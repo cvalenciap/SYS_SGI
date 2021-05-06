@@ -1,0 +1,109 @@
+@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">@opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Parametros de búsqueda</h3>
+                </div>
+                <div class="box-body">
+                        <div class="form-group col-md-4">
+                            <label>Anexo:</label>
+                            @Html.DropDownList("CodigoTipoGuiaEmpresarial", new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuia", @class = "form-control" })
+                        </div>
+                        <div class="col-md-offset-2 form-group text-right dvBotones">
+                            <input id="btnBuscar" type="button" class="btn btn-normal" value="Buscar" onclick="Buscar();" />
+                            @Ajax.RawActionLink("Limpiar", "Index", "AlineamientoEstrategico",
+                        null, new AjaxOptions
+                        {
+                            UpdateTargetId = "divLayoutBody",
+                            OnBegin = "LoadLoading()",
+                            HttpMethod = "post"
+                        }, new { @class = "btn btn-normal btn-md" })
+
+                            @Ajax.RawActionLinkToPopUp("Nuevo", "Mantenimiento", "AlineamientoEstrategico",
+                        null, new AjaxOptions
+                        {
+                            UpdateTargetId = "divModalBodyAlineamientoEstrategico",
+                            OnBegin = "mostrarModal('Nuevo', 'divModalBodyAlineamientoEstrategico', 'idModalManAlineamientoEstrategico', undefined, 'SIZE_WIDE'); ",
+                            HttpMethod = "post"
+                        }, new { id = "lnkNew", @class = "btn btn-accion btn-md", style = "cursor: pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">LISTADO DE @opcion</h3>
+                </div>
+                <div class="box-body">
+                        <div id="contenedorggmAlineamientoEstrategico" class="content-grid-gmd">
+                            @Html.Action("Paginacion", "AlineamientoEstrategico", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = Convert.ToInt32(WebConfigurationManager.AppSettings["RowsPerPage"]),
+                               SortColumn = WebConfigurationManager.AppSettings["SortColumn"].ToString(),
+                               OrderBy = "CodigoAlineamientoEstrategico"
+                           })
+                       })
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    function refrescarggmAlineamientoEstrategico() {
+        $("#ggmAlineamientoEstrategico").AddFilter('codigoGuia', $('#ddlTipoGuia').val());
+        var data = $("#ggmAlineamientoEstrategico").GMDDeserialice();
+        $("#contenedorggmAlineamientoEstrategico").load(hostWeb + "/AlineamientoEstrategico/Paginacion/", { arg: JSON.stringify(data), codigoGuiaEmpresarial: $('#ddlTipoGuia').val() });
+    }
+
+    function Buscar() {
+        refrescarggmAlineamientoEstrategico();
+    }
+
+    $(document).ready(function () {
+        colorFondo();
+
+        //var acc = document.getElementsByClassName("accordion");
+        //accordionEvent(acc, true)
+
+        $('#ddlTipoGuia').val(@Enums.GuiaEmpresarial.MatrizEstrategica);
+        Buscar();
+    });
+
+    $('#ddlTipoGuia').change(function () {
+        if ($('#ddlTipoGuia').val() == 0) {
+            $('#lnkNew').hide();
+            $('#btnBuscar').hide();
+        } else {
+            $('#lnkNew').show();
+            $('#btnBuscar').show();
+        }
+    });
+</script>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{712D1103-BC7C-4624-BF0D-A3A4F39B0E0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SYS_SGI.Application.Implementation</RootNamespace>
+    <AssemblyName>SYS_SGI.Application.Implementation</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>5</LangVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MAN\AlertaAppService.cs" />
+    <Compile Include="MOV\AlineamientoConfiguracionAppService.cs" />
+    <Compile Include="MOV\AlineamientoEstrategicoAppService.cs" />
+    <Compile Include="MAN\IndicadorAppService.cs" />
+    <Compile Include="MOV\IndicadorDetalleAppService.cs" />
+    <Compile Include="MAN\ResponsableAppService.cs" />
+    <Compile Include="MAN\VariableAppService.cs" />
+    <Compile Include="MOV\VariableDetalleAppService.cs" />
+    <Compile Include="PAR\ParametroAppService.cs" />
+    <Compile Include="PAR\ParametroDetalleAppService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="REP\DashboardAppService.cs" />
+    <Compile Include="REP\ReporteHistoricoAppService.cs" />
+    <Compile Include="REP\ReporteAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SYS_SGI.Domain.Implementation\SYS_SGI.Domain.Implementation.csproj">
+      <Project>{d1ce8d89-6513-473e-a992-5cfc626884c8}</Project>
+      <Name>SYS_SGI.Domain.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SYS_SGI.Infrastructure.Data.Implementation\SYS_SGI.Infrastructure.Data.Implementation.csproj">
+      <Project>{41bc345e-5c6a-425c-a521-60f7dc96e77a}</Project>
+      <Name>SYS_SGI.Infrastructure.Data.Implementation</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,127 @@
+@model SYS_SGI.Presentation.Models.View.VMParametro
+
+@using (Ajax.BeginForm("Guardar", "ParametroSistema", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data,refrescarggmParametro,'idModalManParametro')",
+    OnBegin = "return getFormElelemets('formParametroSistema')"
+}, new { id = "formParametroSistema" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.parametro.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.parametro.CodigoParametro)
+
+
+    <div class="cuerpoModal">
+        @if (Model.parametro.CodigoParametro == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registra un nuevo párametro.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita un párametro.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametro.Nombre, new { @for = "txtNombre" })
+                    @Html.TextBoxFor(model => model.parametro.Nombre, new { id = "txtnombre", placeholder = "", @class = "form-control required", @maxlength = "200" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametro.NombreCorto, new { @for = "txtNombreCorto" })
+                    @Html.TextBoxFor(model => model.parametro.NombreCorto, new { id = "txtNombreCorto", placeholder = "", @class = "form-control required", @maxlength = "150" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametro.Descripcion, new { @for = "txtDescripcion" })
+                    @Html.TextAreaFor(model => model.parametro.Descripcion, new { id = "txtDescripcion", placeholder = "", @class = "form-control", rows = "4", @maxlength = "4000" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametro.Orden, new { @for = "txtOrden" })
+                    @Html.TextBoxFor(model => model.parametro.Orden, new { id = "txtOrden", placeholder = "", @class = "form-control required", @maxlength = "3" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.parametro.Valor, new { @for = "txtValor" })
+                    @Html.TextBoxFor(model => model.parametro.Valor, new { id = "txtValor", placeholder = "", @class = "form-control", @maxlength = "20" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>           
+        </div>
+
+        @if (Model.parametro.CodigoParametro != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.parametro.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.parametro.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $("#btnGrabarModal").click(function (e) {
+        $('#formParametroSistema').submit();
+    });
+</script>

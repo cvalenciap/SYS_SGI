@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.LogicalEntities.SEG" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" />
+  <xs:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" />
+  <xs:complexType name="ArrayOfOpcionLogic">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OpcionLogic" nillable="true" type="tns:OpcionLogic" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOpcionLogic" nillable="true" type="tns:ArrayOfOpcionLogic" />
+  <xs:complexType name="OpcionLogic">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" base="q1:Opcion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CantTotalRegistros" type="xs:int" />
+          <xs:element minOccurs="0" name="CodigoAccion" type="xs:int" />
+          <xs:element minOccurs="0" name="CodigoPerfil" type="xs:int" />
+          <xs:element minOccurs="0" name="CodigoSistema" type="xs:float" />
+          <xs:element minOccurs="0" name="ControladorModulo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="GlyphiconModulo" nillable="true" type="xs:string" />
+          <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" minOccurs="0" name="InfoMovs" nillable="true" type="q2:InfoMovs" />
+          <xs:element minOccurs="0" name="MetodoModulo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Modulo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OpcionPadreDesc" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Perfil" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RutaImagen" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Sistema" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OpcionLogic" nillable="true" type="tns:OpcionLogic" />
+  <xs:complexType name="UsuariosLogic">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" base="q3:Usuarios">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CantTotalRegistros" type="xs:int" />
+          <xs:element minOccurs="0" name="Cargo" nillable="true" type="xs:string" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" minOccurs="0" name="InfoMovs" nillable="true" type="q4:InfoMovs" />
+          <xs:element minOccurs="0" name="NombreCompleto" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ReestablecerContrasena" type="xs:boolean" />
+          <xs:element minOccurs="0" name="TipoDocumento" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UsuariosLogic" nillable="true" type="tns:UsuariosLogic" />
+  <xs:complexType name="SistemaLogic">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" base="q5:Sistema">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CantTotalRegistros" type="xs:int" />
+          <xs:element minOccurs="0" name="Empresa" nillable="true" type="xs:string" />
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" minOccurs="0" name="InfoMovs" nillable="true" type="q6:InfoMovs" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SistemaLogic" nillable="true" type="tns:SistemaLogic" />
+  <xs:complexType name="EmpresaLogic">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" base="q7:Empresa">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CantTotalRegistros" type="xs:int" />
+          <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" minOccurs="0" name="InfoMovs" nillable="true" type="q8:InfoMovs" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="EmpresaLogic" nillable="true" type="tns:EmpresaLogic" />
+</xs:schema>

@@ -1,0 +1,36 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.PAR;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<ParametroLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<ParametroLogic>("ggmObjetivos", Model) { callBackMethod = "refrescarggmObjetivos", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Alineamiento", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Orden", _isFilterable: false, _isSortable: false, _format: @<text>
+    @if(item.Nombre == "INDICADOR")
+    {
+        <div class="txt-center" style="text-align:center">
+            <input type="checkbox" class="txt-orden" />
+        </div>
+    }else{
+        <div class="txt-center" style="text-align:center">
+            <input class='form-control required txt-orden' data-nombre="@item.Nombre" data-CodigoParametro="@item.CodigoParametro" style="text-align: center" id="txtCodigoTipoAlineamiento@(item.CodigoParametro)" maxlength='4' placeholder='' type='number' value="@item.OrdenLineamiento" min="0" max="10" step="1" >
+        </div>
+    }
+
+    </text>, _htmlAttributes: new { @width = "15%" });
+    @*grid.columnCollection.addColumn(_headerText: "Sel", _isFilterable: false, _isSortable: false, _format: @<text>
+        <div class="txt-center">
+            <input type="checkbox" data-CodigoParametro="@item.CodigoParametro" data-Orden="@item.Orden" class="check-alineamiento" />
+        </div>
+        </text>, _htmlAttributes: new { @width = "5%" });*@
+}
+@grid.GetHtml()
+<script>
+    $(function () {
+        $('#ggmObjetivos tfoot').find('input').remove()
+        $("#ggmObjetivos tfoot span:first-child").remove()
+    })
+
+</script>

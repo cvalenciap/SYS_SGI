@@ -1,0 +1,512 @@
+@model SYS_SGI.Presentation.Models.View.VMIndicadorDetalle
+@using (Ajax.BeginForm("Guardar", "IndicadorMeta", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmIndicadorMeta, 'idModalManIndicadorMeta')",
+    OnBegin = "LoadLoading()"
+}, new { id = "formIndicadorMeta" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IndicadorDetalle.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoIndicadorDetalle, new { id = "txtCodigoIndicadorDetalle" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoAlineamientoEstrategico, new { id = "txtCodigoAlineamientoEstrategico" })
+    @Html.HiddenFor(model => model.IndicadorDetalle.CodigoIndicador, new { id = "txtCodigoIndicador" })
+   
+    <div class="cuerpoModal">
+        @if (Model.IndicadorDetalle.CodigoIndicadorDetalle == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registrar metas.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Editar metas.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Anexo", new { @for = "ddlTipoGuiaEmpresarial" })
+                    @Html.DropDownListFor(model => model.IndicadorDetalle.CodigoTipoGuiaEmpresarial, new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuiaEmpresarial", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>                 
+        </div>
+
+        <div class="row" id="divCombos">
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.Label("Unidad de Medida", new { @for = "txtUnidadMedida" })
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.UnidadMedida, new { id = "txtUnidadMedida", placeholder = "", @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IndicadorDetalle.Periodicidad, new { @for = "txtPeriodicidad" })
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.Periodicidad, new { id = "txtPeriodicidad", placeholder = "", @class = "form-control", @maxlength = "50", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.Label("Valor Meta", new { @for = "txtValor" })
+                    @Html.TextBoxFor(model => model.IndicadorDetalle.Valor, new { id = "txtValor", placeholder = "", @class = "form-control required", @maxlength = "18" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group" id="divAnio">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group" id="divTipoValor">
+                </div>
+            </div>           
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Listado</h3>
+                        <div class="box-tools pull-right">
+                            <input id="btnAgregar" type="button" class="btn btn-accion btn-xs" style="cursor:pointer;" value="Agregar" onclick="Agregar();" />
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="contenedorggmPaginacionMantenimiento" class="content-grid-gmd" style="max-height:150px">
+                            @Html.Action("PaginacionMantenimiento", "IndicadorMeta", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.FilasPorPagina.Muchos,
+                               DirectionOrder = SYS_SGI.Presentation.Utilities.Constantes.Controles.Paginacion.Orientacion.Ascendente,
+                               OrderBy = "Codigo"
+                           })
+                       })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.IndicadorDetalle.CodigoIndicadorDetalle != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IndicadorDetalle.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.IndicadorDetalle.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function llenarTipoValor(CodigoIndicador, CodigoIndicadorDetalle) {
+        var crearAnioDiv = "<label id='lblAnio' for='txtAnio'>Año</label>" +
+                "<input class='form-control required' id='txtAnio' maxlength='4' name='IndicadorMeta.Anio' placeholder='' type='text' value=''>" +
+                "<span class='fa fa-asterisk form-control-feedback'></span>";
+
+        var crearFechaDiv = "<label id='lblAnio' for='txtAnio'>Fecha</label>" +
+                "<div class='input-group date form-group'>" +
+                    "<input class='form-control required' id='txtAnio' maxlength='10' name='IndicadorMeta.Anio' placeholder='' type='text' value=''>" +
+                    "<div class='input-group-addon'><i class='fa fa-calendar'></i></div>" +
+                "</div>";
+
+        var crearTipoValorDiv = "<label for='ddlTipoValor'>Periodo</label>" +
+                                "<select class='form-control' data-val='true' id='ddlTipoValor' name='IndicadorMeta.CodigoTipoValor'></select>" +
+                                "<span class='fa fa-asterisk form-control-feedback'></span>";
+
+        $.ajax({
+            url: '@Url.Action("CargarPeriodicidad", "IndicadorMeta")',
+            dataType: 'json',
+            data: { CodigoIndicador: CodigoIndicador, CodigoIndicadorDetalle: CodigoIndicadorDetalle },
+            success: function (IndicadorMeta) {
+                $('#divAnio').html('');
+                $('#divTipoValor').html('');
+
+                if (IndicadorMeta.CodigoPeriodicidadValor == 0) {
+                    $('#lblAnio').html('Fecha');
+                    $('#divAnio').html(crearFechaDiv);
+                    InicializarFechas();
+                } else if (IndicadorMeta.CodigoPeriodicidadValor == 99) {
+                    $('#lblAnio').html('Año');
+                    $('#divAnio').html(crearAnioDiv);
+                } else {
+                    $('#lblAnio').html('Año');
+                    $('#divAnio').html(crearAnioDiv);
+
+                    $('#divTipoValor').html(crearTipoValorDiv);
+                    $("#ddlTipoValor").append("<option value=0>Seleccione</option>");
+
+                    $.each(IndicadorMeta.listaTipoValor, function (index, item) {
+                        $("#ddlTipoValor").append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                    });
+
+                    if (CodigoIndicadorDetalle > 0) {
+                        $('#ddlTipoValor').val(IndicadorMeta.CodigoTipoValor);
+                    }
+                }
+
+                $('#txtPeriodicidad').val(IndicadorMeta.Periodicidad);
+                $('#txtUnidadMedida').val(IndicadorMeta.UnidadMedida);
+
+                if (CodigoIndicadorDetalle > 0) {
+                    $('#txtAnio').val(IndicadorMeta.Anio);
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var codigoDetalle = $('#txtCodigoIndicadorDetalle').val()
+        InicializarFechas();
+
+        var codigo = $('#ddlTipoGuiaEmpresarial').val();
+
+        if (codigo > 0) {
+            crearCombos(codigo);
+        }
+
+    });
+
+    function InicializarFechas() {
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            minViewMode: 0,
+            todayBtn: true,
+            language: "es"
+        });
+    }
+
+    function InicializarCombos(codigoDetalle, codigoIndicador) {
+        if (codigoIndicador > 0) {
+            llenarTipoValor(codigoIndicador, codigoDetalle);
+        } else {
+            $('#divAnio').html('');
+            $('#divTipoValor').html('');
+        }
+    }
+
+    function combo(index, cabecera, codigoParametro, indicador, total, codigoTipoGuiaEmpresarial) {
+        if (indicador) {
+            $("#divCombos").append("<div class='col-md-6'>" +
+                                   "<div class='form-group'>" +
+                                       "<label for='ddlIndicador'>" + cabecera + "</label>" +
+                                       "<select class='form-control required' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlIndicador' name='IndicadorMeta.CodigoIndicador'></select>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                   "</div>" +
+                               "</div>");
+
+            $('#ddlIndicador').change(function () {
+                var codigoDetalle = $('#txtCodigoIndicadorDetalle').val()
+                var codigoIndicador = $('#ddlIndicador').val().split('-')[0]
+                var codigoAlineamientoEstrategico = $('#ddlIndicador').val().split('-')[1]
+
+                $('#txtCodigoIndicador').val(codigoIndicador)
+                $('#txtCodigoAlineamientoEstrategico').val(codigoAlineamientoEstrategico)
+                InicializarCombos(codigoDetalle, codigoIndicador);
+            });
+        } else {
+            $("#divCombos").append("<div class='col-md-6'>" +
+                                   "<div class='form-group'>" +
+                                       "<label for='ddlAlineamiento" + index + "'>" + cabecera + "</label>" +
+                                       "<select class='form-control required' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlAlineamiento" + index + "' name='IndicadorMeta.CodigoAlineamiento" + index + "'></select>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                   "</div>" +
+                               "</div>");
+            if (index == 1) {
+                $.ajax({
+                    url: '@Url.Action("CargarCombos", "IndicadorMeta")',
+                    dataType: 'json',
+                    data: { CodigoParametro: codigoParametro, Indicador: indicador, Index: index, CodigoTipoGuiaEmpresarial: codigoTipoGuiaEmpresarial },
+                    success: function (lista) {
+                        var idCombo = $("#ddlAlineamiento" + index)
+
+                        idCombo.empty();
+                        idCombo.append("<option value=0>Seleccione</option>");
+
+                        $.each(lista, function (index, item) {
+                            idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                        });
+                    }
+                });
+            }
+
+            $('#ddlAlineamiento' + index).change(function () {
+                var codigo = $('#ddlTipoGuiaEmpresarial').val();
+                index = parseInt($(this).attr("name").replace('IndicadorMeta.CodigoAlineamiento', ''));
+                indicador = false;
+
+                if (index <= total) {
+                    var i = index + 1;
+                    for (i; i < total; i++) {
+                        $('#ddlAlineamiento' + i).empty();
+                    }
+
+                    if (index == total)
+                        indicador = true;
+
+                    InicializarCombos(0, 0);
+
+                    i = index + 1;
+                    if (i > 0) {
+                        $.ajax({
+                            url: '@Url.Action("CargarCombos", "IndicadorMeta")',
+                            dataType: 'json',
+                            data: { CodigoParametro: $("#ddlAlineamiento" + index).val(), Indicador: indicador, Index: i, CodigoTipoGuiaEmpresarial: codigoTipoGuiaEmpresarial },
+                            success: function (lista) {
+                                var idCombo
+                                if (indicador) {
+                                    idCombo = $("#ddlIndicador")
+                                    idCombo.empty();
+                                    idCombo.append("<option value=0>Seleccione</option>");
+
+                                    $.each(lista, function (index, item) {
+                                        idCombo.append("<option value='" + item.CodigoElemento + '-' + item.Valor + "'>" + item.Nombre + "</option>");
+                                    });
+                                }
+                                else {
+                                    idCombo = $("#ddlAlineamiento" + i)
+                                    idCombo.empty();
+                                    idCombo.append("<option value=0>Seleccione</option>");
+
+                                    $.each(lista, function (index, item) {
+                                        idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function crearCombos(CodigoTipoGuiaEmpresarial) {
+        var total = 0;
+        $.ajax({
+            url: '@Url.Action("ObtenerCabecera", "IndicadorMeta")',
+            dataType: 'json',
+            data: { CodigoTipoGuiaEmpresarial: CodigoTipoGuiaEmpresarial },
+            success: function (Cabecera) {
+                $("#divCombos").empty();
+                if (Cabecera.CodigoTipoAlineamiento1 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento2 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento3 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento4 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento5 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento6 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento7 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento8 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento9 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento10 > 0) {
+                    total++;
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento1 > 0) {
+                    combo(1, Cabecera.TipoAlineamiento1, 0, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento2 > 0) {
+                    combo(2, Cabecera.TipoAlineamiento2, Cabecera.CodigoTipoAlineamiento1, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento3 > 0) {
+                    combo(3, Cabecera.TipoAlineamiento3, Cabecera.CodigoTipoAlineamiento2, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento4 > 0) {
+                    combo(4, Cabecera.TipoAlineamiento4, Cabecera.CodigoTipoAlineamiento3, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento5 > 0) {
+                    combo(5, Cabecera.TipoAlineamiento5, Cabecera.CodigoTipoAlineamiento4, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento6 > 0) {
+                    combo(6, Cabecera.TipoAlineamiento6, Cabecera.CodigoTipoAlineamiento5, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento7 > 0) {
+                    combo(7, Cabecera.TipoAlineamiento7, Cabecera.CodigoTipoAlineamiento6, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento8 > 0) {
+                    combo(8, Cabecera.TipoAlineamiento8, Cabecera.CodigoTipoAlineamiento7, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento9 > 0) {
+                    combo(9, Cabecera.TipoAlineamiento9, Cabecera.CodigoTipoAlineamiento8, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento10 > 0) {
+                    combo(10, Cabecera.TipoAlineamiento10, Cabecera.CodigoTipoAlineamiento9, false, total, CodigoTipoGuiaEmpresarial);
+                }
+
+                if (Cabecera.Indicador) {
+                    combo(0, 'INDICADOR', 0, true, total, CodigoTipoGuiaEmpresarial);
+                }
+            }
+        });
+    }
+
+    $('#ddlTipoGuiaEmpresarial').change(function () {
+        var codigo = $('#ddlTipoGuiaEmpresarial').val();
+
+        if (codigo > 0) {
+            crearCombos(codigo);
+        } else {
+            $("#divCombos").html('');
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            datatype: "json",
+            url: '@Url.Action("BorrarSession", "IndicadorMeta")',
+            success: function (response) {
+                refrescarggmPaginacionMantenimiento();
+            }
+        });
+    });
+
+    function Agregar() {
+        var respuesta = getFormElelemets('formIndicadorMeta');
+        var seleccion = [];
+
+        if (respuesta) {
+            seleccion.push({
+                CodigoTipoGuiaEmpresarial: $('#ddlTipoGuiaEmpresarial').val(),
+                CodigoIndicador: $('#txtCodigoIndicador').val(),
+                CodigoTipoValor: $('#ddlTipoValor').val(),
+                TipoValor: $('#ddlTipoValor').find("option:selected").text(),
+                Valor: $('#txtValor').val(),
+                Anio: $('#txtAnio').val(),
+                CodigoAlineamientoEstrategico: $('#txtCodigoAlineamientoEstrategico').val(),
+                Alineamiento1: $('#ddlAlineamiento1').find("option:selected").text(),
+                Alineamiento2: $('#ddlAlineamiento2').find("option:selected").text(),
+                Alineamiento3: $('#ddlAlineamiento3').find("option:selected").text(),
+                Alineamiento4: $('#ddlAlineamiento4').find("option:selected").text(),
+                Alineamiento5: $('#ddlAlineamiento5').find("option:selected").text(),
+                Alineamiento6: $('#ddlAlineamiento6').find("option:selected").text(),
+                Alineamiento7: $('#ddlAlineamiento7').find("option:selected").text(),
+                Alineamiento8: $('#ddlAlineamiento8').find("option:selected").text(),
+                Alineamiento9: $('#ddlAlineamiento9').find("option:selected").text(),
+                Alineamiento10: $('#ddlAlineamiento10').find("option:selected").text(),
+                Indicador: $('#ddlIndicador').find("option:selected").text(),
+                CodigoAlineamiento1: $('#ddlAlineamiento1').val(),
+                CodigoAlineamiento2: $('#ddlAlineamiento2').val(),
+                CodigoAlineamiento3: $('#ddlAlineamiento3').val(),
+                CodigoAlineamiento4: $('#ddlAlineamiento4').val(),
+                CodigoAlineamiento5: $('#ddlAlineamiento5').val(),
+                CodigoAlineamiento6: $('#ddlAlineamiento6').val(),
+                CodigoAlineamiento7: $('#ddlAlineamiento7').val(),
+                CodigoAlineamiento8: $('#ddlAlineamiento8').val(),
+                CodigoAlineamiento9: $('#ddlAlineamiento9').val(),
+                CodigoAlineamiento10: $('#ddlAlineamiento10').val(),
+            });
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                datatype: "json",
+                url: '@Url.Action("Agregar", "IndicadorMeta")',
+                data: { data: JSON.stringify(seleccion) },
+                success: function (response) {
+                    refrescarggmPaginacionMantenimiento();
+                }
+            });
+        }
+    }
+
+    function refrescarggmPaginacionMantenimiento() {
+        var codigo = $('#ddlTipoGuiaEmpresarial').val();
+        var data = $("#ggmPaginacionMantenimiento").GMDDeserialice();
+        $("#contenedorggmPaginacionMantenimiento").load("@(Url.Action("PaginacionMantenimiento", "IndicadorMeta"))?arg=" + encodeURI(JSON.stringify(data)), function () {
+        });
+    }
+
+    $("#btnGrabarModal").click(function (e) {        
+        $('#formIndicadorMeta').submit();
+    });
+</script>

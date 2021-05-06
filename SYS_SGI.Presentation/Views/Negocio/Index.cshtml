@@ -1,0 +1,207 @@
+@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration;
+@using SYS_SGI.Presentation.Models.System;
+@{
+    var listTmp = (List<VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">@opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="box-body" style="background-color:white">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Anexo:</label>
+                @Html.DropDownList("CodigoTipoGuiaEmpresarial", new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuiaEmpresarial", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row" id="divCombos">
+
+    </div>
+</div>
+
+
+@*<button class="accordion" id="dvResultado">RESULTADO</button>*@
+@*<div class="panel" id="pnResultado">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div id="contenedorggmVariableReporte" class="content-grid-gmd">
+                            <div id="contenedorggmAlineamientoEstrategico" class="content-grid-gmd">
+                                @Html.Action("Paginacion", "AlineamientoEstrategico", new
+                           {
+                               arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                               {
+                                   CurrentPageIndex = Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                                   RowsPerPage = Convert.ToInt32(WebConfigurationManager.AppSettings["RowsPerPage"]),
+                                   SortColumn = WebConfigurationManager.AppSettings["SortColumn"].ToString(),
+                                   OrderBy = "CodigoAlineamientoEstrategico"
+                               })
+                           })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script type="text/javascript">
+    //function refrescarggmAlineamientoEstrategico() {
+    //    $("#ggmAlineamientoEstrategico").AddFilter('codigoGuia', $('#ddlTipoGuia').val());
+    //    var data = $("#ggmAlineamientoEstrategico").GMDDeserialice();
+    //    $("#contenedorggmAlineamientoEstrategico").load(hostWeb + "/AlineamientoEstrategico/Paginacion/", { arg: JSON.stringify(data), codigoGuiaEmpresarial: $('#ddlTipoGuia').val() });
+    //}
+
+    //function Buscar() {
+    //    refrescarggmAlineamientoEstrategico();
+    //}
+
+    function combo(index, cabecera, codigoParametro, indicador) {
+        if (indicador) {
+            $("#divCombos").append("<div class='col-md-4'>" +
+                                   "<div class='form-group'>" +
+                                       "<label for='ddlIndicador'>" + cabecera + "</label>" +
+                                       //"<select class='form-control required' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlIndicador' name='AlineamientoEstrategico.CodigoIndicador'></select>" +
+                                       "<input class='form-control required' id='txtIndicador' name='AlineamientoEstrategico.CodigoIndicador' placeholder='' type='text' value=''>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                   "</div>" +
+                               "</div>");
+
+            @*$.ajax({
+                url: '@Url.Action("CargarCombos", "AlineamientoEstrategico")',
+                dataType: 'json',
+                data: { CodigoParametro: codigoParametro, Indicador: indicador },
+                success: function (lista) {
+                    var idCombo = $("#ddlIndicador")
+
+                    idCombo.empty();
+                    idCombo.append("<option value=0>Seleccione</option>");
+
+                    $.each(lista, function (index, item) {
+                        idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                    });
+                }
+            });*@
+        } else {
+            $("#divCombos").append("<div class='col-md-4'>" +
+                                   "<div class='form-group'>" +
+                                       "<label for='ddlAlineamiento" + index + "'>" + cabecera + "</label>" +
+                                       //"<select class='form-control required' data-val='true' data-val-number='The field Periodo must be a number.' id='ddlAlineamiento" + index + "' name='AlineamientoEstrategico.CodigoAlineamiento" + index + "'></select>" +
+                                       "<input class='form-control required' id='txtAlineamiento" + index + "' name='AlineamientoEstrategico.CodigoAlineamiento" + index + "' placeholder='' type='text' value=''>" +
+                                       "<span class='glyphicon glyphicon-triangle-right'></span>" +
+                                       "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                                   "</div>" +
+                               "</div>");
+
+            @*$.ajax({
+                url: '@Url.Action("CargarCombos", "AlineamientoEstrategico")',
+                dataType: 'json',
+                data: { CodigoParametro: codigoParametro, Indicador: indicador },
+                success: function (lista) {
+                    var idCombo = $("#ddlAlineamiento" + index)
+
+                    idCombo.empty();
+                    idCombo.append("<option value=0>Seleccione</option>");
+
+                    $.each(lista, function (index, item) {
+                        idCombo.append("<option value='" + item.CodigoElemento + "'>" + item.Nombre + "</option>");
+                    });
+                }
+            });*@
+        }
+    }
+
+    function crearCombos(CodigoTipoGuiaEmpresarial) {
+        $.ajax({
+            url: '@Url.Action("ObtenerCabecera", "Negocio")',
+            dataType: 'json',
+            data: { CodigoTipoGuiaEmpresarial: CodigoTipoGuiaEmpresarial },
+            success: function (Cabecera) {
+                $("#divCombos").empty();
+                if (Cabecera.CodigoTipoAlineamiento1 > 0) {
+                    combo(1, Cabecera.TipoAlineamiento1, Cabecera.CodigoTipoAlineamiento1, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento2 > 0) {
+                    combo(2, Cabecera.TipoAlineamiento2, Cabecera.CodigoTipoAlineamiento2, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento3 > 0) {
+                    combo(3, Cabecera.TipoAlineamiento3, Cabecera.CodigoTipoAlineamiento3, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento4 > 0) {
+                    combo(4, Cabecera.TipoAlineamiento4, Cabecera.CodigoTipoAlineamiento4, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento5 > 0) {
+                    combo(5, Cabecera.TipoAlineamiento5, Cabecera.CodigoTipoAlineamiento5, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento6 > 0) {
+                    combo(6, Cabecera.TipoAlineamiento6, Cabecera.CodigoTipoAlineamiento6, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento7 > 0) {
+                    combo(7, Cabecera.TipoAlineamiento7, Cabecera.CodigoTipoAlineamiento7, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento8 > 0) {
+                    combo(8, Cabecera.TipoAlineamiento8, Cabecera.CodigoTipoAlineamiento8, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento9 > 0) {
+                    combo(9, Cabecera.TipoAlineamiento9, Cabecera.CodigoTipoAlineamiento9, false);
+                }
+
+                if (Cabecera.CodigoTipoAlineamiento10 > 0) {
+                    combo(10, Cabecera.TipoAlineamiento10, Cabecera.CodigoTipoAlineamiento10, false);
+                }
+
+                if (Cabecera.Indicador) {
+                    combo(0, 'INDICADOR', 0, true)
+                }
+            }
+        });
+    }
+
+    $('#ddlTipoGuiaEmpresarial').change(function () {
+        var codigo = $('#ddlTipoGuiaEmpresarial').val();
+        if (codigo > 0) {
+            crearCombos(codigo);
+        } else {
+            $("#divCombos").html('');
+        }
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            datatype: "json",
+            url: '@Url.Action("BorrarSession", "AlineamientoEstrategico")',
+            success: function (response) {
+                refrescarggmPaginacionMantenimiento();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        colorFondo();
+
+        //var acc = document.getElementsByClassName("accordion");
+        //accordionEvent(acc, true)
+    });
+</script>

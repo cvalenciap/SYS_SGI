@@ -1,0 +1,17 @@
+﻿.bordeDerecha {
+    border-right: 1px solid #111;
+}
+
+.bordeDerechaGris {
+    border-right: 1px solid #ddd;
+}
+
+input[name^='cellEdit'] {
+    width: 0;
+    -webkit-transition: width .35s ease-in-out;
+    transition: width .35s ease-in-out;
+}
+
+    input[name^='cellEdit']:focus {
+        width: 100%;
+    }

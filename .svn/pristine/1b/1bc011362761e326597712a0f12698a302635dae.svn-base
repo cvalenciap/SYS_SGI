@@ -1,0 +1,151 @@
+﻿@using SYS_SGI.Presentation.Utilities
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ingreso al Sistema</title>
+    <link href="~/Contenido/estilos/AdminLTE/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Contenido/estilos/boostrap/bootstrap.css" rel="stylesheet" />
+    <link href="~/Contenido/estilos/css/jquery-confirm.css" rel="stylesheet" />
+    <link href="~/Contenido/estilos/css/Style.css" rel="stylesheet" />
+    <link href="~/Contenido/estilos/css/login.css" rel="stylesheet" />
+    <script src="~/Contenido/estilos/AdminLTE/plugins/jquery/js/jQuery-2.1.4.min.js"></script>
+    <script src="~/Contenido/estilos/js/jquery-confirm.js"></script>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="filaContenedor">
+            <img src="@Login.Obtener.Empresa.ImagenLogo()" style="width:100%;" />
+        </div>
+        <div class="filaContenedor">
+            <div class="filaControl"><input type="text" id="txtUsuario" alt="Usuario" placeholder="Usuario" class="controlLogueo" /></div>
+            <div class="cerrarFila"></div>
+        </div>
+        <div class="filaContenedor">
+            <div class="filaControl">
+                <input type="password" id="txtContrasena" alt="Contraseña" placeholder="Contraseña" class="controlLogueo" />
+            </div>
+            <div class="cerrarFila"></div>
+        </div>
+        <div class="filaContenedor">
+            <div class="filaControl">
+                <input id="btnIngresar" type="button" value="Ingresar" class="boton" />
+            </div>
+            <div class="cerrarFila"></div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        var btnIngresar = document.getElementById('btnIngresar');
+        btnIngresar.onclick = ingresarSistema;
+    };
+
+    function metodoAsincrono(metodo, ruta, parametros, es_asincrono, resultado) {
+
+        var xmlhttp = new window.XMLHttpRequest();
+        xmlhttp.open(metodo, ruta, es_asincrono);
+
+        if (es_asincrono == true) {
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    if (resultado != undefined) {
+                        resultado(this.responseText);
+                    } else {
+                        mensajeRespuesta('Usuario incorrecto')
+                    }
+                }
+            };
+            xmlhttp.send(parametros);
+        }
+        else {
+            xmlhttp.send(parametros);
+            resultado(xmlhttp.responseText);
+        }
+    }
+
+    function ingresarSistema() {
+        if (validarSeguridad() == 0) {
+            var usuario = document.getElementById('txtUsuario').value;
+            var contrasena = document.getElementById('txtContrasena').value;
+
+            $.ajax({
+                url: '@Url.Action("validarSeguridad", "Logeo")',
+                dataType: 'json',
+                data: { usuario: usuario, contrasena: contrasena },
+                success: function (usuariosLogic) {
+                    if (usuariosLogic.CodigoUsuario == 0)
+                        mensajeRespuesta('Usuario y/o contraseña incorrecta');
+                    else
+                        window.location.href = 'Home/Index';
+                }
+            });
+        }
+    }
+
+    function validarSeguridad() {
+        var txtUsuario = document.getElementById('txtUsuario').value;
+        var txtContrasena = document.getElementById('txtContrasena').value;
+
+        var estado = 0;
+        var mensaje = '';
+        if (txtUsuario == '') {
+            estado += 1;
+            mensaje = 'Debe ingresar usuario';
+        }
+
+        if (txtContrasena == '') {
+            estado += 1;
+            mensaje = 'Debe ingresar contraseña';
+        }
+
+        if (estado > 0) {
+            mensajeRespuesta(mensaje);
+        }
+
+        return estado;
+    }
+    
+    function mensajeRespuesta(mensaje) {
+        $.confirm({
+            content: '<div class="jconfirm-title-c" style="height:10px; background-color: #9b0000"; width:200px;></div>' +
+                    '<hr class="hr1-0">' +
+                    '<div class="jconfirm-title-c paddingHeader">' +
+                        '<span class="glyphicon glyphicon-exclamation-sign font-size-Icon"></span>' +
+                        '<span class="jconfirm-title paddingTitle">Advertencia.</span>' +
+                    '</div>' +
+                    '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                    '<hr class="hr-Alert">',
+            escapeKey: 'Aceptar',
+            buttons: {
+                Aceptar: {
+                    text: "Aceptar",
+                    btnClass: 'btn-normal',
+                    action: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    $('#txtUsuario').keypress(function (e) {
+        if (e.which == 13) {
+            ingresarSistema()
+        }
+    });
+
+    $('#txtContrasena').keypress(function (e) {
+        if (e.which == 13) {
+            ingresarSistema()
+        }
+    });
+
+</script>

@@ -1,0 +1,34 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.IndicadorLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[SYS_SGI.Presentation.Utilities.Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.IndicadorLogic>("ggmIndicador", Model) { callBackMethod = "refrescarggmIndicador", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Area", _filterKey: "Area", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Area">@item.Area</span></text>, _htmlAttributes: new { @width = "6%" });
+    grid.columnCollection.addColumn(_headerText: "Sentido Indicador", _filterKey: "SentidoIndicador", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.SentidoIndicador">@item.SentidoIndicador</span></text>, _htmlAttributes: new { @width = "6%" });
+    grid.columnCollection.addColumn(_headerText: "Responsable", _filterKey: "Responsable", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Responsable">@item.Responsable</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Nombre", _filterKey: "Nombre", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Formula", _filterKey: "Formula", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Formula">@item.Formula</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Unidad Medida", _filterKey: "UnidadMedida", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.UnidadMedida">@item.UnidadMedida</span></text>, _htmlAttributes: new { @width = "7%" });
+    grid.columnCollection.addColumn(_headerText: "Periodicidad", _filterKey: "Periodicidad", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.TipoPeriodicidad">@item.TipoPeriodicidad</span></text>, _htmlAttributes: new { @width = "7%" });
+    grid.columnCollection.addColumn(_headerText: "Ponderacion", _filterKey: "Ponderacion", _isFilterable: true, _isSortable: false, _format: item => item.Ponderacion, _htmlAttributes: new { @width = "6%" });
+    grid.columnCollection.addColumn(_headerText: "Ambito Desempeño", _filterKey: "AmbitoDesempeno", _isFilterable: true, _isSortable: false, _format: item => item.AmbitoDesempeno, _htmlAttributes: new { @width = "8%" });
+    grid.columnCollection.addColumn(_headerText: "Fuente Información", _filterKey: "FuenteInformacion", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.FuenteInformacion">@item.FuenteInformacion</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Fecha Inicio", _filterKey: "FechaInicio", _isFilterable: true, _isSortable: false, _format: item => item.FechaInicioDesc, _htmlAttributes: new { @width = "8%" });
+    grid.columnCollection.addColumn(_headerText: "Fecha Fin", _filterKey: "FechaFin", _isFilterable: true, _isSortable: false, _format: item => item.FechaFinDesc, _htmlAttributes: new { @width = "8%" });
+    grid.columnCollection.addColumn(_headerText: "Estado", _filterKey: "Estado", _isFilterable: true, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+        <div class="acciones_grilla">
+            @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "Indicador", new { codigo = item.CodigoIndicador }, new AjaxOptions
+            {
+                UpdateTargetId = "divModalBodyIndicador",
+                OnBegin = "mostrarModal('Editar', 'divModalBodyIndicador', 'idModalManIndicador'); ",
+                HttpMethod = "post"
+            }, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+        </div>
+    </text>, _htmlAttributes: new { @width = "5%" });
+}
+@grid.GetHtml()

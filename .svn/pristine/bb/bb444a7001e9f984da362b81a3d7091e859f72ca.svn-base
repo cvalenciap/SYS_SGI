@@ -1,0 +1,159 @@
+@model SYS_SGI.Presentation.Models.View.VMVariable
+@using (Ajax.BeginForm("Guardar", "Variable", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmVariable, 'idModalManVariable')",
+    OnBegin = "return getFormElelemets('formVariable')"
+}, new { id = "formVariable" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Variable.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.Variable.CodigoVariable)
+
+    <div class="cuerpoModal">
+        @if (Model.Variable.CodigoVariable == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Crea una nueva variable.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita una variable.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.Nombre, new { @for = "txtNombre" })
+                    @Html.TextBoxFor(model => model.Variable.Nombre, new { id = "txtNombre", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <i class="fa fa-asterisk form-control-feedback"></i>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.Descripcion, new { @for = "txtDescripcion" })
+                    @Html.TextBoxFor(model => model.Variable.Descripcion, new { id = "txtDescripcion", placeholder = "", @class = "form-control", @maxlength = "250" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.CodigoUnidadMedida, new { @for = "ddlUnidadMedida" })
+                    @Html.DropDownListFor(model => model.Variable.CodigoUnidadMedida, new SelectList(ViewBag.listaUnidadMedida, "CodigoElemento", "Nombre"), new { id = "ddlUnidadMedida", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>  
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.CodigoPeriodicidad, new { @for = "ddlTipoPeriodicidad" })
+                    @Html.DropDownListFor(model => model.Variable.CodigoPeriodicidad, new SelectList(ViewBag.listaTipoPeriodicidad, "CodigoElemento", "Nombre"), new { id = "ddlTipoPeriodicidad", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.CodigoArea, new { @for = "ddlArea" })
+                    @Html.DropDownListFor(model => model.Variable.CodigoArea, new SelectList(ViewBag.listaArea, "CodigoElemento", "Nombre"), new { id = "ddlArea", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Variable.CodigoResponsable, new { @for = "ddlResponsable" })
+                    @Html.DropDownListFor(model => model.Variable.CodigoResponsable, new SelectList(ViewBag.listaResponsable, "CodigoResponsable", "Responsable"), new { id = "ddlResponsable", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>                      
+        </div>
+
+        <div class="row" id="divEspecificar">
+        </div>
+
+        @if (Model.Variable.CodigoVariable != 0)
+        {
+            <div class="Separador5px"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Variable.Estado)
+                            <br />
+                            @Html.CheckBoxFor(model => model.Variable.Estado, new { id = "chkEstado" })
+                            <label for="chkEstado"> Activo / Inactivo</label>
+                        </div>
+                    </div>
+                </div>
+        }
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function especificar() {
+        if ($('#ddlTipoVariable').find("option:selected").text() == "OTROS") {
+            var campo = "<div class='col-md-6'>" +
+                "<div class='form-group'>" +
+                    "<label for='txtEspecificar'>Especificar</label>" +
+                    "<input class='form-control required' id='txtEspecificar' maxlength='250' name='Variable.Especificar' placeholder='' type='text' value='@Model.Variable.Especificar'>" +
+                    "<span class='fa fa-asterisk form-control-feedback'></span>" +
+                "</div>" +
+            "</div>";
+
+            $('#divEspecificar').html('');
+            $('#divEspecificar').append(campo);
+        } else {
+            $('#divEspecificar').html('');
+        }
+    };
+
+    $('#ddlTipoVariable').change(function () {
+        especificar();
+    });
+
+    $(document).ready(function () {
+        especificar();
+    });
+
+    $("#btnGrabarModal").click(function (e) {
+        $('#formVariable').submit();
+    });
+</script>

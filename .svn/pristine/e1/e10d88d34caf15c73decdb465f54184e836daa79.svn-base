@@ -1,0 +1,570 @@
+﻿@using SYS_SGI.Presentation.Utilities
+@using SYS_SGI.Presentation.Models.System;
+@*@using SYS_SGI.Presentation.Models.View;*@
+@{
+    //VMPermisosSystem.Empresa Empresa = (VMPermisosSystem.Empresa)Session[Constantes.Sesion.Empresa.Lista_Empresa]; Empresa = (Empresa == null ? new VMPermisosSystem.Empresa() : Empresa);
+    List<VMPermisosSystem.Modulo> Modules = (List<VMPermisosSystem.Modulo>)Session[Constantes.Sesion.Permisos.Lista_Modulos]; Modules = (Modules == null ? new List<VMPermisosSystem.Modulo>() : Modules);
+    List<VMPermisosSystem.Opciones> Options = (List<VMPermisosSystem.Opciones>)Session[Constantes.Sesion.Permisos.Lista_Opciones]; Options = (Options == null ? new List<VMPermisosSystem.Opciones>() : Options);
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <title>@string.Format("{0} - {1}", Login.Obtener.Sistema.Nombre(), Login.Obtener.Sistema.Descripcion())</title>
+
+    @Styles.Render("~/Contenido/estilos/AdminLTE/plugins/font-awesome/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/plugins/ionicons/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/bootstrap/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/dist/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/dist/css/skins")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/plugins/timepicker/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/plugins/select2/4.0/css")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/bootstrap-dialog/Style")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/gmd-grid/Style")
+    @Styles.Render("~/Contenido/estilos/AdminLTE/plugins/datepicker/css")
+    @Styles.Render("~/Contenido/estilos/Style")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/jquery/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/bootstrap/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/bootstrap-dialog/Scripts")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/gmd-grid/Scripts")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/jquery-ui/js")
+    @Scripts.Render("~/Notificaciones/Scripts")
+    @Scripts.Render("~/Contenido/estilos/Scripts")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/slimscroll/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/fastclick/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/dist/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/timepicker/js")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/select2/4.0/js")
+    @Scripts.Render("~/Scripts/Plantilla/Shared/_Layout")
+    @Scripts.Render("~/Scripts/UnobtrusiveAjax")
+    @Scripts.Render("~/Scripts/ValidateUnobtrusive")
+    @Scripts.Render("~/Contenido/estilos/AdminLTE/plugins/datepicker/js")
+    @Scripts.Render("~/Contenido/estilos/Chart")
+
+    <script src="~/Contenido/estilos/AdminLTE/plugins/mask/jquery.mask.js"></script>
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        var hostWeb = '@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))';
+        var minDateApp = new Date(1900, 1, 1);
+        var maxDateApp = new Date(2100, 1, 1);
+        var dateDefault = {
+            autoclose: true,
+            format: "dd/mm/yyyy",
+            minViewMode: 0,
+            todayBtn: true,
+            language: "es",
+            todayHighlight: true,
+            endDate: maxDateApp,
+            startDate: minDateApp,
+        };
+        var dateDefaultConfig = dateDefault;
+
+        function Notificacion(Mensaje, Tipo, Titulo, From, Aling) {
+            UnloadLoading();
+            var _icon = "@Constantes.Controles.Alerta.Icon.Error"
+            var _tipo = "@Constantes.Controles.Alerta.TipoString.Error"
+            var _mensaje = Mensaje || "@Constantes.Controles.Alerta.Texto.MensajeDefecto"
+            var _titulo = Titulo || "@Constantes.Controles.Alerta.Texto.TituloDefecto"
+            var _from = From || "@Constantes.Controles.Alerta.From.Superior"
+            var _aling = Aling || "@Constantes.Controles.Alerta.Align.Derecha"
+
+            switch (Tipo) {
+                case "@Constantes.Controles.Alerta.Tipo.Success":
+                    _icon = "@Constantes.Controles.Alerta.Icon.Success"
+                    _tipo = "@Constantes.Controles.Alerta.TipoString.Success"
+                    break;
+                case "@Constantes.Controles.Alerta.Tipo.Warning":
+                    _icon = "@Constantes.Controles.Alerta.Icon.Warning"
+                    _tipo = "@Constantes.Controles.Alerta.TipoString.Warning"
+                    break;
+            }
+            if(mensajeDuplicado(Mensaje))
+                envioNotificacion(_mensaje, _titulo, _tipo, _icon, _from, _aling)
+        }
+
+        function mostrarModal(title,idmodalBody, idModal, tipo, size ) {
+            if(tipo == undefined && tipo == "")
+                tipo = @Constantes.Controles.Modal.Type.Informativo;
+            if(size == undefined && size == "")
+                size = @Constantes.Controles.Modal.Size.SizeNormal;
+            instanceModal(title,idmodalBody, idModal, tipo, size);
+        }
+
+        function evaluarErrorActionLink(data, status, xhr) {
+            if(data.Code == "@SYS_SGI.Domain.Implementation.Common.Base.Enums.Response.Exception" ){
+                instanceModal("Error del sitema", "errorModal", @Constantes.Controles.Modal.Type.Peligro)
+                if(mensajeDuplicado(data.Description))
+                    mostrarError(data.Description)
+            }
+        }
+
+        function evaluarResultado(data,refrescar,idModal) {
+            UnloadLoading();
+            if(data.Code == "@SYS_SGI.Domain.Implementation.Common.Base.Enums.Response.Exception" ){
+                if(mensajeDuplicado(data.Description))
+                    mensajeRespuesta(data.Description, 'incorrecto')
+                    //Notificacion(data.Description);
+            }
+            else{
+                if(mensajeDuplicado(data.Description))
+                    mensajeRespuesta(data.Description, 'correcto')
+                    @*Notificacion(data.Description,"@Constantes.Controles.Alerta.Tipo.Success")*@
+                if(refrescar != undefined && refrescar != '')
+                    eval(refrescar());
+                if(idModal != undefined && idModal != '')
+                    BootstrapDialog.dialogs[idModal].close();
+            }
+        }
+        function Cancelar(vModal) {
+            BootstrapDialog.dialogs[vModal].close();
+        }
+
+        function mensajeDuplicado(mensaje) {
+            var flag = true;
+
+            $("[data-notify=message]").each(function () {
+                if ($(this).html() == mensaje)
+                    flag = false;
+            });
+
+            return flag;
+        }
+        function ValidateMask() {
+            $('.text-date').mask('00/00/0000');
+            $('.text-integer').mask("999999999");
+            $('.text-monto').mask("9999999999.99");
+            $('.text-alphanumeric').mask('Z', { translation: { 'Z': { pattern: /[a-zA-Z0-9\-]/, recursive: true } } });
+            $('.text-monto').attr("autocomplete", "off");
+            $('.text-date').attr("autocomplete", "off");
+        }
+        function OpenPdf(file) {
+            var xMax = screen.width, yMax = screen.height
+            window.open(file, '', 'scrollbars=yes,width=' + xMax * 0.6 + ',height=' + yMax * 0.88 + ',top=0,left=' + xMax * 0.20 + ',resizable=yes');
+        }
+
+        function exportarAlgo(data) {
+            var ruta = "@(Url.Action("ExportExcel", "Base"))?arg=" + encodeURI(JSON.stringify(data));
+
+            var win = window.open(ruta, '_blank');
+            if (win) {
+                win.focus();
+            } else {
+                alert('Por favor habilitar popup del navegador');
+            }
+        }
+
+        function colorFondo() {
+            var heightContent = $("#content-partial").css('min-height');
+            $("#content-partial").attr("style", "min-height:" + heightContent + "; background-color: #3c8dbc;");
+        }
+
+        function accordionEvent(accordion, busqueda) {
+            var i;
+
+            for (i = 0; i < accordion.length; i++) {
+                accordion[i].onclick = function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        if (panel.id == "pnResultado")
+                            panel.style.maxHeight = "90%";
+                        else
+                            panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                }
+            }
+
+            if(busqueda)
+                $("#dvBusqueda").click();
+
+            $("#dvResultado").click();
+        }
+
+        @*$(document).ready(function () {
+            var cont = @Options.Count();
+            if(cont > 0){
+                $('#bodyPrincipal').removeClass('sidebar-collapse');
+            }
+            else{
+                $('#bodyPrincipal').removeClass('sidebar-collapse').addClass('sidebar-collapse');
+            }
+        });*@
+
+        function mensajeRespuesta(mensaje, tipo, icon, evento, evento2, comentario) {
+            var icono=''
+
+            if(tipo == 'validar'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Warning";
+                }
+
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Mensaje de Confirmación.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                            '<hr class="hr-Alert">',
+                    escapeKey: 'Aceptar',
+                    buttons: {
+                        Aceptar: {
+                            text: "Aceptar",
+                            btnClass: 'btn-normal',
+                            action: function () {
+                            }
+                        }
+                    }
+                });
+            }else if(tipo == 'eliminar'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Info";
+                }
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Mensaje de Confirmación.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                            '<hr class="hr-Alert">',
+                    escapeKey: 'Aceptar',
+                    buttons: {
+                        Cancelar: {
+                            text: "Cancelar",
+                            btnClass: 'btn-normal btn-margin-modal',
+                            action: function () {
+                                this.close()
+                            }
+                        },
+                        Aceptar: {
+                            text: "Aceptar",
+                            btnClass: 'btn-accion btn-margin-modal',
+                            action: function () {
+                                if(evento)
+                                    eventoEliminar();
+                            }
+                        },
+                    }
+                });
+            }else if(tipo == 'activar'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Info";
+                }
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Mensaje de Confirmacion.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                            '<hr class="hr-Alert">',
+                    escapeKey: 'Aceptar',
+                    buttons: {
+                        Cancelar: {
+                            text: "Cancelar",
+                            btnClass: 'btn-normal btn-margin-modal',
+                            action: function () {
+                                this.close()
+                            }
+                        },
+                        Aceptar: {
+                            text: "Aceptar",
+                            btnClass: 'btn-accion btn-margin-modal',
+                            action: function () {
+                                if(evento)
+                                    eventoActivar();
+                            }
+                        },
+                    }
+                });
+            }
+            else if(tipo == 'correcto'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Success";
+                }
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Mensaje de Confirmación.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                            '<hr class="hr-Alert">',
+                    escapeKey: 'Aceptar',
+                    buttons: {
+                        Aceptar: {
+                            text: "Aceptar",
+                            btnClass: 'btn-accion btn-margin-modal',
+                            action: function () {
+                            }
+                        },
+                    }
+                });
+            }
+            else if(tipo == 'incorrecto'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Success";
+                }
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Mensaje de Confirmación.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+                            '<hr class="hr-Alert">',
+                    escapeKey: 'Aceptar',
+                    buttons: {
+                        Aceptar: {
+                            text: "Aceptar",
+                            btnClass: 'btn-accion btn-margin-modal',
+                            action: function () {
+                            }
+                        },
+                    }
+                });
+            }else if(tipo == 'grabar'){
+                if(icon != '' && icon != 'undefined'){
+                    icono = icon;
+                }else{
+                    icono = "@Constantes.Controles.Alerta.Icon.Success";
+                }
+                var cajaTexto = ''
+
+                if(comentario)
+                    cajaTexto = "<div class='jconfirm-content margin-Message'><textarea class='form-control' cols='20' id='txtComentario' maxlength='255' name='IndicadorDetalle.Comentario' rows='3'></textarea></div>"
+
+                $.confirm({
+                    content: '<div class="jconfirm-title-c" style="height:10px; background-color: #222d32"></div>' +
+                            '<hr class="hr1-0">' +
+                            '<div class="jconfirm-title-c paddingHeader">' +
+                                '<span class="'+icono+' font-size-Icon"></span>' +
+                                '<span class="jconfirm-title paddingTitle">Se Requiere Confirmación.</span>' +
+                            '</div>' +
+                            '<div class="jconfirm-content margin-Message">' + mensaje + '</div>'+
+                            cajaTexto +
+                            '<hr class="hr-Alert">',
+                    //escapeKey: 'Aceptar',
+                    buttons: {
+                        Cancelar: {
+                            text: "Cancelar",
+                            btnClass: 'btn-normal btn-margin-modal',
+                            action: function () {
+                                eval(evento2);
+                                this.close()
+                            }
+                        },
+                        Aceptar: {
+                            text: "Aceptar",
+                            id: "btnAceptarModal",
+                            btnClass: 'btn-accion btn-margin-modal',
+                            action: function () {
+                                eval(evento);
+                            },                            
+                        }
+                    }
+                });
+            }
+        }
+
+        //function mensajeRespuesta(mensaje) {
+        //    $.confirm({
+        //        content: '<div class="jconfirm-title-c" style="height:10px; background-color: #9b0000"></div>' +
+        //                '<hr class="hr1-0">' +
+        //                '<div class="jconfirm-title-c paddingHeader">' +
+        //                    '<span class="glyphicon glyphicon-exclamation-sign font-size-Icon"></span>' +
+        //                    '<span class="jconfirm-title paddingTitle">Advertencia.</span>' +
+        //                '</div>' +
+        //                '<div class="jconfirm-content margin-Message">' + mensaje + '</div>' +
+        //                '<hr class="hr-Alert">',
+        //        escapeKey: 'Aceptar',
+        //        buttons: {
+        //            Aceptar: {
+        //                text: "Aceptar",
+        //                btnClass: 'btn-normal',
+        //                action: function () {
+        //                }
+        //            }
+        //        }
+        //    });
+        //}
+
+        function getFormElelemets(formName) {
+            var elements = document.forms[formName].elements;
+            var msj = ""
+
+            for (i = 0; i < elements.length; i++) {
+                if ((elements[i].type == "textarea" || elements[i].type == "text" || elements[i].type == "password") && elements[i].value == "" && elements[i].className.search("required") > -1)
+                {
+                    msj = "Ingrese " + elements[i].labels[0].innerText.toLowerCase() + " por favor.";
+                    mensajeRespuesta(msj, 'validar','');
+                    break;
+                } else if (elements[i].type == "select-one" && (elements[i].value == "" || elements[i].value == "0") && elements[i].className.search("required") > -1) {
+                    msj = "Seleccione " + elements[i].labels[0].innerText.toLowerCase() + " por favor.";
+                    mensajeRespuesta(msj, 'validar','');
+                    break;
+                }
+                else if (elements[i].type == "text" && elements[i].value != "" && elements[i].className.search("email") > -1){
+                    if(validateEmail(elements[i])){
+                        msj = ""
+                    }else{
+                        msj = "La dirección de correo debe tener el siguiente formato: email@ejemplo.com";
+                        mensajeRespuesta(msj, 'validar','');
+                    }
+                    break;
+                }
+                else{
+                    msj = "";
+                }
+            }
+
+            if (msj != "") {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body class="hold-transition skin-black sidebar-mini ">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="@Url.Action("Index", "Home")" class="logo">
+                <span class="logo-mini">
+                    <img src="@Login.Obtener.Empresa.ImagenLogoMini()" style="height:40px;" alt="Logo" />
+                </span>
+                <span class="logo-lg">
+                    <img src="@Login.Obtener.Empresa.ImagenLogo()" style="height:40px; width:auto;" alt="Logo" />
+                </span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <a class="sidebar-toggle-corpac">@Login.Obtener.Sistema.Nombre()<span class="hidden-xs"> - @Login.Obtener.Sistema.Descripcion()</span></a>
+                <div class="navbar-custom-menu navbar-custom-menu-corpac">
+                    <ul class="nav navbar-nav">
+                        @Html.Partial("_LoginPartial")
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu">
+                    @if (Options.Count > 0)
+                    {
+                        foreach (var modulo in Modules.OrderBy(x => x.Orden))
+                        {
+                            <li id="left-menu-@modulo.Nombre" data-nombre-menu="@modulo.Nombre" data-glyphicon-menu="@modulo.Glyphicon" class="treeview">
+                                <a href="#">
+                                    <i class="@modulo.Glyphicon"></i><span>@modulo.Nombre</span>
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+
+                                @if (Options.Where(x => x.CodigoModulo == modulo.CodigoModulo).ToList().Count > 0)
+                                {
+                                    foreach (var opcionNivel0 in Options.Where(x => x.OpcionPadre <= 0 && x.CodigoModulo == modulo.CodigoModulo).OrderBy(x => x.Orden).ToList())
+                                    {
+                                        if (opcionNivel0.Controlador == null || opcionNivel0.Controlador == "")
+                                        {
+                                            <ul class="treeview-menu">
+                                                <li id="left-menu-@opcionNivel0.Nombre" data-nombre-menu="@opcionNivel0.Nombre" data-glyphicon-menu="@opcionNivel0.Glyphicon" class="treeview">
+                                                    <a href="#">
+                                                        <i class="@opcionNivel0.Glyphicon"></i><span>@opcionNivel0.Nombre</span>
+                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                    </a>
+
+                                                    <ul class="treeview-menu">
+                                                        @foreach (var opcionNivel1 in Options.Where(x => x.OpcionPadre > 0 && x.CodigoModulo == modulo.CodigoModulo).OrderBy(x => x.Orden).ToList())
+                                                        {
+                                                            if (opcionNivel1.OpcionPadre == opcionNivel0.CodigoOpcion)
+                                                            {
+                                                                var icono = opcionNivel1.Glyphicon == null ? Constantes.Controles.Layout.MenuSpanColor : "<span class=\"" + opcionNivel1.Glyphicon + "\"></span>";
+                                                                <li id="left-subMenu-@opcionNivel1.Controlador" data-nombre-opcion="@opcionNivel1.Nombre">@Ajax.RawActionLink(icono + opcionNivel1.Nombre, opcionNivel1.Metodo, opcionNivel1.Controlador, null, new AjaxOptions { UpdateTargetId = "divLayoutBody" }, new { @class = "selectItem" })</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+
+                                    <ul class="treeview-menu">
+                                        @foreach (var opcionNivel0 in Options.Where(x => x.OpcionPadre <= 0 && x.CodigoModulo == modulo.CodigoModulo).OrderBy(x => x.Orden).ToList())
+                                        {
+                                            if (modulo.CodigoModulo == opcionNivel0.CodigoModulo && (opcionNivel0.Controlador != null || opcionNivel0.Controlador != ""))
+                                            {
+                                                var icono = opcionNivel0.Glyphicon == null ? Constantes.Controles.Layout.MenuSpanColor : "<span class=\"" + opcionNivel0.Glyphicon + "\"></span>";
+                                                <li id="left-subMenu-@opcionNivel0.Controlador" data-nombre-opcion="@opcionNivel0.Nombre">@Ajax.RawActionLink(icono + opcionNivel0.Nombre, opcionNivel0.Metodo, opcionNivel0.Controlador, null, new AjaxOptions { UpdateTargetId = "divLayoutBody" }, new { @class = "selectItem opcionHijo" })</li>
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    }
+                </ul>
+            </section>
+        </aside>
+        <div id="content-partial" class="content-wrapper" style="min-height:unset!important; background-image: url('/Contenido/imagenes/Electroperu/fondo_atenuado.png'); background-repeat: no-repeat; background-size: 100% 100%;">
+            @*<div id="content-partial" class="content-wrapper">*@
+            <section class="content">
+                <div id="divLayoutBody">
+                    @RenderBody()
+                </div>
+            </section>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid" style="background-color:black;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-6 text-left">
+                        <p style="color:white;margin:5px;font-size:12px;">@System.Configuration.ConfigurationManager.AppSettings["FooterText"].ToString() @System.Configuration.ConfigurationManager.AppSettings["VersionSistema"].ToString()</p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <span class="logo-lg">
+                            <img src=@System.Configuration.ConfigurationManager.AppSettings["FooterImage"].ToString() style="height:23px;margin:4px" alt="GMD" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

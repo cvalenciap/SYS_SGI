@@ -1,0 +1,222 @@
+@model SYS_SGI.Presentation.Models.View.VMResponsable
+@using (Ajax.BeginForm("Guardar", "Responsable", FormMethod.Post, new AjaxOptions
+{
+    OnSuccess = "evaluarResultado(data, refrescarggmResponsable, 'idModalManResponsable')",
+    OnBegin = "return getFormElelemets('formResponsable')"
+}, new { id = "formResponsable" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Responsable.InfoMovs.ACCION)
+    @Html.HiddenFor(model => model.Responsable.CodigoResponsable)
+
+    <div class="cuerpoModal">
+        @if (Model.Responsable.CodigoResponsable == 0)
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Registra un nuevo responsable.
+            </p>
+        }
+        else
+        {
+            <p class="infoModal">
+                <span title="" class="glyphicon glyphicon-info-sign"></span>
+                Edita un responsable.
+            </p>
+        }
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.Nombres, new { @for = "txtNombres" })
+                    @Html.TextBoxFor(model => model.Responsable.Nombres, new { id = "txtNombres", placeholder = "", @class = "form-control required", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.ApellidoPaterno, new { @for = "txtApellidoPaterno" })
+                    @Html.TextBoxFor(model => model.Responsable.ApellidoPaterno, new { id = "txtApellidoPaterno", placeholder = "", @class = "form-control required", @maxlength = "200" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.ApellidoMaterno, new { @for = "txtApellidoMaterno" })
+                    @Html.TextBoxFor(model => model.Responsable.ApellidoMaterno, new { id = "txtApellidoMaterno", placeholder = "", @class = "form-control required", @maxlength = "200" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CodigoTipoDocumento, new { @for = "ddlTipoDocumento" })
+                    @Html.DropDownListFor(model => model.Responsable.CodigoTipoDocumento, new SelectList(ViewBag.listaTipoDocumento, "CodigoElemento", "Nombre"), new { id = "ddlTipoDocumento", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.NumeroDocumento, new { @for = "txtNumeroDocumento" })
+                    @Html.TextBoxFor(model => model.Responsable.NumeroDocumento, new { id = "txtNumeroDocumento", placeholder = "", @class = "form-control required", @maxlength = "20" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CodigoCargo, new { @for = "ddlCargo" })
+                    @Html.DropDownListFor(model => model.Responsable.CodigoCargo, new SelectList(ViewBag.listaCargo, "CodigoElemento", "Nombre"), new { id = "ddlCargo", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CodigoGenero, new { @for = "ddlGenero" })
+                    @Html.DropDownListFor(model => model.Responsable.CodigoGenero, new SelectList(ViewBag.listaGenero, "CodigoElemento", "Nombre"), new { id = "ddlGenero", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CorreoElectronico, new { @for = "txtCorreoElectronico" })
+                    @Html.TextBoxFor(model => model.Responsable.CorreoElectronico, new { id = "txtCorreoElectronico", placeholder = "", @class = "form-control required email", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <p class="infoModal" style="font-size:medium">
+            @*<span title="" class="glyphicon glyphicon-info-sign"></span>*@
+            Información de Jefe Directo
+        </p>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="row">           
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.NombreJefeDirecto, new { @for = "txtNombreJefeDirecto" })
+                    @Html.TextBoxFor(model => model.Responsable.NombreJefeDirecto, new { id = "txtNombreJefeDirecto", placeholder = "", @class = "form-control requeried", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CodigoCargoJefeDirecto, new { @for = "ddlCargoJefeDirecto" })
+                    @Html.DropDownListFor(model => model.Responsable.CodigoCargoJefeDirecto, new SelectList(ViewBag.listaCargo, "CodigoElemento", "Nombre"), new { id = "ddlCargoJefeDirecto", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CorreoJefeDirecto, new { @for = "txtCorreoJefeDirecto" })
+                    @Html.TextBoxFor(model => model.Responsable.CorreoJefeDirecto, new { id = "txtCorreoJefeDirecto", placeholder = "", @class = "form-control required email", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador10px"></div>
+
+        <p class="infoModal" style="font-size:medium">
+            @*<span title="" class="glyphicon glyphicon-info-sign"></span>*@
+            Información de Gerente
+        </p>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <hr class="hr2-0" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.NombreGerente, new { @for = "txtNombreGerente" })
+                    @Html.TextBoxFor(model => model.Responsable.NombreGerente, new { id = "txtNombreGerente", placeholder = "", @class = "form-control requeried", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CodigoCargoGerente, new { @for = "ddlCargoGerente" })
+                    @Html.DropDownListFor(model => model.Responsable.CodigoCargoGerente, new SelectList(ViewBag.listaCargo, "CodigoElemento", "Nombre"), new { id = "ddlCargoGerente", @class = "form-control required" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsable.CorreoGerente, new { @for = "txtGerente" })
+                    @Html.TextBoxFor(model => model.Responsable.CorreoGerente, new { id = "txtGerente", placeholder = "", @class = "form-control required email", @maxlength = "250" })
+                    <span class="fa fa-asterisk form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Responsable.CodigoResponsable != 0)
+        {
+            <div class="Separador5px"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Responsable.Estado)
+                        <br />
+                        @Html.CheckBoxFor(model => model.Responsable.Estado, new { id = "chkEstado" })
+                        <label for="chkEstado"> Activo / Inactivo</label>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="Separador10px"></div>
+        
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group col-md-12 dv-Leyend text-left">
+                    <span class="fa fa-asterisk badged-Leyend"></span>
+                    <label>Campos obligatorios.</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <hr class="hr2-0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Separador5px"></div>
+
+        <div class="row">
+            <div class="form-group col-md-12 text-center">
+                <button type="button" class="btn btn-normal btn-md" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-accion btn-md">Grabar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $("#btnGrabarModal").click(function (e) {
+        $('#formResponsable').submit();
+    });
+</script>

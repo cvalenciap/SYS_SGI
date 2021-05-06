@@ -1,0 +1,30 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Domain.Implementation.LogicalEntities.MAN;
+
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<ResponsableLogic>
+@{
+    var listTmp = (List<SYS_SGI.Presentation.Models.System.VMPermisosSystem.PermisoControlador>)this.Session[SYS_SGI.Presentation.Utilities.Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+
+    var grid = new GMDGrid<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.ResponsableLogic>("ggmResponsable", Model) { callBackMethod = "refrescarggmResponsable", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd" } };
+    grid.columnCollection.addColumn(_headerText: "Item", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.NumFila">@item.NumFila</span></text>, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Nombres", _filterKey: "Nombres", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Nombres">@item.Nombres</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Apellido Paterno", _filterKey: "ApellidoPaterno", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.ApellidoPaterno">@item.ApellidoPaterno</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Apellido Materno", _filterKey: "ApellidoMaterno", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.ApellidoMaterno">@item.ApellidoMaterno</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Tipo Documento", _isFilterable: false, _isSortable: false, _format: @<text><span title="@item.TipoDocumento">@item.TipoDocumento</span></text>, _htmlAttributes: new { @width = "8%" });
+    grid.columnCollection.addColumn(_headerText: "Número Documento", _filterKey: "NumeroDocumento", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.NumeroDocumento">@item.NumeroDocumento</span></text>, _htmlAttributes: new { @width = "8%" });
+    grid.columnCollection.addColumn(_headerText: "Cargo", _filterKey: "Cargo", _isFilterable: true, _isSortable: false, _format: @<text><span title="@item.Cargo">@item.Cargo</span></text>, _htmlAttributes: new { @width = "10%" });
+    grid.columnCollection.addColumn(_headerText: "Estado", _filterKey: "Estado", _isFilterable: true, _isSortable: false, _format: item => item.Estado ? Enums.Estado.Activo : Enums.Estado.Inactivo, _htmlAttributes: new { @width = "5%" });
+    grid.columnCollection.addColumn(_headerText: "Acciones", _isFilterable: false, _isSortable: false, _format: @<text>
+        <div class="acciones_grilla">
+            @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "Responsable", new { codigo = item.CodigoResponsable }, new AjaxOptions
+{
+    UpdateTargetId = "divModalBodyResponsable",
+    OnBegin = "mostrarModal('Editar', 'divModalBodyResponsable', 'idModalManResponsable', undefined, 'SIZE_WIDE'); ",
+    HttpMethod = "post"
+}, new { id = "lnkEdit", style = "cursor:pointer;" + (permiso >= (int)Constantes.Permisos.Codigo.Escritura ? Constantes.Permisos.Style.Activo : Constantes.Permisos.Style.Desactivo) })
+        </div>
+    </text>, _htmlAttributes: new { @width = "5%" });
+}
+@grid.GetHtml()

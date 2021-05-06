@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D1CE8D89-6513-473E-A992-5CFC626884C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SYS_SGI.Domain.Implementation</RootNamespace>
+    <AssemblyName>SYS_SGI.Domain.Implementation</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>5</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\BASE\Audity.cs" />
+    <Compile Include="Entities\BASE\Entity.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Entities\BASE\InfoMovs.cs" />
+    <Compile Include="Entities\BASE\PaginateParams.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities\BASE\SearchResult.cs" />
+    <Compile Include="Entities\MAN\Alerta.cs" />
+    <Compile Include="Entities\MOV\AlineamientoConfiguracion.cs" />
+    <Compile Include="Entities\MOV\AlineamientoEstrategico.cs" />
+    <Compile Include="Entities\MAN\Indicador.cs" />
+    <Compile Include="Entities\MOV\IndicadorDetalle.cs" />
+    <Compile Include="Entities\MAN\Responsable.cs" />
+    <Compile Include="Entities\MAN\Variable.cs" />
+    <Compile Include="Entities\MOV\IndicadorDetalleHistorico.cs" />
+    <Compile Include="Entities\MOV\VariableDetalle.cs" />
+    <Compile Include="Entities\MOV\VariableFormula.cs" />
+    <Compile Include="Entities\MOV\VariableFormulaHistorico.cs" />
+    <Compile Include="Entities\PAR\Parametro.cs" />
+    <Compile Include="Entities\PAR\ParametroDetalle.cs" />
+    <Compile Include="Entities\SEG\Accion.cs" />
+    <Compile Include="Entities\SEG\Asignacion.cs" />
+    <Compile Include="Entities\SEG\Empresa.cs" />
+    <Compile Include="Entities\SEG\LogErrores.cs" />
+    <Compile Include="Entities\SEG\Modulo.cs" />
+    <Compile Include="Entities\SEG\Opcion.cs" />
+    <Compile Include="Entities\SEG\Parametro.cs" />
+    <Compile Include="Entities\SEG\Perfil.cs" />
+    <Compile Include="Entities\SEG\Permisos.cs" />
+    <Compile Include="Entities\SEG\Sistema.cs" />
+    <Compile Include="Entities\SEG\TipoError.cs" />
+    <Compile Include="Entities\SEG\Usuarios.cs" />
+    <Compile Include="LogicalEntities\MAN\AlertaLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\AlineamientoConfiguracionLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\AlineamientoEstrategicoLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\IndicadorDetalleHistoricoLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\IndicadorDetalleLogic.cs" />
+    <Compile Include="LogicalEntities\MAN\FormulaLogic.cs" />
+    <Compile Include="LogicalEntities\MAN\IndicadorLogic.cs" />
+    <Compile Include="LogicalEntities\MAN\ResponsableLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\VariableDetalleLogic.cs" />
+    <Compile Include="LogicalEntities\MAN\VariableLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\VariableFormulaLogic.cs" />
+    <Compile Include="LogicalEntities\MOV\VariableFormulaHistoricoLogic.cs" />
+    <Compile Include="LogicalEntities\PAR\ParametroDetalleLogic.cs" />
+    <Compile Include="LogicalEntities\PAR\ParametroLogic.cs" />
+    <Compile Include="LogicalEntities\REP\ReportDataLogic.cs" />
+    <Compile Include="LogicalEntities\REP\DashboardLogic.cs" />
+    <Compile Include="LogicalEntities\REP\ReporteLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\AccionLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\AsignacionLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\EmpresaLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\LogErroresLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\ModuloLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\OpcionLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\PerfilLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\PermisosLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\SistemaLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\TipoErrorLogic.cs" />
+    <Compile Include="LogicalEntities\SEG\UsuariosLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entities\BASE\AppResponse.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

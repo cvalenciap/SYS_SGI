@@ -1,0 +1,24 @@
+@using SYS_SGI.Presentation.Utilities;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@model GMD.CustomHtmlHelpers.HtmlGenericGrid.GMDGridModel<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.VariableLogic>
+@{   
+    var grid = new GMDGrid<SYS_SGI.Domain.Implementation.LogicalEntities.MAN.VariableLogic>("ggmPaginacionVariableFormula", Model) { callBackMethod = "refrescarggmPaginacionVariableFormula", _overflowx = true, tableHtmlAttributes = new { @class = "grid-gmd tablaVariables" } };
+    grid.columnCollection.addColumn(_headerText: "Variable", _filterKey: "Nombre", _isFilterable: true, _isSortable: true, _format: @<text><span title="@item.Nombre">@item.Nombre</span></text>);
+    grid.columnCollection.addColumn(_headerText: "Acción", _isFilterable: false, _isSortable: false, _format: @<text>
+    <div class="acciones_grilla">
+        @Ajax.RawActionLink(string.Format("<span title = \"Editar\" class=\"glyphicon glyphicon-pencil\"></span>"), "Mantenimiento", "Variable", new { codigo = item.CodigoVariable }, new AjaxOptions
+       {
+           UpdateTargetId = "divModalBodyVariable",
+           OnBegin = "mostrarModal('Editar', 'divModalBodyVariable', 'idModalManVariable'); ",
+           HttpMethod = "post"
+       }, new { id = "lnkEdit", style = "cursor:pointer;" })
+    </div>
+    </text>, _htmlAttributes: new { @width = "5%" });
+}
+@grid.GetHtml()
+<script>
+    $(function () {
+        //$('#ggmPaginacionVariableFormula thead tr:first').remove()
+        $('#ggmPaginacionVariableFormula tfoot').remove()
+    })
+</script>

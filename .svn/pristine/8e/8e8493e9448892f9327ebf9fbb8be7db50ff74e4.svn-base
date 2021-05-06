@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.SEG" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://10.100.120.144:8079/Acceso.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" />
+  <xs:complexType name="Opcion">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" base="q1:Audity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Area" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoModulo" type="xs:long" />
+          <xs:element minOccurs="0" name="CodigoOpcion" type="xs:long" />
+          <xs:element minOccurs="0" name="Controlador" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Descripcion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Glyphicon" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Metodo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="OpcionPadre" type="xs:long" />
+          <xs:element minOccurs="0" name="Orden" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Opcion" nillable="true" type="tns:Opcion" />
+  <xs:complexType name="Usuarios">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" base="q2:Audity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Apellido" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoCargo" type="xs:long" />
+          <xs:element minOccurs="0" name="CodigoPersona" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoUsuario" type="xs:long" />
+          <xs:element minOccurs="0" name="Contrasena" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DominioRed" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Foto" nillable="true" type="xs:base64Binary" />
+          <xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NumDocumentoIdentidad" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TipoDocumentoIdentidad" type="xs:long" />
+          <xs:element minOccurs="0" name="Usuario" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Usuarios" nillable="true" type="tns:Usuarios" />
+  <xs:complexType name="Sistema">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" base="q3:Audity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CodigoEmpresa" type="xs:long" />
+          <xs:element minOccurs="0" name="CodigoSistema" type="xs:long" />
+          <xs:element minOccurs="0" name="Descripcion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Parametro" type="xs:int" />
+          <xs:element minOccurs="0" name="Ruta" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Token" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ValorParametro" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Sistema" nillable="true" type="tns:Sistema" />
+  <xs:complexType name="Empresa">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/SYS_SECURITY.Domain.Implementation.Entities.BASE" base="q4:Audity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Alias" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CodigoEmpresa" type="xs:float" />
+          <xs:element minOccurs="0" name="CodigoIdentificador" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CorreoElectronico" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Descripcion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Direccion" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RazonSocial" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Ruc" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RutaImagenLogo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RutaImagenLogoMini" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Telefono" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Empresa" nillable="true" type="tns:Empresa" />
+</xs:schema>

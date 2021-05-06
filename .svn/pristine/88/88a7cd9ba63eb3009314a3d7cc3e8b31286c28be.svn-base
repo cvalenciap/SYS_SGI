@@ -1,0 +1,104 @@
+@using SYS_SGI.Presentation.Utilities;
+@using System.Web.Configuration;
+@using SYS_SGI.Domain.Implementation.Common.Base;
+@using SYS_SGI.Presentation.Models.System;
+@{
+    var listTmp = (List<VMPermisosSystem.PermisoControlador>)this.Session[Constantes.Sesion.Permisos.Lista_PermisosControlador];
+    var permiso = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.CodigoAccion).ToList()[0];
+    var opcion = listTmp.Where(x => x.Controlador == @ViewContext.RouteData.Values["controller"].ToString()).Select(s => s.Opcion).ToList()[0];
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group col-md-8 titulo-Head">
+            <div id="content-partial" class="content-header">
+                <h1>
+                    <span id="titulo-opcion" class="titulo-opcion">PLAN ESTRATEGICO - @opcion</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Parametros de búsqueda</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group col-md-4">
+                    <label>Anexo:</label>
+                    @Html.DropDownList("CodigoTipoGuiaEmpresarial", new SelectList(ViewBag.listaGuiaEmpresarial, "CodigoElemento", "Nombre"), new { id = "ddlTipoGuia", @class = "form-control" })
+                </div>
+                @*<div class="form-group col-md-4">
+                    <label>Indicador:</label>
+                    @Html.DropDownList("CodigoIndicador", new SelectList(ViewBag.listaIndicador, "CodigoIndicador", "Nombre"), new { id = "ddlIndicador", @class = "form-control" })
+                </div>*@
+                <div class="form-group col-md-2">
+                    <label>Año:</label>
+                    <input id="txtAnio" class="form-control" maxlength="4" />
+                </div>
+                <div class="col-md-offset-2 form-group text-right dvBotones">
+                    <input id="btnBuscar" type="button" class="btn btn-accion" value="Buscar" onclick="Buscar();" />
+                    @Ajax.RawActionLink("Limpiar", "Index", "IndicadorEjecucion",
+                            null, new AjaxOptions
+                            {
+                                UpdateTargetId = "divLayoutBody",
+                                OnBegin = "LoadLoading()",
+                                HttpMethod = "post"
+                            }, new { @class = "btn btn-normal btn-md" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">LISTADO DE @opcion</h3>
+            </div>
+            <div class="box-body">
+                    <div id="contenedorggmIndicadorEjecucion" class="content-grid-gmd">
+                        @Html.Action("Paginacion", "IndicadorEjecucion", new
+                       {
+                           arg = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                           {
+                               CurrentPageIndex = Constantes.Controles.Paginacion.FilasPorPagina.PaginaDefecto,
+                               RowsPerPage = Convert.ToInt32(WebConfigurationManager.AppSettings["RowsPerPage"]),
+                               DirectionOrder = WebConfigurationManager.AppSettings["SortColumn"].ToString(),
+                               OrderBy = "CodigoIndicadorEjecucion"
+                           }),
+                           codigoGuiaEmpresarial = "0"
+                       })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function refrescarggmIndicadorEjecucion() {
+        //$("#ggmIndicadorEjecucion").AddFilter('CodigoIndicador', $('#ddlIndicador').val());
+        $("#ggmIndicadorEjecucion").AddFilter('Anio', $('#txtAnio').val());
+        var data = $("#ggmIndicadorEjecucion").GMDDeserialice();
+        $("#contenedorggmIndicadorEjecucion").load(hostWeb + "/IndicadorEjecucion/Paginacion/", { arg: JSON.stringify(data), codigoGuiaEmpresarial: $('#ddlTipoGuia').val() });
+    }
+
+    function Buscar() {
+        refrescarggmIndicadorEjecucion();
+    }
+
+    $(document).ready(function () {
+        colorFondo();
+
+        //var acc = document.getElementsByClassName("accordion");
+        //accordionEvent(acc, true)
+
+        $('#ddlTipoGuia').val(@Enums.GuiaEmpresarial.MatrizEstrategica);
+        var d = new Date();
+        $("#txtAnio").val(d.getFullYear());
+        Buscar();
+    });
+</script>
